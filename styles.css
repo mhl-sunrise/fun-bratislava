@@ -470,7 +470,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   .flow li:last-child::after{display:none}
 }
 .revs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.rev{padding:26px;border:1px solid var(--line);border-radius:var(--r);background:var(--cream)}
+.rev{padding:26px;border:1px solid var(--line);border-radius:var(--r);background:#fff}
 .rev .stars{color:var(--gold);letter-spacing:2px;font-size:14px;margin-bottom:12px}
 .rev blockquote{font-size:15px;line-height:1.65;color:var(--body)}
 .rev figcaption{margin-top:15px;color:var(--soft);font-size:13px}
