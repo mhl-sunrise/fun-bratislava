@@ -253,7 +253,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2.5' fill='none' stroke='black' stroke-width='2'/><path d='M3 10h18M8 3v4M16 3v4' stroke='black' stroke-width='2' stroke-linecap='round'/></svg>") center/contain no-repeat;
           mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2.5' fill='none' stroke='black' stroke-width='2'/><path d='M3 10h18M8 3v4M16 3v4' stroke='black' stroke-width='2' stroke-linecap='round'/></svg>") center/contain no-repeat}
 .dp-field[data-empty="1"]{color:var(--body)}
-.pf-date .dp-field{width:100%;min-width:200px;height:44px;padding:0 15px;font-size:14.5px;border:1px solid var(--line-2);color:var(--ink);background:var(--paper)}
+.pf-date .dp-field{width:100%;min-width:200px;height:44px;padding:0 15px;font-size:14.5px;border:1px solid var(--line-2);color:var(--ink);background:#fff}
 .pf-date .dp-field:hover{border-color:var(--olive-dp)}
 .book .dp-field{padding:11px 13px;border:1px solid rgba(251,250,244,.24);color:var(--paper);background:rgba(251,250,244,.08)}
 .book .dp-field[data-empty="1"]{color:rgba(251,250,244,.55)}
@@ -330,12 +330,12 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .pf:last-child{border-right:0}
 .pf > .lab{color:var(--soft);display:block;margin-bottom:12px}
 .stepper{display:flex;align-items:center;gap:4px}
-.stepper button{width:44px;height:44px;border-radius:5px;border:1px solid var(--line-2);display:grid;place-items:center;font:500 14.5px Inter,sans-serif;color:var(--ink);background:var(--paper);transition:background .15s,border-color .15s}
+.stepper button{width:44px;height:44px;border-radius:5px;border:1px solid var(--line-2);display:grid;place-items:center;font:500 14.5px Inter,sans-serif;color:var(--ink);background:#fff;transition:background .15s,border-color .15s}
 .stepper button:hover{background:var(--cream);border-color:var(--olive-dp)}
 .stepper input{width:54px;height:44px;text-align:center;border:0;font:600 14.5px Inter,sans-serif;color:var(--ink);background:transparent;-moz-appearance:textfield}
 .stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .segs{display:flex;flex-wrap:wrap;gap:6px}
-.seg{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 12px;border-radius:5px;border:1px solid var(--line-2);font:500 14.5px Inter,sans-serif;color:var(--body);white-space:nowrap;background:var(--paper);transition:all .15s}
+.seg{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 12px;border-radius:5px;border:1px solid var(--line-2);font:500 14.5px Inter,sans-serif;color:var(--body);white-space:nowrap;background:#fff;transition:all .15s}
 /* Icons keyed off the existing data-occ, so no extra markup and no second source of truth. */
 .seg::before{content:"";width:19px;height:19px;flex:none;background-repeat:no-repeat;
   background-position:center;background-size:contain;opacity:.9}
@@ -374,7 +374,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .switch input:focus-visible + i{outline:2px solid var(--olive-dp);outline-offset:3px}
 /* ---------- cards ---------- */
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.card{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:transform .18s,border-color .18s}
+.card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:transform .18s,border-color .18s}
 .card:hover{border-color:var(--line-2);transform:translateY(-3px)}
 .card[hidden]{display:none}
 /* media: real photo on top, sage tile beneath. Photos go in /img — filenames at the end of this file. */
