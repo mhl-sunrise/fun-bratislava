@@ -209,7 +209,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2.5' fill='none' stroke='black' stroke-width='2'/><path d='M3 10h18M8 3v4M16 3v4' stroke='black' stroke-width='2' stroke-linecap='round'/></svg>") center/contain no-repeat;
           mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2.5' fill='none' stroke='black' stroke-width='2'/><path d='M3 10h18M8 3v4M16 3v4' stroke='black' stroke-width='2' stroke-linecap='round'/></svg>") center/contain no-repeat}
 .dp-field[data-empty="1"]{color:var(--body)}
-.pf-date .dp-field{width:100%;min-width:220px;height:44px;padding:0 15px;font-size:14.5px;border:1px solid var(--line-2);color:var(--ink);background:var(--paper)}
+.pf-date .dp-field{width:100%;min-width:200px;height:44px;padding:0 15px;font-size:14.5px;border:1px solid var(--line-2);color:var(--ink);background:var(--paper)}
 .pf-date .dp-field:hover{border-color:var(--olive-dp)}
 .book .dp-field{padding:11px 13px;border:1px solid rgba(251,250,244,.24);color:var(--paper);background:rgba(251,250,244,.08)}
 .book .dp-field[data-empty="1"]{color:rgba(251,250,244,.55)}
@@ -290,9 +290,15 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .stepper button:hover{background:var(--cream);border-color:var(--olive-dp)}
 .stepper input{width:54px;height:44px;text-align:center;border:0;font:600 14.5px Inter,sans-serif;color:var(--ink);background:transparent;-moz-appearance:textfield}
 .stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.stepper em{font-style:normal;color:var(--ink);font-size:14.5px;margin-left:2px}
 .segs{display:flex;flex-wrap:wrap;gap:6px}
-.seg{display:inline-flex;align-items:center;height:44px;padding:0 16px;border-radius:5px;border:1px solid var(--line-2);font:500 14.5px Inter,sans-serif;color:var(--body);white-space:nowrap;background:var(--paper);transition:all .15s}
+.seg{display:inline-flex;align-items:center;gap:9px;height:44px;padding:0 14px;border-radius:5px;border:1px solid var(--line-2);font:500 14.5px Inter,sans-serif;color:var(--body);white-space:nowrap;background:var(--paper);transition:all .15s}
+/* Icons keyed off the existing data-occ, so no extra markup and no second source of truth. */
+.seg::before{content:"";width:19px;height:19px;flex:none;background-repeat:no-repeat;
+  background-position:center;background-size:contain;opacity:.9}
+.seg[data-occ=turisti]::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235C6647' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'><circle cx='9' cy='8' r='3.2'/><path d='M3.5 19.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5'/><circle cx='17' cy='9.5' r='2.4'/><path d='M15.5 14.6c2.6-.5 5 1.3 5 4.2'/></svg>")}
+.seg[data-occ=rozlucka]::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235C6647' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'><path d='M4 3.5h6l-1.4 6a1.6 1.6 0 0 1-3.2 0z'/><path d='M7 12v8M4.6 20.5h4.8'/><path d='M14 3.5h6l-1.4 6a1.6 1.6 0 0 1-3.2 0z'/><path d='M17 12v8M14.6 20.5h4.8'/></svg>")}
+.seg[data-occ=oslava]::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235C6647' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'><path d='M9.5 3.2 4 20.6l16.4-6.2z'/><path d='M9.5 3.2 12.6 13l-8.6 7.6'/><path d='M17 3.5v2M20.5 7h-2M19.8 3.8l-1.4 1.4'/></svg>")}
+.seg[data-occ=teambuilding]::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235C6647' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='7.5' width='18' height='12' rx='2.2'/><path d='M9 7.5V5.4a1.4 1.4 0 0 1 1.4-1.4h3.2A1.4 1.4 0 0 1 15 5.4v2.1'/><path d='M3 13h18'/></svg>")}
 .seg:hover{border-color:var(--olive-dp)}
 .seg[aria-pressed="true"]{background:var(--olive-dk);border-color:var(--olive-dk);color:var(--paper)}
 .pf-date input{height:34px;border:1px solid var(--line-2);border-radius:5px;padding:0 11px;font:500 14.5px Inter,sans-serif;color:var(--ink);background:var(--paper)}
@@ -555,9 +561,8 @@ footer.site img{height:64px;width:auto;display:block}
   /* stepper fills the row: minus, a value that stretches, plus, then the unit */
   .stepper{width:100%;gap:8px}
   .stepper input{flex:1;width:auto;min-width:0}
-  .stepper em{margin-left:4px}
-  .segs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-  .seg{justify-content:center;padding:0 8px;text-align:center;font-size:13.5px}
+  .segs{display:grid;grid-template-columns:1fr;gap:8px}
+  .seg{justify-content:flex-start;padding:0 14px;text-align:left;font-size:14px}
   /* one chip per row — wrapping left an orphan on the second line */
   .hero-meta{flex-direction:column;align-items:stretch;gap:8px}
   .hero-meta span{width:100%;justify-content:flex-start;padding:8px 16px 8px 8px;font-size:13.5px;gap:10px}
@@ -787,7 +792,6 @@ footer.site img{height:64px;width:auto;display:block}
             <button type="button" id="minus" aria-label="Menej ľudí">−</button>
             <input id="people" type="number" min="2" max="60" value="12" aria-label="Počet ľudí">
             <button type="button" id="plus" aria-label="Viac ľudí">+</button>
-            <em>ľudí</em>
           </div>
         </div>
         <div class="pf">
