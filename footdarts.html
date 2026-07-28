@@ -5,19 +5,25 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Footdarts — Fun Bratislava</title>
 <meta name="description" content="Šípky, ktoré kopete. 60 minút, 4 – 24 ľudí. 41 € / osoba.">
+<link rel="alternate" hreflang="sk" href="footdarts.html">
+<link rel="alternate" hreflang="en" href="en/footdarts.html">
+<link rel="alternate" hreflang="de" href="de/footdarts.html">
+<link rel="alternate" hreflang="x-default" href="footdarts.html">
 <link rel="icon" href="logo.webp">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=7">
-<script src="i18n.js?v=5"></script>
+<link rel="preload" as="font" type="font/woff2" href="fonts/Fraunces-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/Inter-latin.woff2" crossorigin>
+<!-- Slovak needs latin-ext for č š ž ť ľ ô ŕ; without these two the diacritics fall
+     back mid-word. English and German fit in latin, so /en/ and /de/ drop them. -->
+<link rel="preload" as="font" type="font/woff2" href="fonts/Fraunces-latinext.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/Inter-latinext.woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=9">
+<script src="i18n.js?v=6"></script>
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap">
-    <a href="index.html" aria-label="Fun Bratislava — domov"><img src="logo.webp" alt="Fun Bratislava"></a>
+    <a href="index.html" aria-label="Fun Bratislava — domov"><img src="logo.webp" width="250" height="250" alt="Fun Bratislava"></a>
     <div class="nav-drawer" id="navmenu">
     <div class="nav-links">
       <a href="index.html#aktivity">Aktivity</a><a href="index.html#prilezitosti">Príležitosti</a>
@@ -52,7 +58,7 @@
         </div>
       </div>
       <figure class="act-photo">
-        <img src="img/footdarts.jpg" alt="Footdarts v Bratislave" onerror="this.closest('figure').remove()">
+        <img src="img/footdarts.jpg" width="526" height="707" alt="Footdarts v Bratislave" onerror="this.closest('figure').remove()">
       </figure>
     </div>
   </div>
@@ -87,15 +93,15 @@
     <div class="head"><h2>Ďalšie aktivity</h2></div>
     <div class="more">
         <a class="more-card" href="beer-bike.html">
-          <span class="media"><img src="img/beer-bike.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
+          <span class="media"><img src="img/beer-bike.jpg" width="640" height="360" alt="" loading="lazy" onerror="this.remove()"></span>
           <span class="more-in"><span class="kicker lab">Na kolesách</span><b>Beer Bike</b><em>270 € / jazda</em></span>
         </a>
         <a class="more-card" href="prosecco-bike.html">
-          <span class="media"><img src="img/prosecco-bike.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
+          <span class="media"><img src="img/prosecco-bike.jpg" width="768" height="1024" alt="" loading="lazy" onerror="this.remove()"></span>
           <span class="more-in"><span class="kicker lab">Na kolesách</span><b>Prosecco Bike</b><em>270 € / jazda</em></span>
         </a>
         <a class="more-card" href="bubble-football.html">
-          <span class="media"><img src="img/bubble-football.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
+          <span class="media"><img src="img/bubble-football.jpg" width="1024" height="768" alt="" loading="lazy" onerror="this.remove()"></span>
           <span class="more-in"><span class="kicker lab">Súťažné</span><b>Bubble Football</b><em>38 € / osoba</em></span>
         </a>
     </div>
@@ -133,7 +139,7 @@
   <div class="wrap">
     <div class="fgrid">
       <div>
-        <a href="index.html" aria-label="Fun Bratislava — domov"><img src="logo.webp" alt="Fun Bratislava"></a>
+        <a href="index.html" aria-label="Fun Bratislava — domov"><img src="logo.webp" width="250" height="250" alt="Fun Bratislava"></a>
         <p style="color:var(--soft);font-size:14px;margin-top:14px;max-width:32ch">Skupinové aktivity a zážitky v centre Bratislavy. Slovensky, anglicky, nemecky.</p>
       </div>
       <div><h4>Aktivity</h4><ul>
@@ -184,6 +190,6 @@
 </button>
 
 <script src="addons.js?v=1"></script>
-<script src="shared.js?v=5"></script>
+<script src="shared.js?v=8"></script>
 </body>
 </html>

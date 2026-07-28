@@ -555,13 +555,13 @@ de: {
 // Runtime. Loaded in <head> so window.t() exists before any page script runs.
 // ---------------------------------------------------------------------------
 (() => {
-  const KEY = 'fb-lang';
+  // The URL is the only source of language: / is Slovak, /en/ and /de/ hold pages
+  // pre-rendered by scratchpad/genlang.js. That is what removes the flash — the
+  // markup already arrives translated, so nothing has to be rewritten after paint.
+  // Remembering a choice in localStorage would bring the flash straight back
+  // (Slovak markup + a stored 'en' = translate-after-paint), so we don't.
   const supported = ['sk', 'en', 'de'];
-  const fromUrl = new URLSearchParams(location.search).get('lang');
-  let lang = 'sk';
-  try { lang = fromUrl || localStorage.getItem(KEY) || 'sk'; } catch { lang = fromUrl || 'sk'; }
-  if (!supported.includes(lang)) lang = 'sk';
-  if (fromUrl) { try { localStorage.setItem(KEY, lang); } catch {} }
+  const lang = (location.pathname.match(/\/(en|de)\//) || [])[1] || 'sk';
 
   window.FB_LANG = lang;
   window.FB_LOCALE_TAG = window.FB_LOCALE[lang] || 'sk-SK';
@@ -607,15 +607,16 @@ de: {
       const title = document.querySelector('title');
       if (title && dict[title.textContent.trim()]) title.textContent = dict[title.textContent.trim()];
     }
-    // switcher: mark the current language, keep the others as plain links
+    // switcher: real links to the pre-rendered sibling page, so switching language
+    // is a plain navigation — same page, same anchor, no client-side rewriting
+    const file = location.pathname.split('/').pop() || 'index.html';
+    const up = lang === 'sk' ? '' : '../';
     document.querySelectorAll('.langs a').forEach(a => {
       const code = a.textContent.trim().toLowerCase();
       if (!supported.includes(code)) return;
-      a.setAttribute('href', '?lang=' + code);
+      a.setAttribute('href', code === lang ? file : up + (code === 'sk' ? '' : code + '/') + file);
       if (code === lang) a.setAttribute('aria-current', 'true');
       else a.removeAttribute('aria-current');
-      // store on click too: some contexts drop the query string on navigation
-      a.addEventListener('click', () => { try { localStorage.setItem(KEY, code); } catch {} });
     });
   };
 

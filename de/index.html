@@ -1,37 +1,37 @@
 <!DOCTYPE html>
-<html lang="sk">
+<html lang="de">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fun Bratislava — zážitky pre skupiny v Bratislave</title>
-<meta name="description" content="Beer bike, bubble football, archery tag a ďalších päť aktivít pre teambuilding, rozlúčku so slobodou alebo víkend s partiou. Zostavte si plán, cenu vidíte hneď.">
+<title>Fun Bratislava — Gruppenerlebnisse in Bratislava</title>
+<meta name="description" content="Bierbike, Bubble Football, Archery Tag und fünf weitere Aktivitäten für Teambuilding, Junggesellenabschied oder ein Wochenende mit Freunden. Stellen Sie Ihr Programm zusammen — den Preis sehen Sie sofort.">
 <link rel="alternate" hreflang="sk" href="index.html">
 <link rel="alternate" hreflang="en" href="en/index.html">
 <link rel="alternate" hreflang="de" href="de/index.html">
 <link rel="alternate" hreflang="x-default" href="index.html">
-<link rel="icon" href="logo.webp">
-<link rel="preload" as="font" type="font/woff2" href="fonts/Fraunces-latin.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="fonts/Inter-latin.woff2" crossorigin>
-<!-- Slovak needs latin-ext for č š ž ť ľ ô ŕ; without these two the diacritics fall
-     back mid-word. English and German fit in latin, so /en/ and /de/ drop them. -->
-<link rel="preload" as="font" type="font/woff2" href="fonts/Fraunces-latinext.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="fonts/Inter-latinext.woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=9">
-<script src="i18n.js?v=6"></script>
+<link rel="alternate" hreflang="sk" href="../index.html">
+<link rel="alternate" hreflang="en" href="../en/index.html">
+<link rel="alternate" hreflang="de" href="index.html">
+<link rel="alternate" hreflang="x-default" href="../index.html">
+<link rel="icon" href="../logo.webp">
+<link rel="preload" as="font" type="font/woff2" href="../fonts/Fraunces-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="../fonts/Inter-latin.woff2" crossorigin>
+<link rel="stylesheet" href="../styles.css?v=9">
+<script src="../i18n.js?v=6"></script>
 </head>
 <body>
 <header class="nav">
   <div class="wrap">
-    <a href="#" aria-label="Fun Bratislava — domov"><img src="logo.webp" width="250" height="250" alt="Fun Bratislava"></a>
+    <a href="#" aria-label="Fun Bratislava — Startseite"><img src="../logo.webp" width="250" height="250" alt="Fun Bratislava"></a>
     <div class="nav-drawer" id="navmenu">
     <div class="nav-links">
-      <a href="#aktivity">Aktivity</a><a href="#prilezitosti">Príležitosti</a>
-      <a href="#ako">Ako to funguje</a><a href="#recenzie">Recenzie</a>
+      <a href="#aktivity">Aktivitäten</a><a href="#prilezitosti">Anlässe</a>
+      <a href="#ako">So funktioniert es</a><a href="#recenzie">Bewertungen</a>
     </div>
     <div class="langs"><a href="#" aria-current="true">SK</a><a href="#">EN</a><a href="#">DE</a></div>
-    <a class="btn btn-sm" href="#rezervacia">Rezervácia</a>
+    <a class="btn btn-sm" href="#rezervacia">Buchen</a>
     </div>
-    <button class="nav-burger" id="navburger" type="button" aria-label="Menu"
+    <button class="nav-burger" id="navburger" type="button" aria-label="Menü"
             aria-expanded="false" aria-controls="navmenu"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -214,41 +214,41 @@
       </g>
     </svg>
       <div class="hero-copy">
-    <p class="lab" style="color:var(--olive-dp);margin-bottom:16px">Bratislava · skupinové zážitky</p>
-    <h1>Zážitky pre skupiny v Bratislave</h1>
-    <p class="lede">Osem aktivít pre partie od 2 do 30 ľudí. Nastavte veľkosť skupiny a príležitosť — ceny sa prepočítajú a odporučíme, čo sadne.</p>
+    <p class="lab" style="color:var(--olive-dp);margin-bottom:16px">Bratislava · Gruppenerlebnisse</p>
+    <h1>Gruppenerlebnisse in Bratislava</h1>
+    <p class="lede">Acht Aktivitäten für Gruppen von 2 bis 30 Personen. Gruppengröße und Anlass einstellen — die Preise passen sich sofort an und wir empfehlen, was passt.</p>
     <p class="hero-meta">
-      <span data-i="card">Bez platby vopred</span><span data-i="clock">Odpoveď do 24 hodín</span><span data-i="globe">SK / EN / DE</span>
+      <span data-i="card">Keine Vorauszahlung</span><span data-i="clock">Antwort binnen 24 Stunden</span><span data-i="globe">SK / EN / DE</span>
     </p>
       </div>
     </div>
     <div class="planner">
       <div class="planner-row">
         <div class="pf">
-          <span class="lab">Koľko vás bude</span>
+          <span class="lab">Wie viele sind Sie</span>
           <div class="stepper">
-            <button type="button" id="minus" aria-label="Menej ľudí">−</button>
-            <input id="people" type="number" min="2" max="60" value="12" aria-label="Počet ľudí">
-            <button type="button" id="plus" aria-label="Viac ľudí">+</button>
+            <button type="button" id="minus" aria-label="Weniger Personen">−</button>
+            <input id="people" type="number" min="2" max="60" value="12" aria-label="Personenzahl">
+            <button type="button" id="plus" aria-label="Mehr Personen">+</button>
           </div>
         </div>
         <div class="pf">
-          <span class="lab">Na akú príležitosť</span>
-          <div class="segs" role="group" aria-label="Príležitosť">
+          <span class="lab">Zu welchem Anlass</span>
+          <div class="segs" role="group" aria-label="Anlass">
             <button type="button" class="seg" data-occ="teambuilding" aria-pressed="false">Teambuilding</button>
-            <button type="button" class="seg" data-occ="rozlucka" aria-pressed="false">Rozlúčka so slobodou</button>
-            <button type="button" class="seg" data-occ="oslava" aria-pressed="false">Oslava</button>
-            <button type="button" class="seg" data-occ="turisti" aria-pressed="false">Víkend s partiou</button>
+            <button type="button" class="seg" data-occ="rozlucka" aria-pressed="false">Junggesellenabschied</button>
+            <button type="button" class="seg" data-occ="oslava" aria-pressed="false">Feier</button>
+            <button type="button" class="seg" data-occ="turisti" aria-pressed="false">Wochenende</button>
           </div>
         </div>
         <div class="pf pf-date">
-          <span class="lab">Kedy</span>
-          <input id="date" type="date" aria-label="Dátum">
+          <span class="lab">Wann</span>
+          <input id="date" type="date" aria-label="Datum">
         </div>
       </div>
       <p class="planner-note">
         <span id="fitline">Pre <b>12 ľudí</b> vyhovuje všetkých 8 aktivít.</span>
-        <a class="btn btn-sage btn-sm planner-cta" href="#aktivity">Zobraziť aktivity</a>
+        <a class="btn btn-sage btn-sm planner-cta" href="#aktivity">Aktivitäten ansehen</a>
       </p>
     </div>
   </div>
@@ -256,10 +256,10 @@
 <section class="sec" id="aktivity">
   <div class="wrap">
     <div class="head">
-      <h2>Aktivity</h2>
+      <h2>Aktivitäten</h2>
       <div class="head-row">
-        <p>Pridajte si jednu alebo viac do plánu. Bežne sa stíhajú dve za popoludnie.</p>
-        <label class="switch"><input type="checkbox" id="onlyfit"><i aria-hidden="true"></i>Zobraziť len odporúčané</label>
+        <p>Fügen Sie eine oder mehrere hinzu. Zwei an einem Nachmittag sind gut machbar.</p>
+        <label class="switch"><input type="checkbox" id="onlyfit"><i aria-hidden="true"></i>Nur Empfehlungen</label>
       </div>
     </div>
     <div class="grid" id="grid">
@@ -267,170 +267,170 @@
         <div class="media">
           <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M5.5 17.5 9 9h6l3.5 8.5"/><path d="M9 9h8"/></svg>
           <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M5.5 17.5 9 9h6l3.5 8.5"/><path d="M9 9h8"/><rect x="9.5" y="2.5" width="5" height="5" rx="1"/><path d="M14.5 4h1.5a1 1 0 0 1 0 2h-1.5"/></svg>
-          <img src="img/beer-bike.jpg" width="640" height="360" alt="Skupina na beer biku v centre Bratislavy" loading="lazy" onerror="this.remove()">
-          <span class="badge" hidden>Odporúčame</span>
+          <img src="../img/beer-bike.jpg" width="640" height="360" alt="Eine Gruppe auf dem Bierbike im Zentrum von Bratislava" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Empfohlen</span>
         </div>
         <div class="card-in">
-          <p class="kicker lab">Na kolesách</p>
+          <p class="kicker lab">Auf Rädern</p>
           <h3><a href="beer-bike.html">Beer Bike</a></h3>
-          <p>Bar na kolesách so šoférom. Šliapete, čapované pivo tečie, hudba hrá — hodinu uličkami Starého Mesta.</p>
-          <div class="facts"><span>60 min</span><span>max 14 / bicykel</span><span>šofér v cene</span></div>
-          <div class="money"><span class="u">270 € / jazda</span><span class="t"></span></div>
+          <p>Eine Bar auf Rädern mit eigenem Fahrer. Sie treten, das Bier fließt, die Musik spielt — eine Stunde durch die Altstadt.</p>
+          <div class="facts"><span>60 Min</span><span>max. 14 / Rad</span><span>Fahrer inklusive</span></div>
+          <div class="money"><span class="u">270 € / Fahrt</span><span class="t"></span></div>
           <p class="note" hidden></p>
-          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="beer-bike.html">Detail</a></div>
+          <div class="acts"><button class="add" type="button">Hinzufügen</button><a class="detail" href="beer-bike.html">Details</a></div>
         </div>
       </article>
       <article class="card" data-id="prosecco-bike" data-price="270" data-basis="group" data-cap="14" data-occ="rozlucka oslava turisti" style="--tint:#E7E6DA">
         <div class="media">
           <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M5.5 17.5 9 9h6l3.5 8.5"/><path d="M9 9h8"/></svg>
           <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M5.5 17.5 9 9h6l3.5 8.5"/><path d="M9 9h8"/><path d="M10.3 2h4.4l-.7 4.2a1.5 1.5 0 0 1-3 0z"/><path d="M12.5 6.4V9"/></svg>
-          <img src="img/prosecco-bike.jpg" width="768" height="1024" alt="Prosecco bike počas jazdy Starým Mestom" loading="lazy" onerror="this.remove()">
-          <span class="badge" hidden>Odporúčame</span>
+          <img src="../img/prosecco-bike.jpg" width="768" height="1024" alt="Das Prosecco Bike auf der Fahrt durch die Altstadt" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Empfohlen</span>
         </div>
         <div class="card-in">
-          <p class="kicker lab">Na kolesách</p>
+          <p class="kicker lab">Auf Rädern</p>
           <h3><a href="prosecco-bike.html">Prosecco Bike</a></h3>
-          <p>To isté kolo, iná nálada. Namiesto piva prosecco — pre oslavy a rozlúčky, kde majú sedieť aj fotky.</p>
-          <div class="facts"><span>60 min</span><span>max 14 / bicykel</span><span>šofér v cene</span></div>
-          <div class="money"><span class="u">270 € / jazda</span><span class="t"></span></div>
+          <p>Dasselbe Rad, andere Stimmung. Prosecco statt Bier — für Feiern und Abschiede, bei denen auch die Fotos stimmen sollen.</p>
+          <div class="facts"><span>60 Min</span><span>max. 14 / Rad</span><span>Fahrer inklusive</span></div>
+          <div class="money"><span class="u">270 € / Fahrt</span><span class="t"></span></div>
           <p class="note" hidden></p>
-          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="prosecco-bike.html">Detail</a></div>
+          <div class="acts"><button class="add" type="button">Hinzufügen</button><a class="detail" href="prosecco-bike.html">Details</a></div>
         </div>
       </article>
       <article class="card" data-id="bubble-football" data-price="38" data-basis="person" data-cap="0" data-occ="teambuilding rozlucka" style="--tint:#DEE6D8">
         <div class="media">
           <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><circle cx="12" cy="9.2" r="2.2"/><path d="M8 20.4v-4.2a4 4 0 0 1 8 0v4.2"/></svg>
           <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><circle cx="12" cy="9.2" r="2.2"/><path d="M8 20.4v-4.2a4 4 0 0 1 8 0v4.2"/></svg>
-          <img src="img/bubble-football.jpg" width="1024" height="768" alt="Hráči v nafukovacích bublinách počas zápasu" loading="lazy" onerror="this.remove()">
-          <span class="badge" hidden>Odporúčame</span>
+          <img src="../img/bubble-football.jpg" width="1024" height="768" alt="Spieler in aufblasbaren Bubbles während eines Spiels" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Empfohlen</span>
         </div>
         <div class="card-in">
-          <p class="kicker lab">Súťažné</p>
+          <p class="kicker lab">Wettkampf</p>
           <h3><a href="bubble-football.html">Bubble Football</a></h3>
-          <p>Futbal, v ktorom je faul najlepšia časť. Najspoľahlivejší ľadolamec z celej ponuky.</p>
-          <div class="facts"><span>tímy 5 na 5</span><span>vonku</span><span>výstroj v cene</span></div>
-          <div class="money"><span class="u">38 € / osoba</span><span class="t"></span></div>
+          <p>Fußball, bei dem das Foul das Beste ist. Der zuverlässigste Eisbrecher im Angebot.</p>
+          <div class="facts"><span>Teams zu fünft</span><span>draußen</span><span>Ausrüstung inklusive</span></div>
+          <div class="money"><span class="u">38 € / Person</span><span class="t"></span></div>
           <p class="note" hidden></p>
-          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="bubble-football.html">Detail</a></div>
+          <div class="acts"><button class="add" type="button">Hinzufügen</button><a class="detail" href="bubble-football.html">Details</a></div>
         </div>
       </article>
       <article class="card" data-id="footdarts" data-price="41" data-basis="person" data-cap="0" data-occ="teambuilding oslava" style="--tint:#E5E7DB">
         <div class="media">
           <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><circle cx="10" cy="10" r="3.6"/><circle cx="19" cy="19.5" r="2.8"/></svg>
           <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><circle cx="10" cy="10" r="3.6"/><circle cx="19" cy="19.5" r="2.8"/></svg>
-          <img src="img/footdarts.jpg" width="526" height="707" alt="Nafukovací terč a futbalové lopty počas footdarts" loading="lazy" onerror="this.remove()">
-          <span class="badge" hidden>Odporúčame</span>
+          <img src="../img/footdarts.jpg" width="526" height="707" alt="Aufblasbare Zielscheibe und Fußbälle beim Footdarts" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Empfohlen</span>
         </div>
         <div class="card-in">
-          <p class="kicker lab">Súťažné</p>
+          <p class="kicker lab">Wettkampf</p>
           <h3><a href="footdarts.html">Footdarts</a></h3>
-          <p>Obrovský terč a lopta so suchým zipsom. Nevyhráva najlepší futbalista — vyhráva ten, kto trafí.</p>
-          <div class="facts"><span>tímovo</span><span>vonku</span><span>nízka náročnosť</span></div>
-          <div class="money"><span class="u">41 € / osoba</span><span class="t"></span></div>
+          <p>Eine riesige Zielscheibe und ein Klettball. Nicht der beste Fußballer gewinnt, sondern wer trifft.</p>
+          <div class="facts"><span>im Team</span><span>draußen</span><span>leicht</span></div>
+          <div class="money"><span class="u">41 € / Person</span><span class="t"></span></div>
           <p class="note" hidden></p>
-          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="footdarts.html">Detail</a></div>
+          <div class="acts"><button class="add" type="button">Hinzufügen</button><a class="detail" href="footdarts.html">Details</a></div>
         </div>
       </article>
       <article class="card" data-id="archery-tag" data-price="33" data-basis="person" data-cap="0" data-occ="teambuilding rozlucka" style="--tint:#DFE4D6">
         <div class="media">
           <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5 19 5"/><path d="M14 4.5h5.5V10"/><path d="M3.6 4.2a16.2 16.2 0 0 1 16.2 16.2"/></svg>
           <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5 19 5"/><path d="M14 4.5h5.5V10"/><path d="M3.6 4.2a16.2 16.2 0 0 1 16.2 16.2"/></svg>
-          <img src="img/archery-tag.jpg" width="1024" height="683" alt="Archery tag — hráči s lukmi a maskami" loading="lazy" onerror="this.remove()">
-          <span class="badge" hidden>Odporúčame</span>
+          <img src="../img/archery-tag.jpg" width="1024" height="683" alt="Archery Tag — Spieler mit Bögen und Masken" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Empfohlen</span>
         </div>
         <div class="card-in">
-          <p class="kicker lab">Súťažné</p>
+          <p class="kicker lab">Wettkampf</p>
           <h3><a href="archery-tag.html">Archery Tag</a></h3>
-          <p>Lukostreľba proti sebe, s mäkkými hrotmi a maskou. Adrenalín paintballu bez modrín a bez farby.</p>
-          <div class="facts"><span>tímovo</span><span>vonku aj vnútri</span><span>výstroj v cene</span></div>
-          <div class="money"><span class="u">33 € / osoba</span><span class="t"></span></div>
+          <p>Bogenschießen gegeneinander, mit weichen Spitzen und Gesichtsmaske. Paintball-Adrenalin ohne blaue Flecken und ohne Farbe.</p>
+          <div class="facts"><span>im Team</span><span>drinnen und draußen</span><span>Ausrüstung inklusive</span></div>
+          <div class="money"><span class="u">33 € / Person</span><span class="t"></span></div>
           <p class="note" hidden></p>
-          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="archery-tag.html">Detail</a></div>
+          <div class="acts"><button class="add" type="button">Hinzufügen</button><a class="detail" href="archery-tag.html">Details</a></div>
         </div>
       </article>
       <article class="card" data-id="ipad-treasure-hunt" data-price="33" data-basis="person" data-cap="0" data-occ="teambuilding turisti" style="--tint:#DCE3DD">
         <div class="media">
           <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="12.5" height="17.5" rx="2"/><path d="M18.6 8.2c1.7 0 3.1 1.4 3.1 3.1 0 2.3-3.1 5.7-3.1 5.7s-3.1-3.4-3.1-5.7c0-1.7 1.4-3.1 3.1-3.1z"/></svg>
           <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="12.5" height="17.5" rx="2"/><path d="M7.4 17.6h2.7"/><path d="M18.6 8.2c1.7 0 3.1 1.4 3.1 3.1 0 2.3-3.1 5.7-3.1 5.7s-3.1-3.4-3.1-5.7c0-1.7 1.4-3.1 3.1-3.1z"/><circle cx="18.6" cy="11.3" r="1"/></svg>
-          <img src="img/ipad-treasure-hunt.jpg" width="1024" height="685" alt="Tím s tabletom počas šifrovačky v Starom Meste" loading="lazy" onerror="this.remove()">
-          <span class="badge" hidden>Odporúčame</span>
+          <img src="../img/ipad-treasure-hunt.jpg" width="1024" height="685" alt="Ein Team mit Tablet bei der Schnitzeljagd in der Altstadt" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Empfohlen</span>
         </div>
         <div class="card-in">
-          <p class="kicker lab">Objavovanie</p>
+          <p class="kicker lab">Entdecken</p>
           <h3><a href="ipad-treasure-hunt.html">iPad Treasure Hunt</a></h3>
-          <p>Šifrovačka po Starom Meste na tablete. Jediná aktivita z ponuky, ktorá funguje aj v obleku.</p>
-          <div class="facts"><span>tímy 4–6</span><span>Staré Mesto</span><span>tablet v cene</span></div>
-          <div class="money"><span class="u">33 € / osoba</span><span class="t"></span></div>
+          <p>Eine Schnitzeljagd mit dem Tablet durch die Altstadt. Die einzige Aktivität, die auch im Anzug funktioniert.</p>
+          <div class="facts"><span>Teams zu 4–6</span><span>Altstadt</span><span>Tablet inklusive</span></div>
+          <div class="money"><span class="u">33 € / Person</span><span class="t"></span></div>
           <p class="note" hidden></p>
-          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="ipad-treasure-hunt.html">Detail</a></div>
+          <div class="acts"><button class="add" type="button">Hinzufügen</button><a class="detail" href="ipad-treasure-hunt.html">Details</a></div>
         </div>
       </article>
       <article class="card" data-id="axe-throwing" data-price="0" data-basis="person" data-cap="0" data-occ="teambuilding rozlucka oslava" style="--tint:#E8E5D6">
         <div class="media">
           <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><path d="M8.6 15.4 15.2 8.8"/></svg>
           <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><path d="M8.6 15.4 15.2 8.8"/><path d="M13.6 6.6c1.5-1.5 3.6-1.8 4.7-.7 1.1 1.1.8 3.2-.7 4.7z"/></svg>
-          <img src="img/axe-throwing.jpg" width="1000" height="1500" alt="Hod sekerou do dreveného terča" loading="lazy" onerror="this.remove()">
-          <span class="badge" hidden>Odporúčame</span>
+          <img src="../img/axe-throwing.jpg" width="1000" height="1500" alt="Axtwurf auf eine Holzscheibe" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Empfohlen</span>
         </div>
         <div class="card-in">
-          <p class="kicker lab">Súťažné</p>
+          <p class="kicker lab">Wettkampf</p>
           <h3><a href="axe-throwing.html">Axe Throwing</a></h3>
-          <p>Sekera, drevený terč a prekvapivo upokojujúci zvuk zásahu. Inštruktor vás naučí hod za päť minút.</p>
-          <div class="facts"><span>vnútri</span><span>celoročne</span><span>inštruktor</span></div>
-          <div class="money"><span class="u">cena na vyžiadanie</span><span class="t"></span></div>
+          <p>Eine Axt, eine Holzscheibe und ein überraschend beruhigendes Geräusch beim Treffer. Der Trainer bringt es Ihnen in fünf Minuten bei.</p>
+          <div class="facts"><span>drinnen</span><span>ganzjährig</span><span>Trainer</span></div>
+          <div class="money"><span class="u">Preis auf Anfrage</span><span class="t"></span></div>
           <p class="note" hidden></p>
-          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="axe-throwing.html">Detail</a></div>
+          <div class="acts"><button class="add" type="button">Hinzufügen</button><a class="detail" href="axe-throwing.html">Details</a></div>
         </div>
       </article>
       <article class="card" data-id="skola-capovania" data-price="0" data-basis="group" data-cap="0" data-occ="teambuilding oslava turisti" style="--tint:#E4E9DC">
         <div class="media">
           <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M7.6 13h10.3l-1 8.4H8.6z"/><path d="M9.5 4.3h4.2V10"/></svg>
           <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="2.5" width="6" height="3.6" rx="1"/><path d="M9.5 4.3h4.2V10"/><path d="M13.7 10H9.9"/><path d="M7.6 13h10.3l-1 8.4H8.6z"/><path d="M7.9 15.4h9.7"/></svg>
-          <img src="img/skola-capovania.jpg" width="1000" height="668" alt="Čapovanie piva počas školy čapovania" loading="lazy" onerror="this.remove()">
-          <span class="badge" hidden>Odporúčame</span>
+          <img src="../img/skola-capovania.jpg" width="1000" height="668" alt="Bierzapfen beim Zapfkurs" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Empfohlen</span>
         </div>
         <div class="card-in">
-          <p class="kicker lab">Remeslo</p>
-          <h3><a href="skola-capovania.html">Škola čapovania</a></h3>
-          <p>Hodina za pípou s pivovarníkom: hladinka, šnyt, mlieko. Pokojnejšia alternatíva k športu.</p>
-          <div class="facts"><span>vnútri</span><span>celoročne</span><span>degustácia</span></div>
-          <div class="money"><span class="u">cena na vyžiadanie</span><span class="t"></span></div>
+          <p class="kicker lab">Handwerk</p>
+          <h3><a href="skola-capovania.html">Zapfkurs</a></h3>
+          <p>Eine Stunde am Zapfhahn mit einem Brauer: die drei klassischen Zapfarten. Die ruhigere Alternative zum Sport.</p>
+          <div class="facts"><span>drinnen</span><span>ganzjährig</span><span>Verkostung</span></div>
+          <div class="money"><span class="u">Preis auf Anfrage</span><span class="t"></span></div>
           <p class="note" hidden></p>
-          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="skola-capovania.html">Detail</a></div>
+          <div class="acts"><button class="add" type="button">Hinzufügen</button><a class="detail" href="skola-capovania.html">Details</a></div>
         </div>
       </article>
     </div>
-    <p class="empty" id="empty" hidden>Pre túto príležitosť nemáme priame odporúčanie — vypnite filter a pozrite si všetkých osem, alebo nám napíšte a poradíme.</p>
+    <p class="empty" id="empty" hidden>Für diesen Anlass haben wir keine direkte Empfehlung — schalten Sie den Filter aus, um alle acht zu sehen, oder schreiben Sie uns.</p>
   </div>
 </section>
 <section class="sec band-light" id="prilezitosti">
   <div class="wrap">
-    <div class="head"><h2>Komu to sadne</h2></div>
+    <div class="head"><h2>Für wen es passt</h2></div>
     <div class="occ">
-      <article class="feat" data-n="01"><p class="lab">Firmy</p><h3>Teambuilding</h3><p>Faktúra, program na mieru a jeden kontakt na všetko. Bežne kombinujeme dve aktivity za popoludnie.</p></article>
-      <article data-n="02"><p class="lab">Partia</p><h3>Rozlúčka so slobodou</h3><p>Bicykel ako otvárací ťah večera. Trasa vedie okolo podnikov, kde sa dá pokračovať.</p></article>
-      <article data-n="03"><p class="lab">Oslava</p><h3>Narodeniny</h3><p>Skupinová cena, žiadne minimum na osobu pri bicykloch. Doplnky doobjednáte pri rezervácii.</p></article>
-      <article data-n="04"><p class="lab">Turisti</p><h3>Víkend s partiou</h3><p>Sprevádzame po slovensky, anglicky aj nemecky. Všetko v dosahu peši od Hlavného námestia.</p></article>
+      <article class="feat" data-n="01"><p class="lab">Firmen</p><h3>Teambuilding</h3><p>Rechnung, maßgeschneidertes Programm und ein Ansprechpartner für alles. Meist kombinieren wir zwei Aktivitäten an einem Nachmittag.</p></article>
+      <article data-n="02"><p class="lab">Freundeskreis</p><h3>Junggesellenabschied</h3><p>Das Rad als Auftakt des Abends. Die Route führt an Lokalen vorbei, in denen es weitergehen kann.</p></article>
+      <article data-n="03"><p class="lab">Feier</p><h3>Geburtstage</h3><p>Gruppenpreis, bei den Rädern ohne Mindestteilnehmerzahl. Extras buchen Sie bei der Reservierung dazu.</p></article>
+      <article data-n="04"><p class="lab">Besucher</p><h3>Wochenende</h3><p>Wir führen auf Slowakisch, Englisch und Deutsch. Alles ist vom Hauptplatz aus zu Fuß erreichbar.</p></article>
     </div>
   </div>
 </section>
 <section class="sec band-deep" id="ako">
   <div class="wrap">
-    <div class="head"><h2>Ako to funguje</h2></div>
+    <div class="head"><h2>So funktioniert es</h2></div>
     <ol class="flow">
-      <li><span class="flow-n">1</span><h3>Pošlete plán</h3><p>Vyberiete aktivity, doplníte dátum a kontakt. Nič neplatíte vopred.</p></li>
-      <li><span class="flow-n">2</span><h3>Potvrdíme dostupnosť</h3><p>Ozveme sa do 24 hodín s voľnými časmi a finálnou cenou vrátane doplnkov.</p></li>
-      <li><span class="flow-n">3</span><h3>Prídete a bavíte sa</h3><p>Na mieste vás preberie inštruktor alebo šofér. Výstroj, pivo aj hudba sú pripravené.</p></li>
+      <li><span class="flow-n">1</span><h3>Plan senden</h3><p>Aktivitäten wählen, Datum und Kontakt ergänzen. Sie zahlen nichts im Voraus.</p></li>
+      <li><span class="flow-n">2</span><h3>Wir bestätigen die Verfügbarkeit</h3><p>Wir melden uns binnen 24 Stunden mit freien Terminen und dem Endpreis inklusive Extras.</p></li>
+      <li><span class="flow-n">3</span><h3>Sie kommen und haben Spaß</h3><p>Vor Ort übernimmt Sie ein Trainer oder Fahrer. Ausrüstung, Getränke und Musik stehen bereit.</p></li>
     </ol>
   </div>
 </section>
 <section class="sec" id="recenzie">
   <div class="wrap">
-    <div class="head"><h2>Recenzie</h2></div>
+    <div class="head"><h2>Bewertungen</h2></div>
     <!-- TODO: nahradiť skutočnými recenziami z Google / Facebooku pred spustením -->
     <div class="revs">
-      <figure class="rev"><p class="stars">★★★★★</p><blockquote>Brali sme beer bike na firemné popoludnie, 13 ľudí. Organizácia bez jediného telefonátu navyše, šofér vtipný, hodina ubehla strašne rýchlo.</blockquote><figcaption><b>Katarína M.</b>office manager, IT firma</figcaption></figure>
-      <figure class="rev"><p class="stars">★★★★★</p><blockquote>Rozlúčka so slobodou — prosecco bike a večer archery tag. Presne to, čo sme chceli: nikto neriešil program, všetko bolo dohodnuté dopredu.</blockquote><figcaption><b>Peter H.</b>Bratislava</figcaption></figure>
+      <figure class="rev"><p class="stars">★★★★★</p><blockquote>Wir hatten das Bierbike für einen Firmennachmittag, 13 Personen. Organisiert ohne ein einziges zusätzliches Telefonat, der Fahrer war witzig, und die Stunde verging wie im Flug.</blockquote><figcaption><b>Katarína M.</b>Office Managerin, IT-Firma</figcaption></figure>
+      <figure class="rev"><p class="stars">★★★★★</p><blockquote>Junggesellinnenabschied — Prosecco Bike und abends Archery Tag. Genau das, was wir wollten: niemand musste sich ums Programm kümmern, alles war vorher abgesprochen.</blockquote><figcaption><b>Peter H.</b>Bratislava</figcaption></figure>
       <figure class="rev"><p class="stars">★★★★★</p><blockquote>Wir haben die Schnitzeljagd mit dem iPad gemacht — tolle Art, die Altstadt kennenzulernen. Betreuung auf Deutsch, alles reibungslos.</blockquote><figcaption><b>Michael K.</b>Wien</figcaption></figure>
     </div>
   </div>
@@ -439,13 +439,13 @@
   <div class="wrap">
     <div class="book">
       <div>
-        <p class="lab">Rezervácia</p>
-        <h2>Pošlite nám plán</h2>
-        <p>Nezáväzne. Ozveme sa do 24 hodín s voľnými časmi a finálnou cenou.</p>
+        <p class="lab">Buchen</p>
+        <h2>Senden Sie uns Ihren Plan</h2>
+        <p>Unverbindlich. Wir melden uns binnen 24 Stunden mit freien Terminen und dem Endpreis.</p>
         <div class="plan">
-          <h3>Váš plán</h3>
-          <ul id="planlist"><li class="plan-empty">Zatiaľ ste nevybrali žiadnu aktivitu. Pridajte ju vyššie — alebo nám len napíšte a poradíme.</li></ul>
-          <div class="tot" id="plantot" hidden><span>Odhad spolu</span><b></b></div>
+          <h3>Ihr Plan</h3>
+          <ul id="planlist"><li class="plan-empty">Sie haben noch keine Aktivität gewählt. Fügen Sie oben eine hinzu — oder schreiben Sie uns einfach.</li></ul>
+          <div class="tot" id="plantot" hidden><span>Geschätzt gesamt</span><b></b></div>
         </div>
         <div class="contacts">
           <a href="tel:+421911782282"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>+421 911 782 282</a>
@@ -454,24 +454,24 @@
       </div>
       <form novalidate autocomplete="off">
         <input type="hidden" id="f-plan" name="plan">
-        <div><label for="f-name">Meno</label><input id="f-name" autocomplete="off" name="name" required></div>
-        <div><label for="f-mail">Email</label><input id="f-mail" autocomplete="off" name="email" type="email" required></div>
-        <div><label for="f-tel">Telefón</label><input id="f-tel" autocomplete="off" name="phone" type="tel"></div>
-        <div><label for="f-occ">Príležitosť</label>
+        <div><label for="f-name">Name</label><input id="f-name" autocomplete="off" name="name" required></div>
+        <div><label for="f-mail">E-Mail</label><input id="f-mail" autocomplete="off" name="email" type="email" required></div>
+        <div><label for="f-tel">Telefon</label><input id="f-tel" autocomplete="off" name="phone" type="tel"></div>
+        <div><label for="f-occ">Anlass</label>
           <select id="f-occ" autocomplete="off" name="occasion">
-            <option value="">Neuvedené</option><option value="teambuilding">Teambuilding</option>
-            <option value="rozlucka">Rozlúčka so slobodou</option><option value="oslava">Oslava</option>
-            <option value="turisti">Víkend s partiou</option>
+            <option value="">Keine Angabe</option><option value="teambuilding">Teambuilding</option>
+            <option value="rozlucka">Junggesellenabschied</option><option value="oslava">Feier</option>
+            <option value="turisti">Wochenende</option>
           </select>
         </div>
-        <div><label for="f-date">Dátum</label><input id="f-date" autocomplete="off" name="date" type="date"></div>
-        <div><label for="f-ppl">Počet ľudí</label><input id="f-ppl" autocomplete="off" name="people" type="number" min="2" max="60" value="12"></div>
-        <div class="full"><label for="f-msg">Poznámka</label><textarea id="f-msg" autocomplete="off" name="message" placeholder="Približný čas, doplnky, špeciálne požiadavky…" autocomplete="off"></textarea></div>
+        <div><label for="f-date">Datum</label><input id="f-date" autocomplete="off" name="date" type="date"></div>
+        <div><label for="f-ppl">Personenzahl</label><input id="f-ppl" autocomplete="off" name="people" type="number" min="2" max="60" value="12"></div>
+        <div class="full"><label for="f-msg">Anmerkung</label><textarea id="f-msg" autocomplete="off" name="message" placeholder="Ungefähre Uhrzeit, Extras, besondere Wünsche…" autocomplete="off"></textarea></div>
         <div class="full consent">
           <input id="f-gdpr" autocomplete="off" name="gdpr" type="checkbox" required>
-          <label for="f-gdpr" style="margin:0;color:inherit">Súhlasím so spracovaním osobných údajov na účel vybavenia tejto požiadavky. Viac v <a href="/ochrana-osobnych-udajov/">zásadách ochrany osobných údajov</a>.</label>
+          <label for="f-gdpr" style="margin:0;color:inherit">Ich stimme der Verarbeitung meiner personenbezogenen Daten zur Bearbeitung dieser Anfrage zu. Mehr in den <a href="/ochrana-osobnych-udajov/">Datenschutzbestimmungen</a>.</label>
         </div>
-        <div class="full"><button class="btn btn-sage" type="submit">Odoslať požiadavku</button></div>
+        <div class="full"><button class="btn btn-sage" type="submit">Anfrage senden</button></div>
       </form>
     </div>
   </div>
@@ -481,14 +481,14 @@
   <div class="wrap">
     <div class="fgrid">
       <div>
-        <a href="#" aria-label="Fun Bratislava — domov"><img src="logo.webp" width="250" height="250" alt="Fun Bratislava"></a>
-        <p style="color:var(--soft);font-size:14px;margin-top:14px;max-width:32ch">Skupinové aktivity a zážitky v centre Bratislavy. Slovensky, anglicky, nemecky.</p>
+        <a href="#" aria-label="Fun Bratislava — Startseite"><img src="../logo.webp" width="250" height="250" alt="Fun Bratislava"></a>
+        <p style="color:var(--soft);font-size:14px;margin-top:14px;max-width:32ch">Gruppenaktivitäten und Erlebnisse im Zentrum von Bratislava. Auf Slowakisch, Englisch und Deutsch.</p>
       </div>
-      <div><h4>Aktivity</h4><ul>
+      <div><h4>Aktivitäten</h4><ul>
         <li><a href="beer-bike.html">Beer Bike</a></li><li><a href="prosecco-bike.html">Prosecco Bike</a></li>
         <li><a href="bubble-football.html">Bubble Football</a></li><li><a href="footdarts.html">Footdarts</a></li>
         <li><a href="archery-tag.html">Archery Tag</a></li><li><a href="ipad-treasure-hunt.html">iPad Treasure Hunt</a></li>
-        <li><a href="axe-throwing.html">Axe Throwing</a></li><li><a href="skola-capovania.html">Škola čapovania</a></li>
+        <li><a href="axe-throwing.html">Axe Throwing</a></li><li><a href="skola-capovania.html">Zapfkurs</a></li>
       </ul></div>
       <div><h4>Kontakt</h4><ul>
         <li><a href="tel:+421911782282">+421 911 782 282</a></li>
@@ -497,14 +497,14 @@
         <li><a href="https://www.facebook.com/profile.php?id=61556999860569">Facebook</a></li>
         <li><a href="https://www.tiktok.com/@fun_bratislava">TikTok</a></li>
       </ul></div>
-      <div><h4>Dokumenty</h4><ul>
-        <li><a href="/vseobecne-podmienky/">Všeobecné podmienky</a></li>
-        <li><a href="/ochrana-osobnych-udajov/">Ochrana osobných údajov</a></li>
-        <li><a href="/cookies/">Zásady používania cookies</a></li>
+      <div><h4>Dokumente</h4><ul>
+        <li><a href="/vseobecne-podmienky/">Allgemeine Geschäftsbedingungen</a></li>
+        <li><a href="/ochrana-osobnych-udajov/">Datenschutz</a></li>
+        <li><a href="/cookies/">Cookie-Richtlinie</a></li>
       </ul></div>
     </div>
     <div class="legal">
-      <span>Prevádzkovateľ: Remeli, s.r.o., Hlavná 121/62, 976 68 Heľpa · IČO 46150501</span>
+      <span>Betreiber: Remeli, s.r.o., Hlavná 121/62, 976 68 Heľpa · IdNr. 46150501</span>
       <span>© 2026 fun-bratislava.com</span>
     </div>
   </div>
@@ -513,41 +513,41 @@
   <div class="wrap">
     <p class="dock-sum" id="docksum"></p>
     <span class="dock-tot" id="docktot"></span>
-    <button class="dock-clear" type="button" id="dockclear">Vyprázdniť</button>
-    <a class="btn btn-sage btn-sm" href="#rezervacia">Pokračovať</a>
+    <button class="dock-clear" type="button" id="dockclear">Leeren</button>
+    <a class="btn btn-sage btn-sm" href="#rezervacia">Weiter</a>
   </div>
 </div>
 
 
 <div class="pick" id="pick" hidden>
   <div class="pick-box" role="dialog" aria-modal="true" aria-labelledby="picktitle">
-    <h3 class="pick-title" id="picktitle">Pridať do plánu</h3>
-    <p class="pick-sub">Chcete k tomu niečo doplniť? Doplnky viete zmeniť aj neskôr.</p>
+    <h3 class="pick-title" id="picktitle">Hinzufügen</h3>
+    <p class="pick-sub">Möchten Sie etwas ergänzen? Extras können Sie später ändern.</p>
     <div class="pick-list"></div>
     <div class="pick-acts">
-      <button class="btn" type="button" data-pick="ok">Pridať do plánu</button>
-      <button class="detail" type="button" data-pick="cancel">Zrušiť</button>
+      <button class="btn" type="button" data-pick="ok">Hinzufügen</button>
+      <button class="detail" type="button" data-pick="cancel">Abbrechen</button>
     </div>
   </div>
 </div>
 <a class="wa" href="https://wa.me/421911782282" target="_blank" rel="noopener"
-   aria-label="Napíšte nám na WhatsApp">
+   aria-label="Schreiben Sie uns auf WhatsApp">
   <svg viewBox="0 0 32 32" aria-hidden="true">
     <path class="wa-b" d="M16 3.4A12.6 12.6 0 0 0 5.3 22.7L3.4 29.4l6.9-1.8A12.6 12.6 0 1 0 16 3.4Z"/>
     <path class="wa-h" d="M11.9 9.7c-.24-.53-.5-.54-.73-.55h-.62c-.22 0-.57.08-.87.4-.3.33-1.14 1.11-1.14 2.7 0 1.6 1.17 3.14 1.33 3.36.16.21 2.26 3.6 5.58 5.05 2.77 1.2 3.33 1 3.93.94.6-.05 1.94-.79 2.21-1.56.27-.77.27-1.43.19-1.57-.08-.13-.3-.21-.62-.37l-2.4-1.16c-.32-.16-.56-.24-.79.08l-1.09 1.36c-.2.21-.4.24-.72.08-.32-.16-1.36-.5-2.6-1.6-.96-.86-1.6-1.92-1.79-2.24-.19-.32-.02-.5.14-.66l.48-.56c.16-.19.21-.32.32-.53.1-.21.05-.4-.03-.56l-1-2.61Z"/>
   </svg>
 </a>
 
-<div class="cc" id="cc" hidden role="dialog" aria-live="polite" aria-label="Súbory cookie">
-  <p class="cc-t">Súbory cookie</p>
-  <p class="cc-p">Nevyhnutné cookies držia web pri živote. Analytické zapneme len s vaším súhlasom — viac v <a href="#">zásadách ochrany osobných údajov</a>.</p>
+<div class="cc" id="cc" hidden role="dialog" aria-live="polite" aria-label="Cookies">
+  <p class="cc-t">Cookies</p>
+  <p class="cc-p">Notwendige Cookies halten die Website am Laufen. Analyse-Cookies aktivieren wir nur mit Ihrer Zustimmung — mehr in der <a href="#">Datenschutzbestimmungen</a>.</p>
   <div class="cc-btns">
-    <button class="btn btn-sm" type="button" data-cc="all">Prijať všetko</button>
-    <button class="cc-ghost" type="button" data-cc="necessary">Len nevyhnutné</button>
+    <button class="btn btn-sm" type="button" data-cc="all">Alle akzeptieren</button>
+    <button class="cc-ghost" type="button" data-cc="necessary">Nur notwendige</button>
   </div>
 </div>
 
-<button class="cc-open" id="ccopen" type="button" hidden aria-label="Nastavenia cookies">
+<button class="cc-open" id="ccopen" type="button" hidden aria-label="Cookie-Einstellungen">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 3.4 3.4 0 0 1-4.2-4.2A3.4 3.4 0 0 1 12 3Z" stroke-linejoin="round"/><circle cx="9.5" cy="10" r="1"/><circle cx="14" cy="14.5" r="1"/><circle cx="9" cy="15.5" r="1"/></svg>
 </button>
 
@@ -724,8 +724,8 @@ render();
   });
 })();
 </script>
-<script src="addons.js?v=1"></script>
-<script src="shared.js?v=8"></script>
+<script src="../addons.js?v=1"></script>
+<script src="../shared.js?v=8"></script>
 <!--
   IMAGES — drop 8 files into /img (logo.webp is already there):
     beer-bike.jpg  prosecco-bike.jpg  bubble-football.jpg  footdarts.jpg

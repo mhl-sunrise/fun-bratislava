@@ -1,3 +1,35 @@
+/* ---------- self-hosted fonts ---------- */
+/* Both families are SIL Open Font Licence, so self-hosting is permitted. Serving them
+   ourselves removes two third-party connections and the render-blocking stylesheet.
+   One file per family+subset: these are variable fonts, so a single file covers the
+   whole weight range. unicode-range is copied from the original definition, which is
+   what stops latin-ext downloading for visitors who never need the diacritics.
+
+   font-display:optional, not swap. swap paints the fallback first and then jumps to
+   the real font — visible, and it moves the layout. optional gives the font a short
+   window to arrive and then commits for the whole page load: either it was ready and
+   the first paint is already correct, or it stays on the fallback and never jumps.
+   The <link rel=preload> in each page's head is what makes the first case the normal
+   one, so the preloads and these rules have to be kept in sync: every subset a page
+   actually renders must be preloaded, or that subset falls back for that page load.
+
+   Deliberate exception: /en/ and /de/ do not preload latin-ext. The only latin-ext
+   glyphs left on those pages are the ľ and š in the footer's registered address
+   ("Heľpa"), so those characters may render in the system sans there. Preloading
+   141 KB of font for eleven characters in a footer is the worse trade — and because
+   this is optional, not swap, it is a stable fallback rather than a late jump. */
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:100 900;font-display:optional;
+  src:url(fonts/Fraunces-latinext.woff2) format('woff2');
+  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:100 900;font-display:optional;
+  src:url(fonts/Fraunces-latin.woff2) format('woff2');
+  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:optional;
+  src:url(fonts/Inter-latinext.woff2) format('woff2');
+  unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:optional;
+  src:url(fonts/Inter-latin.woff2) format('woff2');
+  unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 /* ============================================================
    Palette sampled from the client's own logo and live site:
      sage   #A8B49C  (watercolour mark, 30% of the logo)
