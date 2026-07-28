@@ -27,7 +27,7 @@ en: {
   'Zážitky pre skupiny v Bratislave': 'Group experiences in Bratislava',
   'Osem aktivít pre partie od 2 do 30 ľudí. Nastavte veľkosť skupiny a príležitosť — ceny sa prepočítajú a odporučíme, čo sadne.': 'Eight activities for groups of 2 to 30. Set your group size and occasion — prices update instantly and we suggest what fits.',
   'Bez platby vopred': 'No prepayment',
-  'Odpoveď do 24 hodín': 'Reply within 24 hours',
+  'Rýchla komunikácia': 'Fast communication',
   'SK / EN / DE': 'SK / EN / DE',
 
   // --- planner
@@ -298,7 +298,7 @@ de: {
   'Zážitky pre skupiny v Bratislave': 'Gruppenerlebnisse in Bratislava',
   'Osem aktivít pre partie od 2 do 30 ľudí. Nastavte veľkosť skupiny a príležitosť — ceny sa prepočítajú a odporučíme, čo sadne.': 'Acht Aktivitäten für Gruppen von 2 bis 30 Personen. Gruppengröße und Anlass einstellen — die Preise passen sich sofort an und wir empfehlen, was passt.',
   'Bez platby vopred': 'Keine Vorauszahlung',
-  'Odpoveď do 24 hodín': 'Antwort binnen 24 Stunden',
+  'Rýchla komunikácia': 'Schnelle Kommunikation',
   'SK / EN / DE': 'SK / EN / DE',
 
   // --- planner

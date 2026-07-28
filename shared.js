@@ -154,7 +154,7 @@
 // i.e. a blank page. This path has no silent failure mode: the same check runs on load, on
 // scroll, on resize, and once more after 400ms, and any throw reveals everything.
 (() => {
-  const grids = '.grid, .occ, .flow, .revs, .fgrid';
+  const grids = '.grid, .occ, .flow, .revs, .fgrid, .hero-meta';
   const solo = '.head, .planner, .book';
   const sel = `${grids.split(', ').map(s => s + ' > *').join(', ')}, ${solo}`;
   const items = [...document.querySelectorAll(sel)];
@@ -181,7 +181,8 @@
 
   try {
     document.querySelectorAll(grids).forEach(g => {
-      const cols = getComputedStyle(g).gridTemplateColumns.split(' ').filter(Boolean).length || 1;
+      const tpl = getComputedStyle(g).gridTemplateColumns;
+      const cols = tpl && tpl !== 'none' ? tpl.split(' ').filter(Boolean).length : g.children.length;
       [...g.children].forEach((c, i) => c.style.setProperty('--i', i % cols));
     });
     items.forEach(e => { e.classList.add('reveal'); hide(e); });

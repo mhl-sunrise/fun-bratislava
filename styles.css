@@ -635,9 +635,21 @@ footer.site img{height:64px;width:auto;display:block}
   .segs{display:grid;grid-template-columns:1fr;gap:8px}
   .seg{justify-content:flex-start;padding:0 14px;text-align:left;font-size:14px}
   /* one chip per row — wrapping left an orphan on the second line */
-  .hero-meta{flex-direction:column;align-items:stretch;gap:8px}
-  .hero-meta span{width:100%;justify-content:flex-start;padding:8px 16px 8px 8px;font-size:13.5px;gap:10px}
-  .hero-meta span::before{width:26px;height:26px;background-size:15px}
+  /* Three across with the icon over the label, rather than three full-width bars for three
+     short phrases. minmax(0,1fr) so a long German label shrinks its column instead of
+     pushing the row wider, and white-space back to normal so the label may wrap — the base
+     rule sets nowrap for the single-line desktop pills. */
+  .hero-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:stretch}
+  .hero-meta span{width:auto;flex-direction:column;align-items:center;justify-content:flex-start;
+    gap:10px;padding:14px 8px;white-space:normal;font-size:12.5px;line-height:1.35;
+    text-align:center;background:var(--forest);border-color:var(--forest);color:#fff}
+  .hero-meta span:hover{border-color:var(--forest)}
+  /* Each icon's colour is baked into its data URI, so it cannot be restyled from CSS —
+     an olive stroke would disappear on the dark chip. brightness(0) invert(1) repaints the
+     whole pseudo-element white, glyph and tile alike, which is why the tile colour below is
+     written as a black alpha: after the filter it renders as white at that same alpha. */
+  .hero-meta span::before{width:70px;height:70px;background-size:34px;
+    background-color:rgba(0,0,0,.16);filter:brightness(0) invert(1)}
 }
 @media (max-width:560px){
   .grid,.occ,.fgrid{grid-template-columns:1fr}
