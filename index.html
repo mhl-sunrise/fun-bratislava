@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fun Bratislava — zážitky pre skupiny v Bratislave</title>
+<meta name="description" content="Beer bike, bubble football, archery tag a ďalších päť aktivít pre teambuilding, rozlúčku so slobodou alebo víkend s partiou. Zostavte si plán, cenu vidíte hneď.">
+<link rel="icon" href="logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Palette sampled from the client's own logo and live site:
+     sage   #A8B49C  (watercolour mark, 30% of the logo)
+     olive  #84906C  (their buttons / footer)
+     ink    #1B2415  (the dark green-black of the script)
+   Everything below is derived from those three. Olive is
+   darkened to #5C6647 wherever it carries text — their own
+   site puts white on #84906C, which fails contrast at 2.9:1.
+   Type: Fraunces (display, echoes the handwritten mark) with
+   Lora as per-glyph fallback; Inter for UI and body.
+   ============================================================ */
+:root{
+  color-scheme:light;
+  --cream:#F3F2EA;        /* page */
+  --cream-2:#E9E8DC;      /* deeper band */
+  --paper:#FBFAF4;        /* cards, elevated */
+  --ink:#212B18;
+  --forest:#212B18;       /* primary buttons — deep green, not black */
+  --note-h:50px;          /* where the hero background stops — the planner note row */
+  --body:#414A38;
+  --soft:#6C7460;
+  --line:#DCDBCC;
+  --line-2:#C5C5B1;
+  --sage:#A8B49C;
+  --sage-lt:#C6CFBB;
+  --olive:#84906C;
+  --olive-dp:#5C6647;     /* olive that carries text — 6.3:1 */
+  --olive-dk:#39412D;     /* dark blocks */
+  --gold:#C99A2E;         /* review stars */
+  --r:5px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+/* both elements: with the rule only on body, html stays the scroll container and still
+   reports a horizontal scroll width even though every overflowing child is clipped */
+html{scroll-behavior:smooth;overflow-x:hidden}
+section[id]{scroll-margin-top:104px}
+body{background:#fff;color:var(--body);font:400 16px/1.65 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.03;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>")}
+h1,h2,h3,h4{font-family:Fraunces,Lora,Georgia,serif;font-weight:600;color:var(--ink);line-height:1.14;letter-spacing:-.012em;font-optical-sizing:auto}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.lab{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+:focus-visible{outline:2px solid var(--olive-dp);outline-offset:3px;border-radius:5px}
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:32px;height:82px}
+.nav img{height:56px;width:auto;display:block}
+.nav-links{display:flex;gap:26px;font-size:14.5px;font-weight:500;color:var(--ink)}
+.nav-links a:hover{color:var(--olive-dp)}
+.langs{display:flex;gap:2px;margin-left:auto}
+.langs a{font-size:11px;letter-spacing:.1em;font-weight:600;color:var(--soft);padding:5px 7px;border-radius:5px}
+.langs a[aria-current]{color:var(--ink);background:var(--cream-2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--forest);color:#fff;font:600 14.5px Inter,sans-serif;padding:12px 20px;border-radius:5px;border:1px solid var(--forest);transition:background .16s,border-color .16s,transform .16s}
+.btn:hover{background:#2F3D22;border-color:#2F3D22;transform:translateY(-1px)}
+.btn-sage{background:var(--olive);color:#fff;border-color:var(--olive)}
+.btn-sage:hover{background:#6E7A55;border-color:#6E7A55;color:#fff}
+.btn-sm{padding:9px 15px;font-size:13.5px}
+/* ---------- hero ---------- */
+.hero{padding:108px 0 0;position:relative;z-index:2}
+/* Hero field. Sits behind everything (-3); the white cut-off below the planner rule is -2.
+   Both derive from real box edges — no hardcoded height, so a font swap can't misalign them. */
+/* Hero field, four layers deep: vignette for depth, two sage light sources, then the base.
+   First in the stack paints on top. */
+/* The hairline sits on this layer's bottom edge, pinned to the note row. --note-h must be the
+   FRACTIONAL height (getBoundingClientRect, not offsetHeight) — rounding it to 49px was the
+   sub-pixel drift that showed at the seam.
+   so it lines up with the card's internal rule by construction */
+.hero::after{content:"";position:absolute;top:0;left:0;right:0;bottom:var(--note-h,48px);z-index:-5;
+  border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(128% 104% at 46% 34%,transparent 52%,rgba(74,84,56,.14) 100%),
+    radial-gradient(48% 46% at 78% 40%,rgba(132,144,108,.30),transparent 68%),
+    radial-gradient(70% 64% at 92% 14%,rgba(168,180,156,.50),transparent 74%),
+    radial-gradient(44% 50% at 0% 92%,rgba(132,144,108,.24),transparent 72%),
+    linear-gradient(162deg,#F8F7EF 0%,#EDEEE0 46%,#DDE0CE 100%)}
+/* Structure, not wallpaper: concentric rings radiate from the animation's own centre, so the
+   glyph reads as the focal point. A fine dot matrix underneath, both masked off the copy. */
+.hero::before{content:"";position:absolute;top:0;left:0;right:0;bottom:var(--note-h,48px);z-index:-4;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(92,102,71,.30) 1.4px,transparent 1.4px);
+  background-size:26px 26px;
+  /* Two masks intersected: a horizontal fade that clears the dots off the copy (gone left of
+     30%, full by 56%), and a soft radial so the right edge never ends on a straight line. */
+  -webkit-mask-image:linear-gradient(90deg,transparent 30%,#000 56%),
+                     radial-gradient(92% 104% at 72% 44%,#000 42%,transparent 94%);
+  -webkit-mask-composite:source-in;
+          mask-image:linear-gradient(90deg,transparent 30%,#000 56%),
+                     radial-gradient(92% 104% at 72% 44%,#000 42%,transparent 94%);
+          mask-composite:intersect}
+.hero .wrap{position:relative}
+/* Living background. Blobs are radial-gradients fading to fully transparent — NOT solid
+   shapes with filter:blur(). A blurred element plus will-change:transform gets its own
+   compositing layer and Chrome clips the blur to that layer's box, which turned each blob
+   into a hard-edged rectangle. A gradient is soft by definition and needs no filter, so the
+   animation stays purely on the compositor. */
+/* Background stops at the planner's note row so the card overhangs onto the page colour.
+   --note-h is measured from the row itself, so a font change cannot desync it. */
+.hero-blobs{position:absolute;top:0;left:0;right:0;bottom:var(--note-h,48px);z-index:-3;overflow:hidden;pointer-events:none}
+.hero-blobs i{position:absolute;display:block;will-change:transform}
+.hero-blobs i:nth-child(1){right:-10%;top:-20%;width:700px;height:620px;
+  background:radial-gradient(closest-side circle,rgba(124,138,96,.52),rgba(124,138,96,0) 72%);
+  animation:blobA 17s ease-in-out infinite alternate}
+.hero-blobs i:nth-child(2){left:36%;top:6%;width:520px;height:470px;
+  background:radial-gradient(closest-side circle,rgba(156,172,138,.58),rgba(156,172,138,0) 70%);
+  animation:blobB 13s ease-in-out infinite alternate}
+.hero-blobs i:nth-child(3){left:-14%;bottom:-26%;width:640px;height:560px;
+  background:radial-gradient(closest-side circle,rgba(124,138,96,.42),rgba(124,138,96,0) 72%);
+  animation:blobC 21s ease-in-out infinite alternate}
+/* Travel is a PERCENTAGE OF THE BLOB'S OWN SIZE, so each one crosses most of the hero and the
+   sweep scales with the viewport instead of being a fixed 360px nudge in one corner.
+   -105% of 700px is ~735px: blob 1 alone sweeps from the right edge past the centre.
+   Three stops keep the path bent — with `alternate`, two stops would just slide up and back. */
+@keyframes blobA{
+  0%  {transform:translate3d(0,0,0) scale(1)}
+  50% {transform:translate3d(-52%,46%,0) scale(1.4)}
+  100%{transform:translate3d(-105%,6%,0) scale(1.15)}}
+@keyframes blobB{
+  0%  {transform:translate3d(0,0,0) scale(1.05)}
+  50% {transform:translate3d(-42%,58%,0) scale(1.32)}
+  100%{transform:translate3d(-88%,-32%,0) scale(.66)}}
+@keyframes blobC{
+  0%  {transform:translate3d(0,0,0) scale(.92)}
+  50% {transform:translate3d(66%,-42%,0) scale(1.26)}
+  100%{transform:translate3d(126%,-12%,0) scale(1.56)}}
+@media (prefers-reduced-motion:reduce){.hero-blobs i{animation:none}}
+/* hero copy and glyph share one grid row, so align-items does the centring — no offsets */
+.hero-top{display:grid;grid-template-columns:1fr auto;align-items:center;gap:48px}
+.hero-anim{width:min(32vw,368px);color:var(--olive-dk);pointer-events:none;order:2}
+.hero-copy{min-width:0}
+.hl-glyph path{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+/* One glyph slot is exactly 5s (40s / 8), so a 5s CSS loop stays locked to the SMIL morph
+   without restating 32 keyframe stops. Blur masks point-mismatch mid-morph; the overshoot
+   lives here rather than in `d` — spline overshoot on a path morph reads as a wobble. */
+
+/* ---------- floating: whatsapp + cookies ---------- */
+/* Both sit above the summary dock and lift when it slides in, so nothing is ever covered. */
+.wa{position:fixed;right:22px;bottom:22px;z-index:75;width:56px;height:56px;border-radius:50%;
+  background:var(--forest);display:grid;place-items:center;border:1px solid var(--forest);
+  transition:transform .18s,bottom .3s cubic-bezier(.2,.7,.3,1)}
+.wa:hover{transform:scale(1.06);background:#2F3D22;border-color:#2F3D22}
+.wa svg{width:31px;height:31px}
+.wa-b{fill:#fff}
+.wa-h{fill:var(--forest)}
+.wa:hover .wa-h{fill:#2F3D22}
+.dock[data-open="1"] ~ .wa{bottom:96px}
+
+.cc{position:fixed;left:22px;bottom:22px;z-index:78;width:min(360px,calc(100vw - 44px));
+  padding:20px 22px 18px;background:var(--paper);border:1px solid var(--line-2);border-radius:5px;
+  transition:bottom .3s cubic-bezier(.2,.7,.3,1)}
+.cc[hidden]{display:none}
+.dock[data-open="1"] ~ .cc{bottom:96px}
+.cc-t{font:600 15.5px Fraunces,Lora,Georgia,serif;color:var(--ink);margin-bottom:6px}
+.cc-p{font-size:13.5px;line-height:1.55;color:var(--soft);margin-bottom:14px}
+.cc-p a{color:var(--olive-dp);text-decoration:underline}
+.cc-btns{display:flex;gap:9px}
+.cc-btns .btn{flex:1;min-height:38px;padding:0 14px;font-size:13.5px}
+.cc-ghost{flex:1;min-height:38px;padding:0 14px;border:1px solid var(--line-2);border-radius:5px;
+  font:500 13.5px Inter,sans-serif;color:var(--body);transition:border-color .15s,color .15s}
+.cc-ghost:hover{border-color:var(--olive-dp);color:var(--ink)}
+
+.cc-open{position:fixed;left:22px;bottom:22px;z-index:75;width:44px;height:44px;border-radius:50%;
+  background:var(--paper);border:1px solid var(--line-2);display:grid;place-items:center;
+  color:var(--olive-dp);transition:border-color .15s,transform .18s,bottom .3s cubic-bezier(.2,.7,.3,1)}
+.cc-open[hidden]{display:none}
+.cc-open:hover{border-color:var(--olive-dp);transform:scale(1.06)}
+.cc-open svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8}
+.dock[data-open="1"] ~ .cc-open{bottom:96px}
+@media (max-width:620px){
+  .cc{left:12px;right:12px;bottom:12px;width:auto}
+  .wa{right:14px;bottom:14px;width:50px;height:50px}
+  .cc-open{left:14px;bottom:14px}
+}
+
+/* ---------- date picker ---------- */
+/* ponytail: the real <input type="date"> stays in the DOM (form data, validation, mobile
+   keyboards) — it is only visually hidden. This is the visible layer, so nothing is lost
+   if the JS never runs: the native field simply shows instead. */
+.dp{position:relative}
+.dp-field{display:flex;align-items:center;gap:9px;width:100%;text-align:left;cursor:pointer;
+  border-radius:5px;font:500 14.5px Inter,sans-serif;transition:border-color .15s}
+.dp-field::after{content:"";margin-left:auto;width:17px;height:17px;flex:none;background:currentColor;opacity:.65;
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2.5' fill='none' stroke='black' stroke-width='2'/><path d='M3 10h18M8 3v4M16 3v4' stroke='black' stroke-width='2' stroke-linecap='round'/></svg>") center/contain no-repeat;
+          mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='3' y='5' width='18' height='16' rx='2.5' fill='none' stroke='black' stroke-width='2'/><path d='M3 10h18M8 3v4M16 3v4' stroke='black' stroke-width='2' stroke-linecap='round'/></svg>") center/contain no-repeat}
+.dp-field[data-empty="1"]{color:var(--body)}
+.pf-date .dp-field{width:100%;min-width:220px;height:44px;padding:0 15px;font-size:14.5px;border:1px solid var(--line-2);color:var(--ink);background:var(--paper)}
+.pf-date .dp-field:hover{border-color:var(--olive-dp)}
+.book .dp-field{padding:11px 13px;border:1px solid rgba(251,250,244,.24);color:var(--paper);background:rgba(251,250,244,.08)}
+.book .dp-field[data-empty="1"]{color:rgba(251,250,244,.55)}
+.book .dp-field:hover{border-color:rgba(251,250,244,.45)}
+.dp-field:focus-visible{outline:2px solid var(--olive-dp);outline-offset:2px}
+
+.dp-pop{position:absolute;z-index:90;top:calc(100% + 10px);left:0;width:334px;padding:18px;
+  background:#fff;border:1px solid var(--line);border-radius:5px;color:var(--ink);
+  box-shadow:0 18px 40px -18px rgba(27,36,21,.35)}
+.dp-pop[hidden]{display:none}
+/* the planner's date cell is the rightmost one, so a left-anchored popup ran off screen */
+.pf-date .dp-pop{left:auto;right:0}
+@media (max-width:430px){
+  .dp-pop{width:min(334px,calc(100vw - 28px));padding:14px}
+  .dp-day{height:36px;font-size:14px}
+}
+.dp-head{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.dp-title{flex:1;text-align:center;font:600 16.5px Fraunces,Lora,Georgia,serif;text-transform:capitalize}
+.dp-nav{width:34px;height:34px;border-radius:5px;border:1px solid var(--line);display:grid;place-items:center;
+  color:var(--body);font-size:15px;line-height:1;transition:background .15s,border-color .15s}
+.dp-nav:hover:not(:disabled){background:var(--cream);border-color:var(--line-2)}
+.dp-nav:disabled{opacity:.35;cursor:default}
+.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.dp-dow{font:600 11.5px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--soft);text-align:center;padding-bottom:6px}
+.dp-day{height:40px;border-radius:5px;font:500 15px Inter,sans-serif;color:var(--ink);
+  transition:background .12s,color .12s}
+.dp-day:hover:not(:disabled){background:var(--cream-2)}
+.dp-day:disabled{color:var(--line-2);cursor:default}
+.dp-day[data-out="1"]{color:var(--line-2)}
+.dp-day[data-today="1"]{box-shadow:inset 0 0 0 1px var(--sage)}
+.dp-day[aria-pressed="true"]{background:var(--forest);color:#fff}
+.dp-foot{display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.dp-foot button{font:500 14px Inter,sans-serif;color:var(--olive-dp);padding:5px 2px}
+.dp-foot button:hover{color:var(--ink)}
+/* ---------- reveal on scroll ---------- */
+/* ponytail: one rule for every revealed element — same distance, duration and easing, and
+   each element is observed on its own. Earlier there were two rules with different timings
+   plus an index that reset every 6 items, so no two things moved alike. */
+/* No default-hidden rule: the stylesheet only describes the transition. The hidden
+   state is applied inline by JS and removed by JS, so CSS alone can never leave
+   content invisible — this blanked the page twice when the observer stayed silent. */
+.reveal{transition:opacity 1.6s cubic-bezier(.16,.84,.28,1),transform 1.6s cubic-bezier(.16,.84,.28,1);
+  transition-delay:calc(var(--i,0) * 90ms)}
+@media (prefers-reduced-motion:reduce){.reveal{transition:none}}
+.hl-ring circle{fill:none;stroke:var(--olive);opacity:.5}
+.hl-shadow{fill:var(--olive-dk)}
+@media (max-width:1080px){.hero-anim{display:none}.hero-top{display:block}}
+/* white field behind the hero; its bottom rule lines up with .planner-note's top border
+   — border-bottom paints inside the box, so 49px lands it on the note's own 1px rule */
+.hero h1{font-size:clamp(38px,4.6vw,60px);max-width:17ch;font-weight:600}
+.hero .lede{margin-top:20px;max-width:56ch;font-size:17.5px;color:var(--soft)}
+/* hero meta reads as a proper spec strip: hairline chips, a checkmark instead of a bullet */
+/* Spec strip, not tag soup: one continuous row with hairline dividers instead of four
+   separate pills. Reads as editorial metadata rather than four competing buttons. */
+/* Solid chips, not a faint strip. The icon now lives in a tinted disc drawn by the SAME
+   pseudo-element: background-color paints the disc, background-image the glyph — so the
+   stroke colour is baked into the SVG instead of using a mask. */
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+.hero-meta span{display:inline-flex;align-items:center;gap:11px;white-space:nowrap;
+  padding:8px 18px 8px 8px;border-radius:5px;background:#fff;border:1px solid var(--line-2);
+  font:600 13.5px Inter,sans-serif;color:var(--ink);
+  transition:border-color .2s,transform .2s}
+.hero-meta span:hover{border-color:var(--olive);transform:translateY(-1px)}
+.hero-meta span::before{content:"";width:28px;height:28px;flex:none;border-radius:5px;
+  background-color:rgba(168,180,156,.32);background-repeat:no-repeat;
+  background-position:center;background-size:16px}
+.hero-meta [data-i=card]::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='2.5' y='5.5' width='19' height='13' rx='2.5' fill='none' stroke='%235C6647' stroke-width='2'/><path d='M2.5 10.5h19' stroke='%235C6647' stroke-width='2'/></svg>")}
+.hero-meta [data-i=clock]::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='none' stroke='%235C6647' stroke-width='2'/><path d='M12 6.8V12l3.6 2.6' fill='none' stroke='%235C6647' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>")}
+.hero-meta [data-i=globe]::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='none' stroke='%235C6647' stroke-width='2'/><path d='M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18' fill='none' stroke='%235C6647' stroke-width='2'/></svg>")}
+.planner{margin-top:120px;border:1px solid var(--line);border-radius:5px;background:#fff}
+.planner-row{display:grid;grid-template-columns:auto 1fr auto}
+.pf{padding:19px 26px;border-right:1px solid var(--line);min-width:0}
+.pf:last-child{border-right:0}
+.pf > .lab{color:var(--soft);display:block;margin-bottom:12px}
+.stepper{display:flex;align-items:center;gap:4px}
+.stepper button{width:44px;height:44px;border-radius:5px;border:1px solid var(--line-2);display:grid;place-items:center;font:500 14.5px Inter,sans-serif;color:var(--ink);background:var(--paper);transition:background .15s,border-color .15s}
+.stepper button:hover{background:var(--cream);border-color:var(--olive-dp)}
+.stepper input{width:54px;height:44px;text-align:center;border:0;font:600 14.5px Inter,sans-serif;color:var(--ink);background:transparent;-moz-appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.stepper em{font-style:normal;color:var(--ink);font-size:14.5px;margin-left:2px}
+.segs{display:flex;flex-wrap:wrap;gap:6px}
+.seg{display:inline-flex;align-items:center;height:44px;padding:0 16px;border-radius:5px;border:1px solid var(--line-2);font:500 14.5px Inter,sans-serif;color:var(--body);white-space:nowrap;background:var(--paper);transition:all .15s}
+.seg:hover{border-color:var(--olive-dp)}
+.seg[aria-pressed="true"]{background:var(--olive-dk);border-color:var(--olive-dk);color:var(--paper)}
+.pf-date input{height:34px;border:1px solid var(--line-2);border-radius:5px;padding:0 11px;font:500 14.5px Inter,sans-serif;color:var(--ink);background:var(--paper)}
+.pf-date input:focus{outline:2px solid var(--olive-dp);outline-offset:1px;border-color:var(--olive-dp)}
+.planner-note{position:relative;border-radius:0 0 5px 5px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px 26px;background:var(--forest);border-top:1px solid var(--line);color:#fff;font-size:13.5px}
+.planner-note b{color:#fff;font-weight:600}
+/* ---------- bands ---------- */
+.sec{padding:88px 0;position:relative;z-index:2}
+/* ponytail: border-top only — two adjacent bands each drawing a bottom+top rule read as a double line */
+.band-light{background:var(--paper);border-top:1px solid var(--line)}
+.band-deep{background:var(--cream-2);border-top:1px solid var(--line)}
+.band-light + .sec:not([class*=band]),.band-deep + .sec:not([class*=band]){border-top:1px solid var(--line)}
+.head{margin-bottom:38px}
+.head h2{font-size:clamp(27px,3.1vw,40px)}
+.head p{max-width:78ch;color:var(--soft);font-size:15.5px;margin-top:12px}
+.head-row{display:flex;align-items:center;justify-content:space-between;gap:28px;margin-top:12px}
+.head-row p{margin-top:0}
+@media (max-width:700px){.head-row{flex-direction:column;align-items:flex-start;gap:14px}}
+.switch{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--body);cursor:pointer}
+.switch input{position:absolute;opacity:0;pointer-events:none}
+.switch i{width:38px;height:22px;border-radius:5px;background:var(--line-2);position:relative;transition:background .18s;flex:none}
+.switch i::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:5px;background:var(--paper);transition:transform .18s}
+.switch input:checked + i{background:var(--olive-dk)}
+.switch input:checked + i::after{transform:translateX(16px)}
+.switch input:focus-visible + i{outline:2px solid var(--olive-dp);outline-offset:3px}
+/* ---------- cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:transform .18s,border-color .18s}
+.card:hover{border-color:var(--line-2);transform:translateY(-3px)}
+.card[hidden]{display:none}
+/* media: real photo on top, sage tile beneath. Photos go in /img — filenames at the end of this file. */
+.media{position:relative;aspect-ratio:3/2;background:var(--tint);display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--line)}
+.media .ghost{position:absolute;width:80%;height:80%;right:-24%;bottom:-28%;stroke:var(--olive-dk);stroke-width:.7;fill:none;opacity:.16;transform:rotate(-10deg)}
+.media .mark{width:44px;height:44px;stroke:var(--olive-dp);stroke-width:1.5;fill:none;position:relative;opacity:.7}
+.media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+.card:hover .media img{transform:scale(1.04)}
+.badge{position:absolute;top:10px;left:10px;z-index:2;background:var(--olive-dk);color:var(--paper);padding:5px 10px;border-radius:5px;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.badge[hidden]{display:none}
+.card-in{padding:19px;display:flex;flex-direction:column;flex:1;gap:9px}
+.kicker{color:var(--olive-dp)}
+.card-in h3{font-size:20px;font-weight:600}
+.card-in h3 a:hover{color:var(--olive-dp)}
+.card-in p{font-size:14px;color:var(--soft);line-height:1.55}
+.facts{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:4px}
+.facts span{font-size:11px;padding:4px 9px;border-radius:5px;background:var(--cream);border:1px solid var(--line);color:var(--soft)}
+.money{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.money .u{font-size:12.5px;color:var(--soft)}
+.money .t{font-family:Fraunces,Lora,serif;font-weight:600;font-size:24px;color:var(--ink);line-height:1.1;text-align:right}
+.money .t small{display:block;font-family:Inter,sans-serif;font-size:10.5px;font-weight:400;color:var(--soft);margin-top:4px}
+.note{font-size:12px;color:var(--olive-dp);display:flex;align-items:center;gap:6px;margin-top:9px}
+.note[hidden]{display:none}
+.note::before{content:"";width:14px;height:14px;flex:none;background:var(--olive-dp);
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='none' stroke='black' stroke-width='2'/><path d='M12 7.5v5.5M12 16.2v.1' stroke='black' stroke-width='2' stroke-linecap='round'/></svg>") center/14px no-repeat;
+  mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='none' stroke='black' stroke-width='2'/><path d='M12 7.5v5.5M12 16.2v.1' stroke='black' stroke-width='2' stroke-linecap='round'/></svg>") center/14px no-repeat}
+.acts{display:flex;gap:8px;margin-top:14px}
+.add{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  border:1px solid var(--forest);border-radius:5px;padding:11px;font-size:13.5px;font-weight:600;
+  color:#fff;background:var(--forest);transition:background .18s,border-color .18s,color .18s}
+.add:hover{background:#2F3D22;border-color:#2F3D22}
+/* Picked reads as DONE, not as another call to action: the fill drops away so the remaining
+   unpicked buttons stay the loud ones on the page. */
+.card[data-picked="1"] .add{background:rgba(168,180,156,.24);border-color:var(--olive);color:var(--olive-dp)}
+.card[data-picked="1"] .add:hover{background:rgba(168,180,156,.40);border-color:var(--olive-dp);color:var(--ink)}
+.card[data-picked="1"] .add::before{content:"";width:17px;height:17px;flex:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><circle cx='10' cy='10' r='9' fill='%235C6647'/><path d='M5.8 10.3l2.8 2.8 5.6-5.9' fill='none' stroke='%23FBFAF4' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-size:contain;background-repeat:no-repeat;background-position:center}
+.detail{padding:11px 14px;border:1px solid var(--line-2);border-radius:5px;font-size:13.5px;font-weight:500;color:var(--body);transition:border-color .15s,color .15s}
+.detail:hover{color:var(--ink);border-color:var(--line-2)}
+.empty{padding:48px 0;text-align:center;color:var(--soft)}
+.empty[hidden]{display:none}
+/* ---------- occasions / steps / reviews ---------- */
+.occ{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.occ article{position:relative;overflow:hidden;padding:30px 24px 32px;border-radius:5px;
+  background:linear-gradient(180deg,rgba(168,180,156,.20),rgba(168,180,156,.05));
+  border:1px solid var(--line);transition:transform .3s cubic-bezier(.2,.7,.3,1),border-color .3s}
+/* outlined index numeral — fills on hover */
+.occ article::before{content:attr(data-n);position:absolute;top:14px;right:20px;pointer-events:none;
+  font:600 48px/1 Fraunces,Lora,Georgia,serif;color:transparent;
+  -webkit-text-stroke:1.2px var(--olive);opacity:.55;transition:color .3s,opacity .3s}
+.occ article::after{content:"";position:absolute;left:24px;right:24px;top:0;height:3px;
+  background:var(--olive-dk);transform:scaleX(.2);transform-origin:left;transition:transform .35s}
+.occ article:hover{transform:translateY(-6px);border-color:var(--sage)}
+.occ article:hover::after{transform:scaleX(1)}
+.occ article:hover::before{color:var(--olive);opacity:.3;-webkit-text-stroke-color:transparent}
+.occ h3{font-size:19px;margin:12px 0 8px;position:relative}
+.occ p{font-size:14px;color:var(--soft);position:relative}
+.occ .lab{position:relative;display:inline-flex;align-items:center;gap:9px;color:var(--olive-dp)}
+.occ .lab::before{content:"";width:16px;height:2px;background:var(--olive)}
+/* first card carries the accent so the row isn't four of the same */
+.occ .feat{background:var(--olive-dk);border-color:var(--olive-dk)}
+.occ .feat h3{color:var(--paper)}
+.occ .feat p{color:rgba(251,250,244,.74)}
+.occ .feat .lab{color:var(--sage-lt)}
+.occ .feat .lab::before{background:var(--sage)}
+.occ .feat::before{-webkit-text-stroke-color:var(--sage-lt)}
+.occ .feat::after{background:var(--sage)}
+.occ .feat:hover::before{color:var(--sage-lt)}
+/* "Ako to funguje" is a sequence, not a set — so it gets a timeline, deliberately
+   nothing like the .occ cards. A dashed rule runs behind the markers; each marker's
+   thick border is painted in the band colour, which punches a clean gap in the rule. */
+.flow{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:34px;position:relative}
+.flow::before{content:"";position:absolute;left:22px;right:22px;top:23px;height:2px;
+  background:repeating-linear-gradient(90deg,var(--line-2) 0 7px,transparent 7px 14px)}
+.flow li{position:relative;padding-top:66px}
+.flow-n{position:absolute;top:0;left:0;width:46px;height:46px;box-sizing:border-box;padding-bottom:2px;
+  border-radius:50%;border:0;outline:5px solid var(--cream-2);background:var(--olive-dk);color:var(--paper);
+  display:flex;align-items:center;justify-content:center;line-height:1;
+  font:600 17px Fraunces,Lora,Georgia,serif;transition:background .25s,transform .25s}
+.flow li:hover .flow-n{background:var(--olive);transform:scale(1.08)}
+.flow h3{font-size:20px;margin-bottom:8px}
+.flow p{font-size:14.5px;color:var(--soft);max-width:34ch}
+/* last marker gets a chevron so the sequence reads as going somewhere */
+.flow li:last-child::after{content:"";position:absolute;top:17px;right:-6px;width:11px;height:11px;
+  border-right:2px solid var(--line-2);border-top:2px solid var(--line-2);transform:rotate(45deg)}
+@media (max-width:820px){
+  .flow{grid-template-columns:1fr;gap:28px}
+  .flow::before{left:22px;right:auto;top:24px;bottom:24px;width:2px;height:auto;
+    background:repeating-linear-gradient(180deg,var(--line-2) 0 7px,transparent 7px 14px)}
+  .flow li{padding:4px 0 0 78px}
+  .flow li::before{top:0}
+  .flow li:last-child::after{display:none}
+}
+.revs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.rev{padding:26px;border:1px solid var(--line);border-radius:var(--r);background:var(--cream)}
+.rev .stars{color:var(--gold);letter-spacing:2px;font-size:14px;margin-bottom:12px}
+.rev blockquote{font-size:15px;line-height:1.65;color:var(--body)}
+.rev figcaption{margin-top:15px;color:var(--soft);font-size:13px}
+.rev figcaption b{display:block;color:var(--ink);font-family:Fraunces,Lora,serif;font-weight:600;font-size:15px}
+/* ---------- booking ---------- */
+.book{background:var(--olive-dk);color:var(--paper);border-radius:5px;padding:46px;display:grid;grid-template-columns:.85fr 1.15fr;gap:46px}
+.book h2{color:var(--paper);font-size:clamp(27px,3.1vw,38px)}
+.book .lab{color:var(--sage)}
+.book > div > p{color:#BFC7B4;font-size:15.5px;margin-top:14px}
+.plan{margin-top:26px;border:1px solid rgba(251,250,244,.2);border-radius:5px;padding:17px 19px}
+.plan h3{color:var(--paper);font-size:14px;font-family:Inter,sans-serif;font-weight:600;letter-spacing:.02em;margin-bottom:12px}
+.plan ul{list-style:none;display:grid;gap:9px;font-size:14px;color:#D6DBCC}
+.plan li{display:flex;justify-content:space-between;gap:14px;align-items:center}
+.plan li b{font-weight:500;color:var(--paper);margin-left:auto}
+.plan-x{flex:none;width:22px;height:22px;margin-left:2px;border-radius:5px;
+  display:grid;place-items:center;line-height:1;padding:0;
+  font-size:17px;color:#9AA68C;transition:color .15s,background .15s}
+.plan-x:hover{color:var(--paper);background:rgba(251,250,244,.12)}
+.plan-x:focus-visible{outline:2px solid var(--sage);outline-offset:1px}
+/* display:flex outranks the UA [hidden] rule, so tot.hidden=true left the old total on screen */
+.plan .tot[hidden]{display:none}
+.plan .tot{margin-top:13px;padding-top:13px;border-top:1px solid rgba(251,250,244,.2);display:flex;justify-content:space-between;align-items:baseline}
+.plan .tot span{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#BFC7B4;font-weight:600}
+.plan .tot b{font-family:Fraunces,Lora,serif;font-weight:600;font-size:29px;color:#fff}
+.plan-empty{color:#A2AC94;font-size:14px}
+.contacts{margin-top:26px;display:grid;gap:11px}
+.contacts a{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--paper)}
+.contacts a:hover{color:var(--sage)}
+.contacts svg{width:17px;height:17px;stroke:var(--sage);stroke-width:1.7;fill:none;flex:none}
+form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.full{grid-column:1/-1}
+label{display:block;margin-bottom:6px;font-size:13.5px;color:#BFC7B4}
+input,select,textarea{width:100%;background:rgba(251,250,244,.08);border:1px solid rgba(251,250,244,.24);color:var(--paper);border-radius:5px;padding:11px 13px;font:500 14.5px Inter,sans-serif}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--olive-dp);outline-offset:1px;border-color:var(--sage)}
+::placeholder{color:#94A085}
+textarea{min-height:88px;resize:vertical}
+option{background:#fff;color:var(--ink)}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--sage) 50%),linear-gradient(135deg,var(--sage) 50%,transparent 50%);background-position:calc(100% - 17px) 19px,calc(100% - 11px) 19px;background-size:6px 6px;background-repeat:no-repeat}
+.consent{display:flex;gap:11px;align-items:flex-start;font-size:12.5px;color:#BFC7B4;line-height:1.5;
+  margin:6px 0 14px}
+/* appearance:none — the ring was Chrome's own control chrome, not a CSS outline. Drawing the
+   box ourselves is the only way to get rid of it on a dark panel. */
+.consent input{appearance:none;-webkit-appearance:none;width:18px;height:18px;aspect-ratio:1;flex:none;
+  box-sizing:border-box;padding:0;margin:2px 0 0;
+  border:1.5px solid rgba(251,250,244,.42);border-radius:5px;background:transparent;cursor:pointer;
+  transition:background-color .15s,border-color .15s}
+.consent input:hover{border-color:rgba(251,250,244,.7)}
+.consent input:checked{background-color:var(--sage);border-color:var(--sage);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3.4 8.4l3.1 3.1 6.1-6.7' fill='none' stroke='%231C2416' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-size:12px;background-position:center;background-repeat:no-repeat}
+/* keyboard only — Chrome does not match :focus-visible on a mouse click here */
+.consent input:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+.consent a{color:var(--sage);text-decoration:underline}
+.book .btn-sage{width:auto;padding:13px 30px}
+.book .btn-sage:disabled{opacity:.55;cursor:default}
+.form-sent{margin-top:12px;font-size:14px;color:var(--sage)}
+/* ---------- dock ---------- */
+/* Summary bar: hairline top edge, the count as a real badge, "Spolu" labelling the total,
+   and Vyprázdniť as a ghost button rather than a raw underlined link. */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:70;background:rgba(31,38,23,.97);
+  backdrop-filter:blur(12px);border-top:1px solid rgba(168,180,156,.30);color:var(--paper);
+  transform:translateY(110%);transition:transform .32s cubic-bezier(.2,.7,.3,1)}
+.dock[data-open="1"]{transform:none}
+.dock .wrap{display:flex;align-items:center;gap:18px;padding-top:16px;padding-bottom:16px}
+.dock-sum{display:flex;align-items:center;gap:11px;font-size:14px;color:#fff;min-width:0}
+.dock-sum b{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 8px;line-height:1;
+  box-sizing:border-box;
+  border-radius:5px;background:transparent;border:1px solid rgba(168,180,156,.55);color:#fff;
+  font:600 13px/1 Inter,sans-serif}
+.dock-tot{margin-left:auto;display:flex;align-items:baseline;gap:10px;white-space:nowrap}
+.dock-tot::before{content:"Spolu";font:600 11px Inter,sans-serif;letter-spacing:.16em;
+  text-transform:uppercase;color:#9AA68C}
+.dock-tot i{font-family:Fraunces,Lora,serif;font-weight:600;font-size:26px;font-style:normal}
+/* both dock buttons share one box: same height, padding, radius and type */
+.dock-clear,.dock .btn{min-height:42px;padding:0 18px;border-radius:5px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font:600 13.5px Inter,sans-serif;white-space:nowrap}
+.dock-clear{border:1px solid rgba(168,180,156,.34);color:#C8CFBC;
+  transition:border-color .18s,color .18s,background .18s}
+.dock-clear:hover{color:var(--paper);border-color:var(--sage);background:rgba(168,180,156,.12)}
+@media (max-width:700px){
+  .dock .wrap{flex-wrap:wrap;gap:12px}
+  .dock-tot{margin-left:auto}
+  .dock-clear{order:3}
+}
+/* ---------- footer ---------- */
+footer.site{background:var(--cream-2);border-top:1px solid var(--line);padding:58px 0 40px;position:relative;z-index:2}
+footer.site img{height:64px;width:auto;display:block}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px}
+.fgrid h4{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin-bottom:14px;font-family:Inter,sans-serif;font-weight:600}
+.fgrid ul{list-style:none;display:grid;gap:8px;font-size:14px;color:var(--soft)}
+.fgrid a:hover{color:var(--ink)}
+.legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--line-2);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;color:var(--soft);font-size:12.5px}
+@media (max-width:1080px){.grid,.occ{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:920px){
+  .wrap{padding:0 22px}
+  .sec{padding:64px 0}
+  .hero{padding-top:48px}
+  .nav .wrap{height:72px}
+  .nav img{height:48px}
+  .nav-links,.langs{display:none}
+  .nav .btn{margin-left:auto}
+  .planner-row{grid-template-columns:1fr}
+  .pf{border-right:0;border-bottom:1px solid var(--line)}
+  .revs{grid-template-columns:1fr}
+  .book{grid-template-columns:1fr;padding:28px 22px;gap:30px}
+  form{grid-template-columns:1fr}
+  .fgrid{grid-template-columns:1fr 1fr}
+  body.dock-on{padding-bottom:76px}   /* only while the summary bar is actually up */
+}
+@media (max-width:560px){
+  .grid,.occ,.fgrid{grid-template-columns:1fr}
+  .dock-clear{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a href="#" aria-label="Fun Bratislava — domov"><img src="logo.webp" alt="Fun Bratislava"></a>
+    <div class="nav-links">
+      <a href="#aktivity">Aktivity</a><a href="#prilezitosti">Príležitosti</a>
+      <a href="#ako">Ako to funguje</a><a href="#recenzie">Recenzie</a>
+    </div>
+    <div class="langs"><a href="#" aria-current="true">SK</a><a href="#">EN</a><a href="#">DE</a></div>
+    <a class="btn btn-sm" href="#rezervacia">Rezervácia</a>
+  </div>
+</header>
+<main>
+<section class="hero">
+  <div class="hero-blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <div class="hero-top">
+    <!-- ponytail: SMIL, no lottie-web. Generated by scratchpad/genhero.awk —
+         7 layers x 8 glyphs. One command template per layer so `d` interpolates;
+         subpaths lift the pen, opacity hides layers a glyph does not need. -->
+    <svg class="hero-anim" viewBox="-8 -8 256 240" fill="none" aria-hidden="true" focusable="false">
+      <g class="hl-ring">
+        <circle cx="120" cy="108" r="104" pathLength="100" stroke-dasharray="0.01 2.27" stroke-width="3.2" stroke-linecap="round">
+          <animateTransform attributeName="transform" type="rotate" from="0 120 108" to="360 120 108" dur="90s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+      <ellipse class="hl-shadow" cx="120" cy="216" rx="62" ry="5" opacity=".16">
+        <animate attributeName="rx" values="66;54;66" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1"/>
+        <animate attributeName="opacity" values=".16;.09;.16" dur="7s" repeatCount="indefinite"/>
+      </ellipse>
+      <defs><filter id="hlb" x="-25%" y="-25%" width="150%" height="150%">
+        <feGaussianBlur stdDeviation="0">
+          <animate attributeName="stdDeviation" dur="24s" repeatCount="indefinite" calcMode="spline"
+            keyTimes="0.0000;0.0938;0.1094;0.1203;0.1250;0.2188;0.2344;0.2453;0.2500;0.3438;0.3594;0.3703;0.3750;0.4688;0.4844;0.4953;0.5000;0.5938;0.6094;0.6203;0.6250;0.7188;0.7344;0.7453;0.7500;0.8438;0.8594;0.8703;0.8750;0.9688;0.9844;0.9953;1.0000" keySplines="0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1" values="0;0;1.4;0.3;0;0;1.4;0.3;0;0;1.4;0.3;0;0;1.4;0.3;0;0;1.4;0.3;0;0;1.4;0.3;0;0;1.4;0.3;0;0;1.4;0.3;0"/>
+        </feGaussianBlur>
+      </filter></defs>
+      <g class="hl-glyph" filter="url(#hlb)">
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -7;0 0" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1"/>
+        <g class="hl-scale">
+          <animateTransform attributeName="transform" type="translate" dur="24s" repeatCount="indefinite" calcMode="spline"
+            keyTimes="0.0000;0.0938;0.1094;0.1203;0.1250;0.2188;0.2344;0.2453;0.2500;0.3438;0.3594;0.3703;0.3750;0.4688;0.4844;0.4953;0.5000;0.5938;0.6094;0.6203;0.6250;0.7188;0.7344;0.7453;0.7500;0.8438;0.8594;0.8703;0.8750;0.9688;0.9844;0.9953;1.0000" keySplines="0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1" values="0.000 0.000;0.000 0.000;5.760 5.184;-1.920 -1.728;0.000 0.000;0.000 0.000;5.760 5.184;-1.920 -1.728;0.000 0.000;0.000 0.000;5.760 5.184;-1.920 -1.728;0.000 0.000;0.000 0.000;5.760 5.184;-1.920 -1.728;0.000 0.000;0.000 0.000;5.760 5.184;-1.920 -1.728;0.000 0.000;0.000 0.000;5.760 5.184;-1.920 -1.728;0.000 0.000;0.000 0.000;5.760 5.184;-1.920 -1.728;0.000 0.000;0.000 0.000;5.760 5.184;-1.920 -1.728;0.000 0.000"/>
+          <animateTransform attributeName="transform" type="scale" additive="sum" dur="24s" repeatCount="indefinite" calcMode="spline"
+            keyTimes="0.0000;0.0938;0.1094;0.1203;0.1250;0.2188;0.2344;0.2453;0.2500;0.3438;0.3594;0.3703;0.3750;0.4688;0.4844;0.4953;0.5000;0.5938;0.6094;0.6203;0.6250;0.7188;0.7344;0.7453;0.7500;0.8438;0.8594;0.8703;0.8750;0.9688;0.9844;0.9953;1.0000" keySplines="0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1;0 0 1 1;.5 0 .5 1;.4 0 .3 1;.5 0 .3 1" values="1;1;0.952;1.016;1;1;0.952;1.016;1;1;0.952;1.016;1;1;0.952;1.016;1;1;0.952;1.016;1;1;0.952;1.016;1;1;0.952;1.016;1;1;0.952;1.016;1"/>
+          <path class="hl-d" pathLength="100" stroke-width="2.6" d="M46 176C45.68 137 45.81 97.15 46 58C53.15 57.81 60.82 57.85 68 58C68.15 73.18 67.88 89 68 104C74.55 96.33 81.26 87.84 88 80C109.3 79.84 130.7 79.84 152 80C158.7 87.84 165.4 96.29 172 104C172.1 92.95 171.9 81.2 172 70C179.2 69.87 186.8 69.82 194 70C194.2 105.2 194.3 141 194 176C179.6 176.3 164.7 176 150 176C130 176 110 176 90 176C75.33 176 60.35 176.3 46 176Z" opacity="1">
+            <animate attributeName="d" dur="24s" repeatCount="indefinite" calcMode="spline"
+              keyTimes="0.0000;0.0938;0.1250;0.2188;0.2500;0.3438;0.3750;0.4688;0.5000;0.5938;0.6250;0.7188;0.7500;0.8438;0.8750;0.9688;1.0000"
+              keySplines="0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1"
+              values="M46 176C45.68 137 45.81 97.15 46 58C53.15 57.81 60.82 57.85 68 58C68.15 73.18 67.88 89 68 104C74.55 96.33 81.26 87.84 88 80C109.3 79.84 130.7 79.84 152 80C158.7 87.84 165.4 96.29 172 104C172.1 92.95 171.9 81.2 172 70C179.2 69.87 186.8 69.82 194 70C194.2 105.2 194.3 141 194 176C179.6 176.3 164.7 176 150 176C130 176 110 176 90 176C75.33 176 60.35 176.3 46 176Z;
+                    M46 176C45.68 137 45.81 97.15 46 58C53.15 57.81 60.82 57.85 68 58C68.15 73.18 67.88 89 68 104C74.55 96.33 81.26 87.84 88 80C109.3 79.84 130.7 79.84 152 80C158.7 87.84 165.4 96.29 172 104C172.1 92.95 171.9 81.2 172 70C179.2 69.87 186.8 69.82 194 70C194.2 105.2 194.3 141 194 176C179.6 176.3 164.7 176 150 176C130 176 110 176 90 176C75.33 176 60.35 176.3 46 176Z;
+                    M67 118C102.2 117.3 137.8 117.3 173 118C175.6 118.2 178.5 119.1 180.6 120.5C182.6 122.1 184.5 124.6 185.4 127C186.1 129.4 186.1 132.6 185.4 135C184.5 137.4 182.6 139.9 180.6 141.5C178.5 142.9 175.6 143.8 173 144C137.8 144.7 102.2 144.7 67 144C64.36 143.8 61.53 142.9 59.4 141.5C57.39 139.9 55.52 137.4 54.6 135C53.92 132.6 53.92 129.4 54.6 127C55.52 124.6 57.39 122.1 59.4 120.5C61.53 119.1 64.36 118.2 67 118Z;
+                    M67 118C102.2 117.3 137.8 117.3 173 118C175.6 118.2 178.5 119.1 180.6 120.5C182.6 122.1 184.5 124.6 185.4 127C186.1 129.4 186.1 132.6 185.4 135C184.5 137.4 182.6 139.9 180.6 141.5C178.5 142.9 175.6 143.8 173 144C137.8 144.7 102.2 144.7 67 144C64.36 143.8 61.53 142.9 59.4 141.5C57.39 139.9 55.52 137.4 54.6 135C53.92 132.6 53.92 129.4 54.6 127C55.52 124.6 57.39 122.1 59.4 120.5C61.53 119.1 64.36 118.2 67 118Z;
+                    M94 84C97.61 83.06 102.4 83.06 106 84C108.4 85.06 110.7 87.65 112 90C113.1 92.98 112.8 96.66 113 100C113.1 103.3 113.3 106.7 113 110C112.6 113.4 112.3 117 111 120C109.6 122.3 107.4 124.9 105 126C102 126.9 97.97 126.9 95 126C92.64 124.9 90.37 122.3 89 120C87.7 117 87.4 113.4 87 110C86.74 106.7 86.87 103.3 87 100C87.2 96.66 86.92 92.98 88 90C89.25 87.65 91.61 85.06 94 84Z;
+                    M94 84C97.61 83.06 102.4 83.06 106 84C108.4 85.06 110.7 87.65 112 90C113.1 92.98 112.8 96.66 113 100C113.1 103.3 113.3 106.7 113 110C112.6 113.4 112.3 117 111 120C109.6 122.3 107.4 124.9 105 126C102 126.9 97.97 126.9 95 126C92.64 124.9 90.37 122.3 89 120C87.7 117 87.4 113.4 87 110C86.74 106.7 86.87 103.3 87 100C87.2 96.66 86.92 92.98 88 90C89.25 87.65 91.61 85.06 94 84Z;
+                    M121 92C120.9 94.17 120.3 96.6 119.3 98.5C118.2 100.4 116.4 102.2 114.5 103.3C112.6 104.3 110.2 104.9 108 105C105.8 104.9 103.4 104.3 101.5 103.3C99.64 102.2 97.84 100.4 96.7 98.5C95.67 96.6 95.06 94.17 95 92C95.06 89.83 95.67 87.4 96.7 85.5C97.84 83.64 99.64 81.84 101.5 80.7C103.4 79.67 105.8 79.06 108 79C110.2 79.06 112.6 79.67 114.5 80.7C116.4 81.84 118.2 83.64 119.3 85.5C120.3 87.4 120.9 89.83 121 92Z;
+                    M121 92C120.9 94.17 120.3 96.6 119.3 98.5C118.2 100.4 116.4 102.2 114.5 103.3C112.6 104.3 110.2 104.9 108 105C105.8 104.9 103.4 104.3 101.5 103.3C99.64 102.2 97.84 100.4 96.7 98.5C95.67 96.6 95.06 94.17 95 92C95.06 89.83 95.67 87.4 96.7 85.5C97.84 83.64 99.64 81.84 101.5 80.7C103.4 79.67 105.8 79.06 108 79C110.2 79.06 112.6 79.67 114.5 80.7C116.4 81.84 118.2 83.64 119.3 85.5C120.3 87.4 120.9 89.83 121 92Z;
+                    M44 106C44.67 105.3 45.23 104.4 46 104C46.56 103.8 47.44 103.8 48 104C48.77 104.4 49.58 105.2 50 106C50.25 106.6 50 107.3 50 108C50 108.7 50.25 109.4 50 110C49.58 110.8 48.77 111.6 48 112C47.44 112.2 46.56 112.2 46 112C45.23 111.6 44.67 110.7 44 110C43.67 109.7 43.21 109.4 43 109C42.88 108.7 43 108.3 43 108C43 107.7 42.88 107.3 43 107C43.21 106.6 43.67 106.3 44 106Z;
+                    M44 106C44.67 105.3 45.23 104.4 46 104C46.56 103.8 47.44 103.8 48 104C48.77 104.4 49.58 105.2 50 106C50.25 106.6 50 107.3 50 108C50 108.7 50.25 109.4 50 110C49.58 110.8 48.77 111.6 48 112C47.44 112.2 46.56 112.2 46 112C45.23 111.6 44.67 110.7 44 110C43.67 109.7 43.21 109.4 43 109C42.88 108.7 43 108.3 43 108C43 107.7 42.88 107.3 43 107C43.21 106.6 43.67 106.3 44 106Z;
+                    M104 72C98.36 67.66 92.05 63.92 86 60C80.05 56.58 74.1 52.65 68 50C63.44 50.32 58.34 51.48 54 53C50.34 56.81 47.03 61.51 44 66C42.37 70.51 40.81 75.34 40 80C41.14 85.01 42.96 90.23 45 95C48.63 99.23 52.81 104.2 57 107C62.48 105.2 68.21 100.6 74 98C80.54 96.91 87.33 96.57 94 96C98.66 95.9 103.6 96.54 108 96C110.3 93.88 112.9 90.7 114 88C111.5 82.7 107.7 76.99 104 72Z;
+                    M104 72C98.36 67.66 92.05 63.92 86 60C80.05 56.58 74.1 52.65 68 50C63.44 50.32 58.34 51.48 54 53C50.34 56.81 47.03 61.51 44 66C42.37 70.51 40.81 75.34 40 80C41.14 85.01 42.96 90.23 45 95C48.63 99.23 52.81 104.2 57 107C62.48 105.2 68.21 100.6 74 98C80.54 96.91 87.33 96.57 94 96C98.66 95.9 103.6 96.54 108 96C110.3 93.88 112.9 90.7 114 88C111.5 82.7 107.7 76.99 104 72Z;
+                    M44 48C68.53 47.68 93.47 47.68 118 48C120.8 50.34 123.6 53.23 126 56C126.3 63.89 126 72 126 80C126 93.33 126 106.7 126 120C126 133.3 126.3 146.8 126 160C123.6 162.8 120.8 165.7 118 168C93.47 168.3 68.53 168.3 44 168C41.2 165.7 38.38 162.8 36 160C35.71 146.8 36 133.3 36 120C36 106.7 36 93.33 36 80C36 72 35.75 63.89 36 56C38.41 53.23 41.2 50.34 44 48Z;
+                    M44 48C68.53 47.68 93.47 47.68 118 48C120.8 50.34 123.6 53.23 126 56C126.3 63.89 126 72 126 80C126 93.33 126 106.7 126 120C126 133.3 126.3 146.8 126 160C123.6 162.8 120.8 165.7 118 168C93.47 168.3 68.53 168.3 44 168C41.2 165.7 38.38 162.8 36 160C35.71 146.8 36 133.3 36 120C36 106.7 36 93.33 36 80C36 72 35.75 63.89 36 56C38.41 53.23 41.2 50.34 44 48Z;
+                    M72 70C83.04 69.42 95.33 70 107 70C118.7 70 131 69.42 142 70C142 77.75 140.7 86.67 140 95C139.3 103.3 138.6 111.7 138 120C137.6 128.3 137.3 136.7 137 145C136.7 153.3 136.8 162.2 136 170C126.8 170.5 116.7 170 107 170C97.33 170 87.15 170.5 78 170C77.15 162.2 77.35 153.3 77 145C76.35 136.7 75.65 128.3 75 120C74.65 111.7 74.35 103.3 74 95C73.35 86.67 72.04 77.75 72 70Z;
+                    M72 70C83.04 69.42 95.33 70 107 70C118.7 70 131 69.42 142 70C142 77.75 140.7 86.67 140 95C139.3 103.3 138.6 111.7 138 120C137.6 128.3 137.3 136.7 137 145C136.7 153.3 136.8 162.2 136 170C126.8 170.5 116.7 170 107 170C97.33 170 87.15 170.5 78 170C77.15 162.2 77.35 153.3 77 145C76.35 136.7 75.65 128.3 75 120C74.65 111.7 74.35 103.3 74 95C73.35 86.67 72.04 77.75 72 70Z;
+                    M46 176C45.68 137 45.81 97.15 46 58C53.15 57.81 60.82 57.85 68 58C68.15 73.18 67.88 89 68 104C74.55 96.33 81.26 87.84 88 80C109.3 79.84 130.7 79.84 152 80C158.7 87.84 165.4 96.29 172 104C172.1 92.95 171.9 81.2 172 70C179.2 69.87 186.8 69.82 194 70C194.2 105.2 194.3 141 194 176C179.6 176.3 164.7 176 150 176C130 176 110 176 90 176C75.33 176 60.35 176.3 46 176Z"/>
+            <animate attributeName="opacity" dur="24s" repeatCount="indefinite" calcMode="spline"
+              keyTimes="0.0000;0.0938;0.1250;0.2188;0.2500;0.3438;0.3750;0.4688;0.5000;0.5938;0.6250;0.7188;0.7500;0.8438;0.8750;0.9688;1.0000" keySplines="0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1;0 0 1 1;.55 0 .08 1" values="1;1;1;1;1;1;1;1;0;0;1;1;1;1;1;1;1"/>
+          </path>
+          <path class="hl-a" pathLength="100" stroke-width="2.5" d="M68 170C68 168.9 68.9 168 70 168C71.1 168 72 168.9 72 170C72 171.1 71.1 172 70 172C68.9 172 68 171.1 68 170" opacity="0">
+            <animate attributeName="d" dur="24s" repeatCount="indefinite" calcMode="spline"
+              keyTimes="0.0000;0.0945;0.1250;0.2195;0.2500;0.3446;0.3750;0.4696;0.5000;0.5946;0.6250;0.7196;0.7500;0.8446;0.8750;0.9696;1.0000"
+              keySplines="0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1"
+              values="M68 170C68 168.9 68.9 168 70 168C71.1 168 72 168.9 72 170C72 171.1 71.1 172 70 172C68.9 172 68 171.1 68 170;
+                    M68 170C68 168.9 68.9 168 70 168C71.1 168 72 168.9 72 170C72 171.1 71.1 172 70 172C68.9 172 68 171.1 68 170;
+                    M58 162C58 152.1 66.06 144 76 144C85.94 144 94 152.1 94 162C94 171.9 85.94 180 76 180C66.06 180 58 171.9 58 162;
+                    M58 162C58 152.1 66.06 144 76 144C85.94 144 94 152.1 94 162C94 171.9 85.94 180 76 180C66.06 180 58 171.9 58 162;
+                    M48 96C48 67.28 71.28 44 100 44C128.7 44 152 67.28 152 96C152 124.7 128.7 148 100 148C71.28 148 48 124.7 48 96;
+                    M48 96C48 67.28 71.28 44 100 44C128.7 44 152 67.28 152 96C152 124.7 128.7 148 100 148C71.28 148 48 124.7 48 96;
+                    M56 92C56 63.28 79.28 40 108 40C136.7 40 160 63.28 160 92C160 120.7 136.7 144 108 144C79.28 144 56 120.7 56 92;
+                    M56 92C56 63.28 79.28 40 108 40C136.7 40 160 63.28 160 92C160 120.7 136.7 144 108 144C79.28 144 56 120.7 56 92;
+                    M142 108C142 89.22 157.2 74 176 74C194.8 74 210 89.22 210 108C210 126.8 194.8 142 176 142C157.2 142 142 126.8 142 108;
+                    M142 108C142 89.22 157.2 74 176 74C194.8 74 210 89.22 210 108C210 126.8 194.8 142 176 142C157.2 142 142 126.8 142 108;
+                    M156 60C156 45.64 167.6 34 182 34C196.4 34 208 45.64 208 60C208 74.36 196.4 86 182 86C167.6 86 156 74.36 156 60;
+                    M156 60C156 45.64 167.6 34 182 34C196.4 34 208 45.64 208 60C208 74.36 196.4 86 182 86C167.6 86 156 74.36 156 60;
+                    M160 76C160 67.16 167.2 60 176 60C184.8 60 192 67.16 192 76C192 84.84 184.8 92 176 92C167.2 92 160 84.84 160 76;
+                    M160 76C160 67.16 167.2 60 176 60C184.8 60 192 67.16 192 76C192 84.84 184.8 92 176 92C167.2 92 160 84.84 160 76;
+                    M92 140C92 137.8 93.79 136 96 136C98.21 136 100 137.8 100 140C100 142.2 98.21 144 96 144C93.79 144 92 142.2 92 140;
+                    M92 140C92 137.8 93.79 136 96 136C98.21 136 100 137.8 100 140C100 142.2 98.21 144 96 144C93.79 144 92 142.2 92 140;
+                    M68 170C68 168.9 68.9 168 70 168C71.1 168 72 168.9 72 170C72 171.1 71.1 172 70 172C68.9 172 68 171.1 68 170"/>
+            <animate attributeName="opacity" dur="24s" repeatCount="indefinite" calcMode="spline"
+              keyTimes="0.0000;0.0945;0.1250;0.2195;0.2500;0.3446;0.3750;0.4696;0.5000;0.5946;0.6250;0.7196;0.7500;0.8446;0.8750;0.9696;1.0000" keySplines="0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1" values="0;0;1;1;1;1;1;1;1;1;1;1;1;1;1;1;0"/>
+          </path>
+          <path class="hl-b" pathLength="100" stroke-width="2.2" d="M166 170C166 168.9 166.9 168 168 168C169.1 168 170 168.9 170 170C170 171.1 169.1 172 168 172C166.9 172 166 171.1 166 170" opacity="0">
+            <animate attributeName="d" dur="24s" repeatCount="indefinite" calcMode="spline"
+              keyTimes="0.0000;0.0949;0.1250;0.2198;0.2500;0.3448;0.3750;0.4698;0.5000;0.5948;0.6250;0.7198;0.7500;0.8448;0.8750;0.9698;1.0000"
+              keySplines="0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1"
+              values="M166 170C166 168.9 166.9 168 168 168C169.1 168 170 168.9 170 170C170 171.1 169.1 172 168 172C166.9 172 166 171.1 166 170;
+                    M166 170C166 168.9 166.9 168 168 168C169.1 168 170 168.9 170 170C170 171.1 169.1 172 168 172C166.9 172 166 171.1 166 170;
+                    M152 162C152 152.1 160.1 144 170 144C179.9 144 188 152.1 188 162C188 171.9 179.9 180 170 180C160.1 180 152 171.9 152 162;
+                    M152 162C152 152.1 160.1 144 170 144C179.9 144 188 152.1 188 162C188 171.9 179.9 180 170 180C160.1 180 152 171.9 152 162;
+                    M176 166C176 158.3 182.3 152 190 152C197.7 152 204 158.3 204 166C204 173.7 197.7 180 190 180C182.3 180 176 173.7 176 166;
+                    M176 166C176 158.3 182.3 152 190 152C197.7 152 204 158.3 204 166C204 173.7 197.7 180 190 180C182.3 180 176 173.7 176 166;
+                    M77 92C77 74.88 90.88 61 108 61C125.1 61 139 74.88 139 92C139 109.1 125.1 123 108 123C90.88 123 77 109.1 77 92;
+                    M77 92C77 74.88 90.88 61 108 61C125.1 61 139 74.88 139 92C139 109.1 125.1 123 108 123C90.88 123 77 109.1 77 92;
+                    M156 108C156 96.95 165 88 176 88C187 88 196 96.95 196 108C196 119 187 128 176 128C165 128 156 119 156 108;
+                    M156 108C156 96.95 165 88 176 88C187 88 196 96.95 196 108C196 119 187 128 176 128C165 128 156 119 156 108;
+                    M167 60C167 51.72 173.7 45 182 45C190.3 45 197 51.72 197 60C197 68.28 190.3 75 182 75C173.7 75 167 68.28 167 60;
+                    M167 60C167 51.72 173.7 45 182 45C190.3 45 197 51.72 197 60C197 68.28 190.3 75 182 75C173.7 75 167 68.28 167 60;
+                    M170 76C170 72.69 172.7 70 176 70C179.3 70 182 72.69 182 76C182 79.31 179.3 82 176 82C172.7 82 170 79.31 170 76;
+                    M170 76C170 72.69 172.7 70 176 70C179.3 70 182 72.69 182 76C182 79.31 179.3 82 176 82C172.7 82 170 79.31 170 76;
+                    M104.8 119C104.8 117.2 106.2 115.8 108 115.8C109.8 115.8 111.2 117.2 111.2 119C111.2 120.8 109.8 122.2 108 122.2C106.2 122.2 104.8 120.8 104.8 119;
+                    M104.8 119C104.8 117.2 106.2 115.8 108 115.8C109.8 115.8 111.2 117.2 111.2 119C111.2 120.8 109.8 122.2 108 122.2C106.2 122.2 104.8 120.8 104.8 119;
+                    M166 170C166 168.9 166.9 168 168 168C169.1 168 170 168.9 170 170C170 171.1 169.1 172 168 172C166.9 172 166 171.1 166 170"/>
+            <animate attributeName="opacity" dur="24s" repeatCount="indefinite" calcMode="spline"
+              keyTimes="0.0000;0.0949;0.1250;0.2198;0.2500;0.3448;0.3750;0.4698;0.5000;0.5948;0.6250;0.7198;0.7500;0.8448;0.8750;0.9698;1.0000" keySplines="0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1;0 0 1 1;.45 0 .12 1" values="0;0;1;1;1;1;1;1;1;1;1;1;1;1;1;1;0"/>
+          </path>
+          <path class="hl-c" pathLength="100" stroke-width="2.0" d="M119 140C119 139.4 119.4 139 120 139C120.6 139 121 139.4 121 140C121 140.6 120.6 141 120 141C119.4 141 119 140.6 119 140" opacity="0">
+            <animate attributeName="d" dur="24s" repeatCount="indefinite" calcMode="spline"
+              keyTimes="0.0000;0.0953;0.1250;0.2203;0.2500;0.3453;0.3750;0.4703;0.5000;0.5952;0.6250;0.7202;0.7500;0.8452;0.8750;0.9702;1.0000"
+              keySplines="0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1"
+              values="M119 140C119 139.4 119.4 139 120 139C120.6 139 121 139.4 121 140C121 140.6 120.6 141 120 141C119.4 141 119 140.6 119 140;
+                    M119 140C119 139.4 119.4 139 120 139C120.6 139 121 139.4 121 140C121 140.6 120.6 141 120 141C119.4 141 119 140.6 119 140;
+                    M119 120C119 119.4 119.4 119 120 119C120.6 119 121 119.4 121 120C121 120.6 120.6 121 120 121C119.4 121 119 120.6 119 120;
+                    M119 120C119 119.4 119.4 119 120 119C120.6 119 121 119.4 121 120C121 120.6 120.6 121 120 121C119.4 121 119 120.6 119 120;
+                    M89 70C89 63.92 93.92 59 100 59C106.1 59 111 63.92 111 70C111 76.08 106.1 81 100 81C93.92 81 89 76.08 89 70;
+                    M89 70C89 63.92 93.92 59 100 59C106.1 59 111 63.92 111 70C111 76.08 106.1 81 100 81C93.92 81 89 76.08 89 70;
+                    M170 160C170 151.2 177.2 144 186 144C194.8 144 202 151.2 202 160C202 168.8 194.8 176 186 176C177.2 176 170 168.8 170 160;
+                    M170 160C170 151.2 177.2 144 186 144C194.8 144 202 151.2 202 160C202 168.8 194.8 176 186 176C177.2 176 170 168.8 170 160;
+                    M168 108C168 103.6 171.6 100 176 100C180.4 100 184 103.6 184 108C184 112.4 180.4 116 176 116C171.6 116 168 112.4 168 108;
+                    M168 108C168 103.6 171.6 100 176 100C180.4 100 184 103.6 184 108C184 112.4 180.4 116 176 116C171.6 116 168 112.4 168 108;
+                    M176 60C176 56.69 178.7 54 182 54C185.3 54 188 56.69 188 60C188 63.31 185.3 66 182 66C178.7 66 176 63.31 176 60;
+                    M176 60C176 56.69 178.7 54 182 54C185.3 54 188 56.69 188 60C188 63.31 185.3 66 182 66C178.7 66 176 63.31 176 60;
+                    M119 150C119 149.4 119.4 149 120 149C120.6 149 121 149.4 121 150C121 150.6 120.6 151 120 151C119.4 151 119 150.6 119 150;
+                    M119 150C119 149.4 119.4 149 120 149C120.6 149 121 149.4 121 150C121 150.6 120.6 151 120 151C119.4 151 119 150.6 119 150;
+                    M97.4 101C97.4 99.56 98.56 98.4 100 98.4C101.4 98.4 102.6 99.56 102.6 101C102.6 102.4 101.4 103.6 100 103.6C98.56 103.6 97.4 102.4 97.4 101;
+                    M97.4 101C97.4 99.56 98.56 98.4 100 98.4C101.4 98.4 102.6 99.56 102.6 101C102.6 102.4 101.4 103.6 100 103.6C98.56 103.6 97.4 102.4 97.4 101;
+                    M119 140C119 139.4 119.4 139 120 139C120.6 139 121 139.4 121 140C121 140.6 120.6 141 120 141C119.4 141 119 140.6 119 140"/>
+            <animate attributeName="opacity" dur="24s" repeatCount="indefinite" calcMode="spline"
+              keyTimes="0.0000;0.0953;0.1250;0.2203;0.2500;0.3453;0.3750;0.4703;0.5000;0.5952;0.6250;0.7202;0.7500;0.8452;0.8750;0.9702;1.0000" keySplines="0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1;0 0 1 1;.4 0 .1 1" values="0;0;0;0;1;1;1;1;1;1;1;1;0;0;1;1;0"/>
+          </path>
+          <path class="hl-e" pathLength="100" stroke-width="2.2" d="M40 58C44.33 48.67 48.63 39.28 53 30C55.63 29.94 58.37 29.94 61 30C65.37 39.28 69.67 48.67 74 58M166 70C170 61.33 174 52.61 178 44C180.6 43.94 183.4 43.94 186 44C190.7 52.61 195.3 61.33 200 70M96 80C99 71.33 102 62.62 105 54C107 53.95 109 53.95 111 54C114 62.62 117 71.33 120 80M140 80C143 71.33 146 62.62 149 54C151 53.95 153 53.95 155 54C158 62.62 161 71.33 164 80" opacity="1">
+            <animate attributeName="d" dur="24s" repeatCount="indefinite" calcMode="spline"
+              keyTimes="0.0000;0.0956;0.1250;0.2207;0.2500;0.3457;0.3750;0.4707;0.5000;0.5957;0.6250;0.7207;0.7500;0.8457;0.8750;0.9707;1.0000"
+              keySplines="0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1"
+              values="M40 58C44.33 48.67 48.63 39.28 53 30C55.63 29.94 58.37 29.94 61 30C65.37 39.28 69.67 48.67 74 58M166 70C170 61.33 174 52.61 178 44C180.6 43.94 183.4 43.94 186 44C190.7 52.61 195.3 61.33 200 70M96 80C99 71.33 102 62.62 105 54C107 53.95 109 53.95 111 54C114 62.62 117 71.33 120 80M140 80C143 71.33 146 62.62 149 54C151 53.95 153 53.95 155 54C158 62.62 161 71.33 164 80;
+                    M40 58C44.33 48.67 48.63 39.28 53 30C55.63 29.94 58.37 29.94 61 30C65.37 39.28 69.67 48.67 74 58M166 70C170 61.33 174 52.61 178 44C180.6 43.94 183.4 43.94 186 44C190.7 52.61 195.3 61.33 200 70M96 80C99 71.33 102 62.62 105 54C107 53.95 109 53.95 111 54C114 62.62 117 71.33 120 80M140 80C143 71.33 146 62.62 149 54C151 53.95 153 53.95 155 54C158 62.62 161 71.33 164 80;
+                    M44 62C50.67 59.33 57.31 56.55 64 54C101.3 53.89 138.7 53.89 176 54C182.7 56.55 189.3 59.33 196 62M62 62C62 68.67 62 75.33 62 82C62 88 62 94 62 100C62 106 62 112 62 118M178 62C178 68.67 178 75.33 178 82C178 88 178 94 178 100C178 106 178 112 178 118M96 144C101.3 144 106.7 144 112 144C117.3 144 122.7 144 128 144C133.3 144 138.7 144 144 144;
+                    M44 62C50.67 59.33 57.31 56.55 64 54C101.3 53.89 138.7 53.89 176 54C182.7 56.55 189.3 59.33 196 62M62 62C62 68.67 62 75.33 62 82C62 88 62 94 62 100C62 106 62 112 62 118M178 62C178 68.67 178 75.33 178 82C178 88 178 94 178 100C178 106 178 112 178 118M96 144C101.3 144 106.7 144 112 144C117.3 144 122.7 144 128 144C133.3 144 138.7 144 144 144;
+                    M95 126C93.33 131.3 91.73 136.7 90 142C88.06 147.4 85.92 152.6 84 158C82.59 162.6 81.33 167.3 80 172M105 126C106.7 131.3 108.3 136.7 110 142C111.9 147.4 114.1 152.6 116 158C117.4 162.6 118.7 167.3 120 172M87 97C83.67 100 80.19 102.9 77 106C74.52 109.2 72.18 112.6 70 116C68.51 119.2 67.33 122.7 66 126M113 97C116.3 100 119.8 102.9 123 106C125.5 109.2 127.8 112.6 130 116C131.5 119.2 132.7 122.7 134 126;
+                    M95 126C93.33 131.3 91.73 136.7 90 142C88.06 147.4 85.92 152.6 84 158C82.59 162.6 81.33 167.3 80 172M105 126C106.7 131.3 108.3 136.7 110 142C111.9 147.4 114.1 152.6 116 158C117.4 162.6 118.7 167.3 120 172M87 97C83.67 100 80.19 102.9 77 106C74.52 109.2 72.18 112.6 70 116C68.51 119.2 67.33 122.7 66 126M113 97C116.3 100 119.8 102.9 123 106C125.5 109.2 127.8 112.6 130 116C131.5 119.2 132.7 122.7 134 126;
+                    M85 141C82.33 145.3 79.67 149.7 77 154C74.67 158.3 72.33 162.7 70 167C67.33 171.3 64.67 175.7 62 180M131 141C133.7 145.3 136.3 149.7 139 154C141.3 158.3 143.7 162.7 146 167C148.7 171.3 151.3 175.7 154 180M74 160C81.33 160 88.67 160 96 160C104 160 112 160 120 160C127.3 160 134.7 160 142 160M74 160C81.33 160 88.67 160 96 160C104 160 112 160 120 160C127.3 160 134.7 160 142 160;
+                    M85 141C82.33 145.3 79.67 149.7 77 154C74.67 158.3 72.33 162.7 70 167C67.33 171.3 64.67 175.7 62 180M131 141C133.7 145.3 136.3 149.7 139 154C141.3 158.3 143.7 162.7 146 167C148.7 171.3 151.3 175.7 154 180M74 160C81.33 160 88.67 160 96 160C104 160 112 160 120 160C127.3 160 134.7 160 142 160M74 160C81.33 160 88.67 160 96 160C104 160 112 160 120 160C127.3 160 134.7 160 142 160;
+                    M50 48C44.33 59.33 35.72 69.97 33 82C30.05 98.64 30.05 117.4 33 134C35.72 146 44.33 156.7 50 168M50 48C50 61.33 50 74.67 50 88C50 101.3 50 114.7 50 128C50 141.3 50 154.7 50 168M44 98C44 100.7 44 103.3 44 106C44 108.7 44 111.3 44 114C44 116.7 44 119.3 44 122M46 108C56.67 108 67.33 108 78 108C88.67 108 99.33 108 110 108C120.7 108 131.3 108 142 108;
+                    M50 48C44.33 59.33 35.72 69.97 33 82C30.05 98.64 30.05 117.4 33 134C35.72 146 44.33 156.7 50 168M50 48C50 61.33 50 74.67 50 88C50 101.3 50 114.7 50 128C50 141.3 50 154.7 50 168M44 98C44 100.7 44 103.3 44 106C44 108.7 44 111.3 44 114C44 116.7 44 119.3 44 122M46 108C56.67 108 67.33 108 78 108C88.67 108 99.33 108 110 108C120.7 108 131.3 108 142 108;
+                    M113 89C118.7 97.67 124.3 106.3 130 115C135.7 123.7 141.3 132.3 147 141C152.3 149.3 157.7 157.7 163 166M105 96C110.7 104.3 116.3 112.7 122 121C127.7 129.7 133.3 138.3 139 147C144.3 155.3 149.7 163.7 155 172M163 166C162.3 167.7 161.7 169.4 161 171C159.7 171.7 158.3 172.4 157 173C156.3 172.7 155.7 172.3 155 172M113 89C118.7 97.67 124.3 106.3 130 115C135.7 123.7 141.3 132.3 147 141C152.3 149.3 157.7 157.7 163 166;
+                    M113 89C118.7 97.67 124.3 106.3 130 115C135.7 123.7 141.3 132.3 147 141C152.3 149.3 157.7 157.7 163 166M105 96C110.7 104.3 116.3 112.7 122 121C127.7 129.7 133.3 138.3 139 147C144.3 155.3 149.7 163.7 155 172M163 166C162.3 167.7 161.7 169.4 161 171C159.7 171.7 158.3 172.4 157 173C156.3 172.7 155.7 172.3 155 172M113 89C118.7 97.67 124.3 106.3 130 115C135.7 123.7 141.3 132.3 147 141C152.3 149.3 157.7 157.7 163 166;
+                    M52 72C58 77.33 66.74 82.2 70 88C69.4 93.53 60.74 100.5 60 106C62.74 111.1 70.67 115.3 76 120M76 120C72.67 126 66.53 132.8 66 138C69.2 142.1 77.75 145.4 84 148C91.75 150 100 150.7 108 152M46 58C54 58 62 58 70 58C78.67 58 87.33 58 96 58C102.7 58 109.3 58 116 58M46 158C54 158 62 158 70 158C78.67 158 87.33 158 96 158C102.7 158 109.3 158 116 158;
+                    M52 72C58 77.33 66.74 82.2 70 88C69.4 93.53 60.74 100.5 60 106C62.74 111.1 70.67 115.3 76 120M76 120C72.67 126 66.53 132.8 66 138C69.2 142.1 77.75 145.4 84 148C91.75 150 100 150.7 108 152M46 58C54 58 62 58 70 58C78.67 58 87.33 58 96 58C102.7 58 109.3 58 116 58M46 158C54 158 62 158 70 158C78.67 158 87.33 158 96 158C102.7 158 109.3 158 116 158;
+                    M66 70C66.67 63.33 64.75 54.72 68 50C72.08 45.39 81.13 43.2 88 42C94.46 41.2 101.3 43.33 108 44M108 44C114.7 43.33 121.6 41.16 128 42C134.2 43.16 142.4 45.58 146 50C149.1 54.91 147.3 63.33 148 70M142 92C152.7 93.33 168.1 90.45 174 96C178.8 102.4 178.8 121.6 174 128C168.1 133.6 152.7 130.7 142 132M74 76C81.33 77 88.64 78.45 96 79C103.3 79.45 110.7 79.45 118 79C125.4 78.45 132.7 77 140 76;
+                    M66 70C66.67 63.33 64.75 54.72 68 50C72.08 45.39 81.13 43.2 88 42C94.46 41.2 101.3 43.33 108 44M108 44C114.7 43.33 121.6 41.16 128 42C134.2 43.16 142.4 45.58 146 50C149.1 54.91 147.3 63.33 148 70M142 92C152.7 93.33 168.1 90.45 174 96C178.8 102.4 178.8 121.6 174 128C168.1 133.6 152.7 130.7 142 132M74 76C81.33 77 88.64 78.45 96 79C103.3 79.45 110.7 79.45 118 79C125.4 78.45 132.7 77 140 76;
+                    M40 58C44.33 48.67 48.63 39.28 53 30C55.63 29.94 58.37 29.94 61 30C65.37 39.28 69.67 48.67 74 58M166 70C170 61.33 174 52.61 178 44C180.6 43.94 183.4 43.94 186 44C190.7 52.61 195.3 61.33 200 70M96 80C99 71.33 102 62.62 105 54C107 53.95 109 53.95 111 54C114 62.62 117 71.33 120 80M140 80C143 71.33 146 62.62 149 54C151 53.95 153 53.95 155 54C158 62.62 161 71.33 164 80"/>
+            <animate attributeName="opacity" dur="24s" repeatCount="indefinite" calcMode="spline"
+              keyTimes="0.0000;0.0956;0.1250;0.2207;0.2500;0.3457;0.3750;0.4707;0.5000;0.5957;0.6250;0.7207;0.7500;0.8457;0.8750;0.9707;1.0000" keySplines="0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1;0 0 1 1;.5 0 .1 1" values="1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1"/>
+          </path>
+          <path class="hl-f" pathLength="100" stroke-width="1.9" d="M78 120C106 120 134 120 162 120M78 138C106 138 134 138 162 138M78 156C106 156 134 156 162 156" opacity="1">
+            <animate attributeName="d" dur="24s" repeatCount="indefinite" calcMode="spline"
+              keyTimes="0.0000;0.0963;0.1250;0.2213;0.2500;0.3463;0.3750;0.4713;0.5000;0.5962;0.6250;0.7212;0.7500;0.8462;0.8750;0.9712;1.0000"
+              keySplines="0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1"
+              values="M78 120C106 120 134 120 162 120M78 138C106 138 134 138 162 138M78 156C106 156 134 156 162 156;
+                    M78 120C106 120 134 120 162 120M78 138C106 138 134 138 162 138M78 156C106 156 134 156 162 156;
+                    M96 144C112 144 128 144 144 144M96 144C112 144 128 144 144 144M96 144C112 144 128 144 144 144;
+                    M96 144C112 144 128 144 144 144M96 144C112 144 128 144 144 144M96 144C112 144 128 144 144 144;
+                    M100 96C100 96 100 96 100 96M100 96C100 96 100 96 100 96M100 96C100 96 100 96 100 96;
+                    M100 96C100 96 100 96 100 96M100 96C100 96 100 96 100 96M100 96C100 96 100 96 100 96;
+                    M56 180C62 180 68 180 74 180M142 180C148 180 154 180 160 180M56 180C62 180 68 180 74 180;
+                    M56 180C62 180 68 180 74 180M142 180C148 180 154 180 160 180M56 180C62 180 68 180 74 180;
+                    M142 108C137.7 105 133.3 102 129 99M142 108C137.7 111 133.3 114 129 117M142 108C142 108 142 108 142 108;
+                    M142 108C137.7 105 133.3 102 129 99M142 108C137.7 111 133.3 114 129 117M142 108C142 108 142 108 142 108;
+                    M118 97C123 104.7 128 112.3 133 120M118 97C123 104.7 128 112.3 133 120M118 97C123 104.7 128 112.3 133 120;
+                    M118 97C123 104.7 128 112.3 133 120M118 97C123 104.7 128 112.3 133 120M118 97C123 104.7 128 112.3 133 120;
+                    M176 92C176 100.7 176 109.3 176 118M176 92C176 100.7 176 109.3 176 118M176 92C176 100.7 176 109.3 176 118;
+                    M176 92C176 100.7 176 109.3 176 118M176 92C176 100.7 176 109.3 176 118M176 92C176 100.7 176 109.3 176 118;
+                    M84 92C84 105.3 84 118.7 84 132M84 92C84 105.3 84 118.7 84 132M84 92C84 105.3 84 118.7 84 132;
+                    M84 92C84 105.3 84 118.7 84 132M84 92C84 105.3 84 118.7 84 132M84 92C84 105.3 84 118.7 84 132;
+                    M78 120C106 120 134 120 162 120M78 138C106 138 134 138 162 138M78 156C106 156 134 156 162 156"/>
+            <animate attributeName="opacity" dur="24s" repeatCount="indefinite" calcMode="spline"
+              keyTimes="0.0000;0.0963;0.1250;0.2213;0.2500;0.3463;0.3750;0.4713;0.5000;0.5962;0.6250;0.7212;0.7500;0.8462;0.8750;0.9712;1.0000" keySplines="0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1;0 0 1 1;.42 0 .14 1" values="1;1;0;0;0;0;1;1;1;1;0;0;1;1;1;1;1"/>
+          </path>
+        </g>
+      </g>
+    </svg>
+      <div class="hero-copy">
+    <p class="lab" style="color:var(--olive-dp);margin-bottom:16px">Bratislava · skupinové zážitky</p>
+    <h1>Zážitky pre skupiny v Bratislave</h1>
+    <p class="lede">Osem aktivít pre partie od 2 do 30 ľudí. Nastavte veľkosť skupiny a príležitosť — ceny sa prepočítajú a odporučíme, čo sadne.</p>
+    <p class="hero-meta">
+      <span data-i="card">Bez platby vopred</span><span data-i="clock">Odpoveď do 24 hodín</span><span data-i="globe">SK / EN / DE</span>
+    </p>
+      </div>
+    </div>
+    <div class="planner">
+      <div class="planner-row">
+        <div class="pf">
+          <span class="lab">Koľko vás bude</span>
+          <div class="stepper">
+            <button type="button" id="minus" aria-label="Menej ľudí">−</button>
+            <input id="people" type="number" min="2" max="60" value="12" aria-label="Počet ľudí">
+            <button type="button" id="plus" aria-label="Viac ľudí">+</button>
+            <em>ľudí</em>
+          </div>
+        </div>
+        <div class="pf">
+          <span class="lab">Na akú príležitosť</span>
+          <div class="segs" role="group" aria-label="Príležitosť">
+            <button type="button" class="seg" data-occ="teambuilding" aria-pressed="false">Teambuilding</button>
+            <button type="button" class="seg" data-occ="rozlucka" aria-pressed="false">Rozlúčka so slobodou</button>
+            <button type="button" class="seg" data-occ="oslava" aria-pressed="false">Oslava</button>
+            <button type="button" class="seg" data-occ="turisti" aria-pressed="false">Víkend s partiou</button>
+          </div>
+        </div>
+        <div class="pf pf-date">
+          <span class="lab">Kedy</span>
+          <input id="date" type="date" aria-label="Dátum">
+        </div>
+      </div>
+      <p class="planner-note">
+        <span id="fitline">Pre <b>12 ľudí</b> vyhovuje všetkých 8 aktivít.</span>
+        <span class="lab">Ceny vrátane DPH</span>
+      </p>
+    </div>
+  </div>
+</section>
+<section class="sec" id="aktivity">
+  <div class="wrap">
+    <div class="head">
+      <h2>Aktivity</h2>
+      <div class="head-row">
+        <p>Pridajte si jednu alebo viac do plánu. Bežne sa stíhajú dve za popoludnie.</p>
+        <label class="switch"><input type="checkbox" id="onlyfit"><i aria-hidden="true"></i>Zobraziť len odporúčané</label>
+      </div>
+    </div>
+    <div class="grid" id="grid">
+      <article class="card" data-id="beer-bike" data-price="270" data-basis="group" data-cap="14" data-occ="teambuilding rozlucka oslava turisti" style="--tint:#E3E8DA">
+        <div class="media">
+          <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M5.5 17.5 9 9h6l3.5 8.5"/><path d="M9 9h8"/></svg>
+          <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M5.5 17.5 9 9h6l3.5 8.5"/><path d="M9 9h8"/><rect x="9.5" y="2.5" width="5" height="5" rx="1"/><path d="M14.5 4h1.5a1 1 0 0 1 0 2h-1.5"/></svg>
+          <img src="img/beer-bike.jpg" alt="Skupina na beer biku v centre Bratislavy" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Odporúčame</span>
+        </div>
+        <div class="card-in">
+          <p class="kicker lab">Na kolesách</p>
+          <h3><a href="beer-bike.html">Beer Bike</a></h3>
+          <p>Bar na kolesách so šoférom. Šliapete, čapované pivo tečie, hudba hrá — hodinu uličkami Starého Mesta.</p>
+          <div class="facts"><span>60 min</span><span>max 14 / bicykel</span><span>šofér v cene</span></div>
+          <div class="money"><span class="u">270 € / jazda</span><span class="t"></span></div>
+          <p class="note" hidden></p>
+          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="beer-bike.html">Detail</a></div>
+        </div>
+      </article>
+      <article class="card" data-id="prosecco-bike" data-price="270" data-basis="group" data-cap="14" data-occ="rozlucka oslava turisti" style="--tint:#E7E6DA">
+        <div class="media">
+          <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M5.5 17.5 9 9h6l3.5 8.5"/><path d="M9 9h8"/></svg>
+          <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M5.5 17.5 9 9h6l3.5 8.5"/><path d="M9 9h8"/><path d="M10.3 2h4.4l-.7 4.2a1.5 1.5 0 0 1-3 0z"/><path d="M12.5 6.4V9"/></svg>
+          <img src="img/prosecco-bike.jpg" alt="Prosecco bike počas jazdy Starým Mestom" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Odporúčame</span>
+        </div>
+        <div class="card-in">
+          <p class="kicker lab">Na kolesách</p>
+          <h3><a href="prosecco-bike.html">Prosecco Bike</a></h3>
+          <p>To isté kolo, iná nálada. Namiesto piva prosecco — pre oslavy a rozlúčky, kde majú sedieť aj fotky.</p>
+          <div class="facts"><span>60 min</span><span>max 14 / bicykel</span><span>šofér v cene</span></div>
+          <div class="money"><span class="u">270 € / jazda</span><span class="t"></span></div>
+          <p class="note" hidden></p>
+          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="prosecco-bike.html">Detail</a></div>
+        </div>
+      </article>
+      <article class="card" data-id="bubble-football" data-price="38" data-basis="person" data-cap="0" data-occ="teambuilding rozlucka" style="--tint:#DEE6D8">
+        <div class="media">
+          <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><circle cx="12" cy="9.2" r="2.2"/><path d="M8 20.4v-4.2a4 4 0 0 1 8 0v4.2"/></svg>
+          <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><circle cx="12" cy="9.2" r="2.2"/><path d="M8 20.4v-4.2a4 4 0 0 1 8 0v4.2"/></svg>
+          <img src="img/bubble-football.jpg" alt="Hráči v nafukovacích bublinách počas zápasu" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Odporúčame</span>
+        </div>
+        <div class="card-in">
+          <p class="kicker lab">Súťažné</p>
+          <h3><a href="bubble-football.html">Bubble Football</a></h3>
+          <p>Futbal, v ktorom je faul najlepšia časť. Najspoľahlivejší ľadolamec z celej ponuky.</p>
+          <div class="facts"><span>tímy 5 na 5</span><span>vonku</span><span>výstroj v cene</span></div>
+          <div class="money"><span class="u">38 € / osoba</span><span class="t"></span></div>
+          <p class="note" hidden></p>
+          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="bubble-football.html">Detail</a></div>
+        </div>
+      </article>
+      <article class="card" data-id="footdarts" data-price="41" data-basis="person" data-cap="0" data-occ="teambuilding oslava" style="--tint:#E5E7DB">
+        <div class="media">
+          <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><circle cx="10" cy="10" r="3.6"/><circle cx="19" cy="19.5" r="2.8"/></svg>
+          <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><circle cx="10" cy="10" r="3.6"/><circle cx="19" cy="19.5" r="2.8"/></svg>
+          <img src="img/footdarts.jpg" alt="Nafukovací terč a futbalové lopty počas footdarts" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Odporúčame</span>
+        </div>
+        <div class="card-in">
+          <p class="kicker lab">Súťažné</p>
+          <h3><a href="footdarts.html">Footdarts</a></h3>
+          <p>Obrovský terč a lopta so suchým zipsom. Nevyhráva najlepší futbalista — vyhráva ten, kto trafí.</p>
+          <div class="facts"><span>tímovo</span><span>vonku</span><span>nízka náročnosť</span></div>
+          <div class="money"><span class="u">41 € / osoba</span><span class="t"></span></div>
+          <p class="note" hidden></p>
+          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="footdarts.html">Detail</a></div>
+        </div>
+      </article>
+      <article class="card" data-id="archery-tag" data-price="33" data-basis="person" data-cap="0" data-occ="teambuilding rozlucka" style="--tint:#DFE4D6">
+        <div class="media">
+          <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5 19 5"/><path d="M14 4.5h5.5V10"/><path d="M3.6 4.2a16.2 16.2 0 0 1 16.2 16.2"/></svg>
+          <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5 19 5"/><path d="M14 4.5h5.5V10"/><path d="M3.6 4.2a16.2 16.2 0 0 1 16.2 16.2"/></svg>
+          <img src="img/archery-tag.jpg" alt="Archery tag — hráči s lukmi a maskami" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Odporúčame</span>
+        </div>
+        <div class="card-in">
+          <p class="kicker lab">Súťažné</p>
+          <h3><a href="archery-tag.html">Archery Tag</a></h3>
+          <p>Lukostreľba proti sebe, s mäkkými hrotmi a maskou. Adrenalín paintballu bez modrín a bez farby.</p>
+          <div class="facts"><span>tímovo</span><span>vonku aj vnútri</span><span>výstroj v cene</span></div>
+          <div class="money"><span class="u">33 € / osoba</span><span class="t"></span></div>
+          <p class="note" hidden></p>
+          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="archery-tag.html">Detail</a></div>
+        </div>
+      </article>
+      <article class="card" data-id="ipad-treasure-hunt" data-price="33" data-basis="person" data-cap="0" data-occ="teambuilding turisti" style="--tint:#DCE3DD">
+        <div class="media">
+          <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="12.5" height="17.5" rx="2"/><path d="M18.6 8.2c1.7 0 3.1 1.4 3.1 3.1 0 2.3-3.1 5.7-3.1 5.7s-3.1-3.4-3.1-5.7c0-1.7 1.4-3.1 3.1-3.1z"/></svg>
+          <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="12.5" height="17.5" rx="2"/><path d="M7.4 17.6h2.7"/><path d="M18.6 8.2c1.7 0 3.1 1.4 3.1 3.1 0 2.3-3.1 5.7-3.1 5.7s-3.1-3.4-3.1-5.7c0-1.7 1.4-3.1 3.1-3.1z"/><circle cx="18.6" cy="11.3" r="1"/></svg>
+          <img src="img/ipad-treasure-hunt.jpg" alt="Tím s tabletom počas šifrovačky v Starom Meste" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Odporúčame</span>
+        </div>
+        <div class="card-in">
+          <p class="kicker lab">Objavovanie</p>
+          <h3><a href="ipad-treasure-hunt.html">iPad Treasure Hunt</a></h3>
+          <p>Šifrovačka po Starom Meste na tablete. Jediná aktivita z ponuky, ktorá funguje aj v obleku.</p>
+          <div class="facts"><span>tímy 4–6</span><span>Staré Mesto</span><span>tablet v cene</span></div>
+          <div class="money"><span class="u">33 € / osoba</span><span class="t"></span></div>
+          <p class="note" hidden></p>
+          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="ipad-treasure-hunt.html">Detail</a></div>
+        </div>
+      </article>
+      <article class="card" data-id="axe-throwing" data-price="0" data-basis="person" data-cap="0" data-occ="teambuilding rozlucka oslava" style="--tint:#E8E5D6">
+        <div class="media">
+          <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><path d="M8.6 15.4 15.2 8.8"/></svg>
+          <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><path d="M8.6 15.4 15.2 8.8"/><path d="M13.6 6.6c1.5-1.5 3.6-1.8 4.7-.7 1.1 1.1.8 3.2-.7 4.7z"/></svg>
+          <img src="img/axe-throwing.jpg" alt="Hod sekerou do dreveného terča" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Odporúčame</span>
+        </div>
+        <div class="card-in">
+          <p class="kicker lab">Súťažné</p>
+          <h3><a href="axe-throwing.html">Axe Throwing</a></h3>
+          <p>Sekera, drevený terč a prekvapivo upokojujúci zvuk zásahu. Inštruktor vás naučí hod za päť minút.</p>
+          <div class="facts"><span>vnútri</span><span>celoročne</span><span>inštruktor</span></div>
+          <div class="money"><span class="u">cena na vyžiadanie</span><span class="t"></span></div>
+          <p class="note" hidden></p>
+          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="axe-throwing.html">Detail</a></div>
+        </div>
+      </article>
+      <article class="card" data-id="skola-capovania" data-price="0" data-basis="group" data-cap="0" data-occ="teambuilding oslava turisti" style="--tint:#E4E9DC">
+        <div class="media">
+          <svg class="ghost" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M7.6 13h10.3l-1 8.4H8.6z"/><path d="M9.5 4.3h4.2V10"/></svg>
+          <svg class="mark" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="2.5" width="6" height="3.6" rx="1"/><path d="M9.5 4.3h4.2V10"/><path d="M13.7 10H9.9"/><path d="M7.6 13h10.3l-1 8.4H8.6z"/><path d="M7.9 15.4h9.7"/></svg>
+          <img src="img/skola-capovania.jpg" alt="Čapovanie piva počas školy čapovania" loading="lazy" onerror="this.remove()">
+          <span class="badge" hidden>Odporúčame</span>
+        </div>
+        <div class="card-in">
+          <p class="kicker lab">Remeslo</p>
+          <h3><a href="skola-capovania.html">Škola čapovania</a></h3>
+          <p>Hodina za pípou s pivovarníkom: hladinka, šnyt, mlieko. Pokojnejšia alternatíva k športu.</p>
+          <div class="facts"><span>vnútri</span><span>celoročne</span><span>degustácia</span></div>
+          <div class="money"><span class="u">cena na vyžiadanie</span><span class="t"></span></div>
+          <p class="note" hidden></p>
+          <div class="acts"><button class="add" type="button">Pridať do plánu</button><a class="detail" href="skola-capovania.html">Detail</a></div>
+        </div>
+      </article>
+    </div>
+    <p class="empty" id="empty" hidden>Pre túto príležitosť nemáme priame odporúčanie — vypnite filter a pozrite si všetkých osem, alebo nám napíšte a poradíme.</p>
+  </div>
+</section>
+<section class="sec band-light" id="prilezitosti">
+  <div class="wrap">
+    <div class="head"><h2>Komu to sadne</h2></div>
+    <div class="occ">
+      <article class="feat" data-n="01"><p class="lab">Firmy</p><h3>Teambuilding</h3><p>Faktúra, program na mieru a jeden kontakt na všetko. Bežne kombinujeme dve aktivity za popoludnie.</p></article>
+      <article data-n="02"><p class="lab">Partia</p><h3>Rozlúčka so slobodou</h3><p>Bicykel ako otvárací ťah večera. Trasa vedie okolo podnikov, kde sa dá pokračovať.</p></article>
+      <article data-n="03"><p class="lab">Oslava</p><h3>Narodeniny</h3><p>Skupinová cena, žiadne minimum na osobu pri bicykloch. Doplnky doobjednáte pri rezervácii.</p></article>
+      <article data-n="04"><p class="lab">Turisti</p><h3>Víkend s partiou</h3><p>Sprevádzame po slovensky, anglicky aj nemecky. Všetko v dosahu peši od Hlavného námestia.</p></article>
+    </div>
+  </div>
+</section>
+<section class="sec band-deep" id="ako">
+  <div class="wrap">
+    <div class="head"><h2>Ako to funguje</h2></div>
+    <ol class="flow">
+      <li><span class="flow-n">1</span><h3>Pošlete plán</h3><p>Vyberiete aktivity, doplníte dátum a kontakt. Nič neplatíte vopred.</p></li>
+      <li><span class="flow-n">2</span><h3>Potvrdíme dostupnosť</h3><p>Ozveme sa do 24 hodín s voľnými časmi a finálnou cenou vrátane doplnkov.</p></li>
+      <li><span class="flow-n">3</span><h3>Prídete a bavíte sa</h3><p>Na mieste vás preberie inštruktor alebo šofér. Výstroj, pivo aj hudba sú pripravené.</p></li>
+    </ol>
+  </div>
+</section>
+<section class="sec" id="recenzie">
+  <div class="wrap">
+    <div class="head"><h2>Recenzie</h2></div>
+    <!-- TODO: nahradiť skutočnými recenziami z Google / Facebooku pred spustením -->
+    <div class="revs">
+      <figure class="rev"><p class="stars">★★★★★</p><blockquote>Brali sme beer bike na firemné popoludnie, 13 ľudí. Organizácia bez jediného telefonátu navyše, šofér vtipný, hodina ubehla strašne rýchlo.</blockquote><figcaption><b>Katarína M.</b>office manager, IT firma</figcaption></figure>
+      <figure class="rev"><p class="stars">★★★★★</p><blockquote>Rozlúčka so slobodou — prosecco bike a večer archery tag. Presne to, čo sme chceli: nikto neriešil program, všetko bolo dohodnuté dopredu.</blockquote><figcaption><b>Peter H.</b>Bratislava</figcaption></figure>
+      <figure class="rev"><p class="stars">★★★★★</p><blockquote>Wir haben die Schnitzeljagd mit dem iPad gemacht — tolle Art, die Altstadt kennenzulernen. Betreuung auf Deutsch, alles reibungslos.</blockquote><figcaption><b>Michael K.</b>Wien</figcaption></figure>
+    </div>
+  </div>
+</section>
+<section class="sec" style="padding-top:0" id="rezervacia">
+  <div class="wrap">
+    <div class="book">
+      <div>
+        <p class="lab">Rezervácia</p>
+        <h2>Pošlite nám plán</h2>
+        <p>Nezáväzne. Ozveme sa do 24 hodín s voľnými časmi a finálnou cenou.</p>
+        <div class="plan">
+          <h3>Váš plán</h3>
+          <ul id="planlist"><li class="plan-empty">Zatiaľ ste nevybrali žiadnu aktivitu. Pridajte ju vyššie — alebo nám len napíšte a poradíme.</li></ul>
+          <div class="tot" id="plantot" hidden><span>Odhad spolu</span><b></b></div>
+        </div>
+        <div class="contacts">
+          <a href="tel:+421911782282"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>+421 911 782 282</a>
+          <a href="mailto:info@fun-bratislava.com"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>info@fun-bratislava.com</a>
+        </div>
+      </div>
+      <form novalidate autocomplete="off">
+        <input type="hidden" id="f-plan" name="plan">
+        <div><label for="f-name">Meno</label><input id="f-name" autocomplete="off" name="name" required></div>
+        <div><label for="f-mail">Email</label><input id="f-mail" autocomplete="off" name="email" type="email" required></div>
+        <div><label for="f-tel">Telefón</label><input id="f-tel" autocomplete="off" name="phone" type="tel"></div>
+        <div><label for="f-occ">Príležitosť</label>
+          <select id="f-occ" autocomplete="off" name="occasion">
+            <option value="">Neuvedené</option><option value="teambuilding">Teambuilding</option>
+            <option value="rozlucka">Rozlúčka so slobodou</option><option value="oslava">Oslava</option>
+            <option value="turisti">Víkend s partiou</option>
+          </select>
+        </div>
+        <div><label for="f-date">Dátum</label><input id="f-date" autocomplete="off" name="date" type="date"></div>
+        <div><label for="f-ppl">Počet ľudí</label><input id="f-ppl" autocomplete="off" name="people" type="number" min="2" max="60" value="12"></div>
+        <div class="full"><label for="f-msg">Poznámka</label><textarea id="f-msg" autocomplete="off" name="message" placeholder="Približný čas, doplnky, špeciálne požiadavky…" autocomplete="off"></textarea></div>
+        <div class="full consent">
+          <input id="f-gdpr" autocomplete="off" name="gdpr" type="checkbox" required>
+          <label for="f-gdpr" style="margin:0;color:inherit">Súhlasím so spracovaním osobných údajov na účel vybavenia tejto požiadavky. Viac v <a href="/ochrana-osobnych-udajov/">zásadách ochrany osobných údajov</a>.</label>
+        </div>
+        <div class="full"><button class="btn btn-sage" type="submit">Odoslať požiadavku</button></div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a href="#" aria-label="Fun Bratislava — domov"><img src="logo.webp" alt="Fun Bratislava"></a>
+        <p style="color:var(--soft);font-size:14px;margin-top:14px;max-width:32ch">Skupinové aktivity a zážitky v centre Bratislavy. Slovensky, anglicky, nemecky.</p>
+      </div>
+      <div><h4>Aktivity</h4><ul>
+        <li><a href="beer-bike.html">Beer Bike</a></li><li><a href="prosecco-bike.html">Prosecco Bike</a></li>
+        <li><a href="bubble-football.html">Bubble Football</a></li><li><a href="footdarts.html">Footdarts</a></li>
+        <li><a href="archery-tag.html">Archery Tag</a></li><li><a href="ipad-treasure-hunt.html">iPad Treasure Hunt</a></li>
+        <li><a href="axe-throwing.html">Axe Throwing</a></li><li><a href="skola-capovania.html">Škola čapovania</a></li>
+      </ul></div>
+      <div><h4>Kontakt</h4><ul>
+        <li><a href="tel:+421911782282">+421 911 782 282</a></li>
+        <li><a href="mailto:info@fun-bratislava.com">info@fun-bratislava.com</a></li>
+        <li><a href="https://www.instagram.com/fun_bratislava/">Instagram</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61556999860569">Facebook</a></li>
+        <li><a href="https://www.tiktok.com/@fun_bratislava">TikTok</a></li>
+      </ul></div>
+      <div><h4>Dokumenty</h4><ul>
+        <li><a href="/vseobecne-podmienky/">Všeobecné podmienky</a></li>
+        <li><a href="/ochrana-osobnych-udajov/">Ochrana osobných údajov</a></li>
+        <li><a href="/cookies/">Zásady používania cookies</a></li>
+      </ul></div>
+    </div>
+    <div class="legal">
+      <span>Prevádzkovateľ: Remeli, s.r.o., Hlavná 121/62, 976 68 Heľpa · IČO 46150501</span>
+      <span>© 2026 fun-bratislava.com</span>
+    </div>
+  </div>
+</footer>
+<div class="dock" id="dock">
+  <div class="wrap">
+    <p class="dock-sum" id="docksum"></p>
+    <span class="dock-tot" id="docktot"></span>
+    <button class="dock-clear" type="button" id="dockclear">Vyprázdniť</button>
+    <a class="btn btn-sage btn-sm" href="#rezervacia">Pokračovať</a>
+  </div>
+</div>
+
+<a class="wa" href="https://wa.me/421911782282" target="_blank" rel="noopener"
+   aria-label="Napíšte nám na WhatsApp">
+  <svg viewBox="0 0 32 32" aria-hidden="true">
+    <path class="wa-b" d="M16 3.4A12.6 12.6 0 0 0 5.3 22.7L3.4 29.4l6.9-1.8A12.6 12.6 0 1 0 16 3.4Z"/>
+    <path class="wa-h" d="M11.9 9.7c-.24-.53-.5-.54-.73-.55h-.62c-.22 0-.57.08-.87.4-.3.33-1.14 1.11-1.14 2.7 0 1.6 1.17 3.14 1.33 3.36.16.21 2.26 3.6 5.58 5.05 2.77 1.2 3.33 1 3.93.94.6-.05 1.94-.79 2.21-1.56.27-.77.27-1.43.19-1.57-.08-.13-.3-.21-.62-.37l-2.4-1.16c-.32-.16-.56-.24-.79.08l-1.09 1.36c-.2.21-.4.24-.72.08-.32-.16-1.36-.5-2.6-1.6-.96-.86-1.6-1.92-1.79-2.24-.19-.32-.02-.5.14-.66l.48-.56c.16-.19.21-.32.32-.53.1-.21.05-.4-.03-.56l-1-2.61Z"/>
+  </svg>
+</a>
+
+<div class="cc" id="cc" hidden role="dialog" aria-live="polite" aria-label="Súbory cookie">
+  <p class="cc-t">Súbory cookie</p>
+  <p class="cc-p">Nevyhnutné cookies držia web pri živote. Analytické zapneme len s vaším súhlasom — viac v <a href="#">zásadách ochrany osobných údajov</a>.</p>
+  <div class="cc-btns">
+    <button class="btn btn-sm" type="button" data-cc="all">Prijať všetko</button>
+    <button class="cc-ghost" type="button" data-cc="necessary">Len nevyhnutné</button>
+  </div>
+</div>
+
+<button class="cc-open" id="ccopen" type="button" hidden aria-label="Nastavenia cookies">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 3.4 3.4 0 0 1-4.2-4.2A3.4 3.4 0 0 1 12 3Z" stroke-linejoin="round"/><circle cx="9.5" cy="10" r="1"/><circle cx="14" cy="14.5" r="1"/><circle cx="9" cy="15.5" r="1"/></svg>
+</button>
+
+<script>
+// ponytail: cards stay static HTML (server-renderable, SEO-safe);
+// JS only recomputes prices and toggles state. One render pass.
+// SMIL ignores prefers-reduced-motion — freeze it on the first frame instead.
+if (matchMedia('(prefers-reduced-motion:reduce)').matches)
+  document.querySelector('.hero-anim')?.pauseAnimations();
+
+const eur = n => n.toLocaleString('sk-SK') + ' €';
+const rmBtn = (id, name) =>
+  `<button type="button" class="plan-x" data-id="${id}" aria-label="Odstrániť ${name} z plánu">&times;</button>`;
+const cards = [...document.querySelectorAll('.card')];
+const people = document.getElementById('people');
+const picked = new Set();
+let occ = '';
+const priceOf = c => {
+  const p = +c.dataset.price;
+  if (!p) return null;
+  const n = +people.value, cap = +c.dataset.cap;
+  const units = cap ? Math.ceil(n / cap) : n;
+  return { total: p * units, units, cap, n };
+};
+function render() {
+  const n = Math.min(60, Math.max(2, +people.value || 2));
+  if (+people.value !== n) people.value = n;
+  let shown = 0, fit = 0;
+  const onlyFit = document.getElementById('onlyfit').checked;
+  cards.forEach(c => {
+    const rec = occ && c.dataset.occ.includes(occ);
+    if (occ) fit += rec ? 1 : 0;
+    c.querySelector('.badge').hidden = !rec;
+    c.hidden = onlyFit && occ ? !rec : false;
+    if (!c.hidden) shown++;
+    const t = c.querySelector('.money .t'), note = c.querySelector('.note'), p = priceOf(c);
+    if (!p) {
+      t.innerHTML = '—<small>na vyžiadanie</small>';
+      note.hidden = false; note.textContent = 'Cenu potvrdíme do 24 hodín';
+    } else {
+      t.innerHTML = eur(p.total) + `<small>za ${n} ľudí</small>`;
+      if (p.cap && p.units > 1) {
+        note.hidden = false;
+        note.textContent = `${p.units} bicykle naraz · ${eur(Math.round(p.total / n))} na osobu`;
+      } else note.hidden = true;
+    }
+  });
+  document.getElementById('empty').hidden = shown > 0;
+  document.getElementById('fitline').innerHTML = n > 14
+    ? `Pre <b>${n} ľudí</b> vypravíme na bicykloch ${Math.ceil(n / 14)} kolá naraz.`
+    : `Pre <b>${n} ľudí</b> vyhovuje všetkých 8 aktivít.`;
+  const rows = [], ids = [];
+  let sum = 0, pending = 0;
+  cards.forEach(c => {
+    const on = picked.has(c.dataset.id);
+    c.dataset.picked = on ? '1' : '0';
+    c.querySelector('.add').textContent = on ? 'V pláne' : 'Pridať do plánu';
+    if (!on) return;
+    const name = c.querySelector('h3').textContent.trim(), p = priceOf(c);
+    ids.push(name);
+    if (p) { sum += p.total; rows.push(`<li><span>${name}</span><b>${eur(p.total)}</b>${rmBtn(c.dataset.id, name)}</li>`); }
+    else { pending++; rows.push(`<li><span>${name}</span><b>na vyžiadanie</b>${rmBtn(c.dataset.id, name)}</li>`); }
+  });
+  const list = document.getElementById('planlist'), tot = document.getElementById('plantot');
+  if (rows.length) {
+    list.innerHTML = rows.join('');
+    tot.hidden = false;
+    tot.querySelector('b').textContent = eur(sum) + (pending ? ' +' : '');
+  } else {
+    list.innerHTML = '<li class="plan-empty">Zatiaľ ste nevybrali žiadnu aktivitu. Pridajte ju vyššie — alebo nám len napíšte a poradíme.</li>';
+    tot.hidden = true;
+  }
+  const dock = document.getElementById('dock');
+  dock.dataset.open = picked.size ? '1' : '0';
+  document.body.classList.toggle('dock-on', picked.size > 0);
+  document.getElementById('docksum').innerHTML =
+    `<b>${picked.size}</b> ${picked.size === 1 ? 'aktivita' : picked.size < 5 ? 'aktivity' : 'aktivít'} pre <b>${n}</b> ľudí`;
+  document.getElementById('docktot').innerHTML = '<i>' + eur(sum) + (pending ? ' +' : '') + '</i>';
+  document.getElementById('f-ppl').value = n;
+  document.getElementById('f-plan').value = ids.join(', ');
+  document.getElementById('f-occ').value = occ;
+  document.getElementById('f-date').value = document.getElementById('date').value;
+}
+document.getElementById('minus').onclick = () => { people.value = Math.max(2, +people.value - 1); render(); };
+document.getElementById('plus').onclick  = () => { people.value = Math.min(60, +people.value + 1); render(); };
+people.oninput = render;
+document.getElementById('date').oninput = render;
+document.getElementById('onlyfit').onchange = render;
+document.querySelectorAll('.seg').forEach(b => b.onclick = () => {
+  occ = occ === b.dataset.occ ? '' : b.dataset.occ;
+  document.querySelectorAll('.seg').forEach(x => x.setAttribute('aria-pressed', x.dataset.occ === occ));
+  render();
+});
+document.querySelectorAll('.add').forEach(b => b.onclick = () => {
+  const id = b.closest('.card').dataset.id;
+  picked.has(id) ? picked.delete(id) : picked.add(id);
+  render();
+});
+document.getElementById('dockclear').onclick = () => { picked.clear(); render(); };
+
+// remove a single activity straight from the plan summary
+document.getElementById('planlist').addEventListener('click', e => {
+  const b = e.target.closest('.plan-x');
+  if (!b) return;
+  picked.delete(b.dataset.id);
+  render();
+});
+render();
+
+
+
+// ---------- booking form ----------
+// ponytail: action="#" with method="post" made submit a real POST to the same URL, which is
+// why a reload raised "Confirm Form Resubmission". Intercepted here so nothing navigates.
+// NOT WIRED TO A BACKEND YET — point action= at a real endpoint (or POST the payload below
+// with fetch) before this goes live, otherwise the confirmation is a lie.
+(() => {
+  const form = document.querySelector('#rezervacia form');
+  if (!form) return;
+  const btn = form.querySelector('button[type="submit"]');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+
+    const payload = Object.fromEntries(new FormData(form).entries());
+    console.info('[fun-bratislava] rezervácia — zatiaľ sa nikam neodosiela:', payload);
+
+    let msg = form.querySelector('.form-sent');
+    if (!msg) {
+      msg = document.createElement('p');
+      msg.className = 'form-sent';
+      msg.setAttribute('role', 'status');
+      btn.parentElement.appendChild(msg);
+    }
+    msg.textContent = 'Ďakujeme, máme to. Ozveme sa do 24 hodín.';
+    btn.disabled = true;
+  });
+})();
+// ---------- cookie consent ----------
+// ponytail: localStorage + two buttons. There are no analytics or marketing scripts on the
+// page yet, so this records the choice and nothing else — wire real tags to consent()==='all'
+// when you add them, otherwise the banner is theatre.
+(() => {
+  const KEY = 'fb-consent';
+  const banner = document.getElementById('cc');
+  const opener = document.getElementById('ccopen');
+  if (!banner || !opener) return;
+
+  const read = () => { try { return localStorage.getItem(KEY) } catch { return null } };
+  const write = v => { try { localStorage.setItem(KEY, v) } catch {} };
+
+  const paint = () => {
+    const choice = read();
+    banner.hidden = !!choice;
+    opener.hidden = !choice;
+  };
+
+  banner.addEventListener('click', e => {
+    const b = e.target.closest('[data-cc]');
+    if (!b) return;
+    write(b.dataset.cc);
+    paint();
+    document.dispatchEvent(new CustomEvent('consent', { detail: b.dataset.cc }));
+  });
+  opener.onclick = () => { banner.hidden = false; opener.hidden = true; };
+
+  paint();
+})();
+// ---------- date picker ----------
+// ponytail: no library. Upgrades every <input type="date"> in place — the input stays in the
+// DOM and keeps carrying the value, so form submit and validation are untouched; if this
+// script never runs, the native field is simply left visible.
+(() => {
+  const DOW = ['Po', 'Ut', 'St', 'Št', 'Pi', 'So', 'Ne'];
+  const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const parse = s => { const [y, m, d] = (s || '').split('-').map(Number); return y ? new Date(y, m - 1, d) : null; };
+  const long = d => d.toLocaleDateString('sk-SK', { day: 'numeric', month: 'long', year: 'numeric' });
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+
+  document.querySelectorAll('input[type="date"]').forEach(input => {
+    const wrap = document.createElement('div'); wrap.className = 'dp';
+    const field = document.createElement('button');
+    field.type = 'button'; field.className = 'dp-field';
+    field.setAttribute('aria-haspopup', 'dialog'); field.setAttribute('aria-expanded', 'false');
+    const lbl = input.getAttribute('aria-label') ||
+      document.querySelector(`label[for="${input.id}"]`)?.textContent.trim() || 'Dátum';
+    field.setAttribute('aria-label', lbl);
+    const pop = document.createElement('div');
+    pop.className = 'dp-pop'; pop.hidden = true; pop.setAttribute('role', 'dialog');
+    pop.setAttribute('aria-label', lbl);
+
+    input.parentNode.insertBefore(wrap, input);
+    wrap.append(input, field, pop);
+    // keep the input in the DOM for form data, just out of sight
+    Object.assign(input.style, {
+      position: 'absolute', width: '1px', height: '1px', opacity: '0', pointerEvents: 'none'
+    });
+
+    let view = parse(input.value) || new Date(today);
+
+    const paint = () => {
+      const sel = parse(input.value);
+      const y = view.getFullYear(), m = view.getMonth();
+      const first = new Date(y, m, 1);
+      const lead = (first.getDay() + 6) % 7;              // Monday-first
+      const start = new Date(y, m, 1 - lead);
+      const canBack = new Date(y, m, 0) >= today;
+
+      let cells = '';
+      for (let i = 0; i < 42; i++) {
+        const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+        const out = d.getMonth() !== m;
+        const past = d < today;
+        cells += `<button type="button" class="dp-day" data-d="${iso(d)}"` +
+          `${out ? ' data-out="1"' : ''}${+d === +today ? ' data-today="1"' : ''}` +
+          `${past ? ' disabled' : ''}` +
+          ` aria-pressed="${sel && +d === +sel}">${d.getDate()}</button>`;
+      }
+      pop.innerHTML =
+        `<div class="dp-head">
+           <button type="button" class="dp-nav" data-go="-1" ${canBack ? '' : 'disabled'} aria-label="Predchádzajúci mesiac">‹</button>
+           <span class="dp-title">${view.toLocaleDateString('sk-SK', { month: 'long', year: 'numeric' })}</span>
+           <button type="button" class="dp-nav" data-go="1" aria-label="Nasledujúci mesiac">›</button>
+         </div>
+         <div class="dp-grid">${DOW.map(d => `<span class="dp-dow">${d}</span>`).join('')}${cells}</div>
+         <div class="dp-foot">
+           <button type="button" data-act="clear">Zmazať</button>
+           <button type="button" data-act="today">Dnes</button>
+         </div>`;
+    };
+
+    const show = () => {
+      const sel = parse(input.value);
+      field.textContent = sel ? long(sel) : 'Vyberte dátum';
+      field.dataset.empty = sel ? '0' : '1';
+    };
+
+    // .sec/.hero each create a stacking context (position+z-index), which caps the
+    // popup no matter how high its own z-index is — so lift the host while open.
+    const host = wrap.closest("section, footer") || document.body;
+    const close = () => { pop.hidden = true; host.style.zIndex = ""; field.setAttribute("aria-expanded", "false"); };
+    const open = () => { view = parse(input.value) || new Date(today); paint(); pop.hidden = false; host.style.zIndex = "50"; field.setAttribute("aria-expanded", "true"); };
+
+    field.onclick = () => (pop.hidden ? open() : close());
+
+    pop.addEventListener('click', e => {
+      // paint() replaces innerHTML, so the clicked node is detached before this event reaches
+      // document — where wrap.contains(target) would then read false and close the popup.
+      e.stopPropagation();
+      const nav = e.target.closest('[data-go]');
+      if (nav) { view = new Date(view.getFullYear(), view.getMonth() + +nav.dataset.go, 1); return paint(); }
+      const act = e.target.closest('[data-act]');
+      if (act) {
+        input.value = act.dataset.act === 'today' ? iso(today) : '';
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+        show(); close(); return;
+      }
+      const day = e.target.closest('.dp-day');
+      if (day && !day.disabled) {
+        input.value = day.dataset.d;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+        show(); close();
+      }
+    });
+
+    document.addEventListener('click', e => { if (!wrap.contains(e.target)) close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    input.addEventListener('change', show);
+    show();
+  });
+})();
+// ---------- reveal on scroll ----------
+// ponytail: plain scroll + getBoundingClientRect, NOT IntersectionObserver. IO reported
+// nothing on the user's machine twice, leaving every .reveal element stuck at opacity:0 —
+// i.e. a blank page. This path has no silent failure mode: the same check runs on load, on
+// scroll, on resize, and once more after 400ms, and any throw reveals everything.
+(() => {
+  const grids = '.grid, .occ, .flow, .revs, .fgrid';
+  const solo = '.head, .planner, .book';
+  const sel = `${grids.split(', ').map(s => s + ' > *').join(', ')}, ${solo}`;
+  const items = [...document.querySelectorAll(sel)];
+  const showAll = () => items.forEach(e => e.classList.add('in'));
+
+  try {
+    document.querySelectorAll(grids).forEach(g => {
+      const cols = getComputedStyle(g).gridTemplateColumns.split(' ').filter(Boolean).length || 1;
+      [...g.children].forEach((c, i) => c.style.setProperty('--i', i % cols));
+    });
+    items.forEach(e => e.classList.add('reveal'));
+
+    let pending = items.slice();
+    const check = () => {
+      const h = innerHeight;
+      pending = pending.filter(e => {
+        const r = e.getBoundingClientRect();
+        if (r.top < h * 0.94 && r.bottom > 0) { e.classList.add('in'); return false; }
+        return true;                       // one-shot: never re-hidden on the way back up
+      });
+      if (!pending.length) removeEventListener('scroll', onScroll);
+    };
+
+    let queued = false;
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; check(); });
+    };
+
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
+    addEventListener('load', check);
+    check();
+    setTimeout(check, 400);
+  } catch (err) {
+    showAll();
+  }
+})();
+</script>
+<!--
+  IMAGES — drop 8 files into /img (logo.webp is already there):
+    beer-bike.jpg  prosecco-bike.jpg  bubble-football.jpg  footdarts.jpg
+    archery-tag.jpg  ipad-treasure-hunt.jpg  axe-throwing.jpg  skola-capovania.jpg
+  Landscape ~1200×800 (3:2). Until a file exists the <img> removes itself
+  and the sage tile shows instead — no broken-image icons.
+-->
+</body>
+</html>
