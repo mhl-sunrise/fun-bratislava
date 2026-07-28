@@ -332,7 +332,11 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .stepper{display:flex;align-items:center;gap:4px}
 .stepper button{width:44px;height:44px;border-radius:5px;border:1px solid var(--line-2);display:grid;place-items:center;font:500 14.5px Inter,sans-serif;color:var(--ink);background:#fff;transition:background .15s,border-color .15s}
 .stepper button:hover{background:var(--cream);border-color:var(--olive-dp)}
-.stepper input{width:54px;height:44px;text-align:center;border:0;font:600 14.5px Inter,sans-serif;color:var(--ink);background:transparent;-moz-appearance:textfield}
+/* --line-2 and #fff, matching the − and + either side: it is an editable field, so it
+   follows the control border colour rather than the lighter one used for panels */
+.stepper input{width:54px;height:44px;text-align:center;border:1px solid var(--line-2);border-radius:5px;
+  font:600 14.5px Inter,sans-serif;color:var(--ink);background:#fff;-moz-appearance:textfield}
+.stepper input:focus{outline:none;border-color:var(--olive-dp)}
 .stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .segs{display:flex;flex-wrap:wrap;gap:6px}
 .seg{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 12px;border-radius:5px;border:1px solid var(--line-2);font:500 14.5px Inter,sans-serif;color:var(--body);white-space:nowrap;background:#fff;transition:all .15s}
