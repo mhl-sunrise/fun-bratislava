@@ -424,7 +424,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 /* ---------- occasions / steps / reviews ---------- */
 .occ{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .occ article{position:relative;overflow:hidden;padding:30px 24px 32px;border-radius:5px;
-  background:linear-gradient(180deg,rgba(168,180,156,.20),rgba(168,180,156,.05));
+  background:#fff;
   border:1px solid var(--line);transition:transform .3s cubic-bezier(.2,.7,.3,1),border-color .3s}
 /* outlined index numeral — fills on hover */
 .occ article::before{content:attr(data-n);position:absolute;top:14px;right:20px;pointer-events:none;
