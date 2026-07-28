@@ -180,6 +180,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .cc-open svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8}
 .dock[data-open="1"] ~ .cc-open{bottom:calc(var(--dock-h,76px) + 18px)}
 @media (max-width:620px){
+  .act-final{padding:40px 22px}
   .cc{left:12px;right:12px;bottom:12px;width:auto}
   .wa{right:14px;bottom:14px;width:50px;height:50px}
   .cc-open{left:14px;bottom:14px}
@@ -585,3 +586,64 @@ html{scrollbar-width:thin;scrollbar-color:var(--olive) var(--cream)}
 /* the dark panels get a scrollbar that belongs to them, not to the page */
 .book ::-webkit-scrollbar-track,.dock ::-webkit-scrollbar-track{background:transparent}
 .book ::-webkit-scrollbar-thumb,.dock ::-webkit-scrollbar-thumb{background:var(--sage);border-color:transparent}
+
+/* ---------- activity page ---------- */
+.act-hero{padding-top:52px}
+.back{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;color:var(--soft);margin-bottom:26px}
+.back::before{content:"";width:15px;height:15px;background:currentColor;
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M15 5l-7 7 7 7' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+          mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M15 5l-7 7 7 7' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat}
+.back:hover{color:var(--ink)}
+.act-top{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.act-copy h1{font-size:clamp(32px,3.8vw,48px);margin:10px 0 14px}
+.act-intro{margin-top:16px;color:var(--soft);font-size:15.5px;max-width:52ch}
+.act-facts{display:flex;flex-wrap:wrap;gap:0;margin-top:26px}
+.act-facts span{display:flex;flex-direction:column;gap:3px;padding:0 22px;font-size:14.5px;color:var(--ink)}
+.act-facts span:first-child{padding-left:0}
+.act-facts span + span{border-left:1px solid var(--line-2)}
+.act-facts b{font:600 10.5px Inter,sans-serif;letter-spacing:.15em;text-transform:uppercase;color:var(--soft)}
+.act-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.act-photo{margin:0;border-radius:5px;overflow:hidden;border:1px solid var(--line)}
+.act-photo img{display:block;width:100%;height:100%;aspect-ratio:4/3;object-fit:cover}
+
+.act-cols{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.ticks{list-style:none;display:grid;gap:11px;font-size:15px;color:var(--body)}
+.ticks li{display:flex;gap:11px;align-items:flex-start}
+.ticks li::before{content:"";width:18px;height:18px;flex:none;margin-top:2px;background:var(--olive-dp);
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M4 12.5l5 5L20 6.5' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+          mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M4 12.5l5 5L20 6.5' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat}
+.ticks-plus li::before{-webkit-mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 5v14M5 12h14' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round'/></svg>");mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 5v14M5 12h14' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round'/></svg>")}
+.act-note{margin-top:38px;padding-top:22px;border-top:1px solid var(--line-2);color:var(--soft);font-size:14.5px;max-width:70ch}
+
+.more{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.more-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:5px;overflow:hidden;
+  background:var(--paper);transition:transform .25s cubic-bezier(.2,.7,.3,1),border-color .25s}
+.more-card:hover{transform:translateY(-4px);border-color:var(--sage)}
+.more-card .media{display:block;aspect-ratio:3/2;background:var(--cream-2);overflow:hidden}
+.more-card img{display:block;width:100%;height:100%;object-fit:cover}
+.more-in{display:grid;gap:4px;padding:16px 18px 18px}
+.more-in b{font-family:Fraunces,Lora,Georgia,serif;font-size:18px;color:var(--ink)}
+.more-in em{font-style:normal;font-size:14px;color:var(--soft)}
+
+.sec-cta{padding-top:0}   /* the section above already contributes its bottom padding */
+.act-final{text-align:center;background:var(--olive-dk);color:var(--paper);border-radius:5px;padding:56px 40px}
+.act-final h2{font-size:clamp(26px,3vw,38px)}
+.act-final h2{color:var(--paper)}
+.act-final p{max-width:56ch;margin:14px auto 0;color:rgba(251,250,244,.74);font-size:15.5px}
+.act-final .act-cta{justify-content:center}
+
+.act-final .detail{border-color:rgba(251,250,244,.34);color:var(--paper)}
+.act-final .detail:hover{border-color:var(--sage);color:#fff}
+
+@media (max-width:920px){
+  .act-top{grid-template-columns:1fr;gap:28px}
+  .act-photo{order:-1}
+  .act-cols{grid-template-columns:1fr;gap:34px}
+  .more{grid-template-columns:1fr 1fr}
+}
+@media (max-width:620px){
+  .act-final{padding:40px 22px}
+  .more{grid-template-columns:1fr}
+  .act-facts span{padding:0 14px}
+  .act-cta .btn,.act-cta .detail{flex:1;justify-content:center;text-align:center}
+}

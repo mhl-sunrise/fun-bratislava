@@ -204,3 +204,51 @@ render();
     showAll();
   }
 })();
+
+// ---------- auto-growing textarea ----------
+// ponytail: no wrapper element, no ghost div. Reset to auto first so the box can SHRINK —
+// scrollHeight never reports less than the current height, so growing-only is the usual bug.
+(() => {
+  const grow = el => { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; };
+  document.querySelectorAll('textarea').forEach(el => {
+    el.style.overflowY = 'hidden';
+    el.style.resize = 'none';
+    el.addEventListener('input', () => grow(el));
+    grow(el);
+  });
+})();
+
+// ---------- add to plan, with add-ons ----------
+// ponytail: writes into the same localStorage key the planner reads on load. Each entry is
+// {id, addons:[{n,p}]} and carries its own labels and prices, so the planner never has to
+// know anything about this page's data.
+(() => {
+  const KEY = 'fb-plan';
+  const dlg = document.getElementById('pick');
+  const trigger = document.querySelector('[data-add]');
+  if (!dlg || !trigger) return;
+
+  const open = () => { dlg.hidden = false; document.body.style.overflow = 'hidden'; };
+  const close = () => { dlg.hidden = true; document.body.style.overflow = ''; };
+
+  trigger.addEventListener('click', open);
+
+  dlg.addEventListener('click', e => {
+    if (e.target === dlg) return close();                 // click on the backdrop
+    const act = e.target.closest('[data-pick]');
+    if (!act) return;
+    if (act.dataset.pick === 'cancel') return close();
+
+    const addons = [...dlg.querySelectorAll('.pick-row input:checked')]
+      .map(i => ({ n: i.dataset.n, p: +i.dataset.p || 0 }));
+    try {
+      const plan = (JSON.parse(localStorage.getItem(KEY)) || [])
+        .filter(x => (typeof x === 'string' ? x : x.id) !== act.dataset.id);
+      plan.push({ id: act.dataset.id, addons });
+      localStorage.setItem(KEY, JSON.stringify(plan));
+    } catch {}
+    location.href = 'index.html#aktivity';
+  });
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !dlg.hidden) close(); });
+})();

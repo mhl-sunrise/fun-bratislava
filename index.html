@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=1">
+<link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
 <header class="nav">
@@ -554,7 +554,10 @@ const rmBtn = (id, name) =>
   `<button type="button" class="plan-x" data-id="${id}" aria-label="Odstrániť ${name} z plánu">&times;</button>`;
 const cards = [...document.querySelectorAll('.card')];
 const people = document.getElementById('people');
-const picked = new Set();
+// the plan lives in localStorage so activity pages can add to it and it survives a reload
+const PLAN_KEY = "fb-plan";
+const loadPlan = () => { try { return JSON.parse(localStorage.getItem(PLAN_KEY)) || [] } catch { return [] } };
+const picked = new Set(loadPlan());
 let occ = '';
 const priceOf = c => {
   const p = +c.dataset.price;
@@ -614,6 +617,7 @@ function render() {
   const dock = document.getElementById('dock');
   dock.dataset.open = picked.size ? '1' : '0';
   document.body.classList.toggle('dock-on', picked.size > 0);
+  try { localStorage.setItem(PLAN_KEY, JSON.stringify([...picked])); } catch {}
   // reserve exactly the bar's height — it wraps to two rows on phones
   document.documentElement.style.setProperty('--dock-h', Math.ceil(dock.getBoundingClientRect().height) + 'px');
   document.getElementById('docksum').innerHTML =
@@ -668,7 +672,7 @@ document.querySelectorAll('.add').forEach(b => b.onclick = () => {
   });
 })();
 </script>
-<script src="shared.js?v=1"></script>
+<script src="shared.js?v=2"></script>
 <!--
   IMAGES — drop 8 files into /img (logo.webp is already there):
     beer-bike.jpg  prosecco-bike.jpg  bubble-football.jpg  footdarts.jpg
