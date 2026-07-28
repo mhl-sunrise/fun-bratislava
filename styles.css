@@ -536,6 +536,11 @@ select{appearance:none;
 }
 /* ---------- footer ---------- */
 footer.site{background:var(--cream-2);border-top:1px solid var(--line);padding:58px 0 40px;position:relative;z-index:2}
+/* The summary bar is fixed and covers the bottom of the page, so that height has to be
+   reserved. It belongs inside the footer: as padding on <body> it sat below the footer's
+   background and showed up as a bare strip between the footer and the bar. Not in a media
+   query — the bar covers the footer on desktop too, just with a shorter one-row height. */
+body.dock-on footer.site{padding-bottom:calc(var(--dock-h,76px) + 54px)}
 footer.site img{height:64px;width:auto;display:block}
 .fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px}
 .fgrid h4{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin-bottom:14px;font-family:Inter,sans-serif;font-weight:600}
@@ -578,7 +583,6 @@ footer.site img{height:64px;width:auto;display:block}
   .book .btn-sage{width:100%;padding:14px 22px}
   form{grid-template-columns:1fr}
   .fgrid{grid-template-columns:1fr 1fr}
-  body.dock-on{padding-bottom:calc(var(--dock-h,76px) + 14px)}  /* only while the bar is up */
 }
 @media (max-width:560px){
   /* the note row squeezed two labels side by side; stack them instead */
@@ -631,7 +635,14 @@ html{scrollbar-width:thin;scrollbar-color:var(--olive) var(--cream)}
 .act-top{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
 .act-copy h1{font-size:clamp(32px,3.8vw,48px);margin:10px 0 14px}
 .act-intro{margin-top:16px;color:var(--soft);font-size:15.5px;max-width:52ch}
-.act-facts{display:flex;flex-wrap:wrap;gap:0;margin-top:26px}
+/* Deliberately nowrap: the dividers are border-lefts, so a wrapped item starts a new row
+   still carrying its border and indent — a stray vertical line dividing nothing. Letting
+   the cells shrink and the text wrap inside them keeps the three columns and their
+   dividers aligned at any width, in any language, with no breakpoint to get wrong.
+   No min-width:0 here on purpose: the default min-width:auto stops a cell shrinking past
+   its own uppercase label. Flex shares the squeeze by content size, so "Trvanie" — the
+   shortest value but not the shortest label — is the one that loses its heading first. */
+.act-facts{display:flex;flex-wrap:nowrap;gap:0;margin-top:26px}
 .act-facts span{display:flex;flex-direction:column;gap:3px;padding:0 22px;font-size:14.5px;color:var(--ink)}
 .act-facts span:first-child{padding-left:0}
 .act-facts span + span{border-left:1px solid var(--line-2)}
