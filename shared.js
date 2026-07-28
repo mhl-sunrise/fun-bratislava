@@ -158,21 +158,26 @@
   const solo = '.head, .planner, .book';
   const sel = `${grids.split(', ').map(s => s + ' > *').join(', ')}, ${solo}`;
   const items = [...document.querySelectorAll(sel)];
-  const showAll = () => items.forEach(e => e.classList.add('in'));
+  // The hidden state is inline, never in the stylesheet: if this script dies before it runs,
+  // nothing was hidden; if it dies after, showAll() clears it. CSS alone can never strand
+  // content at opacity 0, which is what blanked the page twice under IntersectionObserver.
+  const hide = e => { e.style.opacity = '0'; e.style.transform = 'translateY(16px)'; };
+  const show = e => { e.style.opacity = ''; e.style.transform = ''; e.classList.add('in'); };
+  const showAll = () => items.forEach(show);
 
   try {
     document.querySelectorAll(grids).forEach(g => {
       const cols = getComputedStyle(g).gridTemplateColumns.split(' ').filter(Boolean).length || 1;
       [...g.children].forEach((c, i) => c.style.setProperty('--i', i % cols));
     });
-    items.forEach(e => e.classList.add('reveal'));
+    items.forEach(e => { e.classList.add('reveal'); hide(e); });
 
     let pending = items.slice();
     const check = () => {
       const h = innerHeight;
       pending = pending.filter(e => {
         const r = e.getBoundingClientRect();
-        if (r.top < h * 0.94 && r.bottom > 0) { e.classList.add('in'); return false; }
+        if (r.top < h * 0.94 && r.bottom > 0) { show(e); return false; }
         return true;                       // one-shot: never re-hidden on the way back up
       });
       if (!pending.length) removeEventListener('scroll', onScroll);
@@ -188,7 +193,9 @@
     addEventListener('scroll', onScroll, { passive: true });
     addEventListener('resize', onScroll, { passive: true });
     addEventListener('load', check);
-    check();
+    // one frame hidden before the first check, so what is already on screen transitions in
+    // rather than appearing finished. load and the 400ms pass are the backstops.
+    requestAnimationFrame(() => requestAnimationFrame(check));
     setTimeout(check, 400);
   } catch (err) {
     showAll();
@@ -281,14 +288,14 @@ window.FBPicker = (() => {
   });
 })();
 
-// ---- summary bar: the plan stays visible on every page ----------------------
+// ---- cart in the header: the plan stays visible on every page ---------------
 // Rendered from localStorage rather than from the page, so an activity page shows the
 // same bar as the index without a second copy of the pricing rules. Prices come from
 // FB_PRICES, which scratchpad/genprices.js mirrors off the index cards — the two cannot
 // drift. Absent a #dock element (should not happen) every entry point is a no-op.
 window.FBDock = (() => {
   const PLAN_KEY = 'fb-plan', PPL_KEY = 'fb-people';
-  const dock = document.getElementById('dock');
+  const cart = document.getElementById('cart');
 
   const readPlan = () => {
     try {
@@ -319,25 +326,19 @@ window.FBDock = (() => {
   const eur = v => v.toLocaleString(window.FB_LOCALE_TAG || 'sk-SK') + ' €';
 
   const render = () => {
-    if (!dock) return;
+    if (!cart) return;
     const plan = readPlan(), n = readPeople(), { sum, pending } = totalOf(plan, n);
-    dock.dataset.open = plan.length ? '1' : '0';
-    document.body.classList.toggle('dock-on', plan.length > 0);
-    const sumEl = dock.querySelector('#docksum'), totEl = dock.querySelector('#docktot');
-    // the head count is wrapped so the phone layout can drop it — at 390px the full
-    // sentence needs more room than the bar's first column has and breaks mid-phrase
-    if (sumEl) sumEl.innerHTML = '<b>' + plan.length + '</b> ' +
-      t(plan.length === 1 ? 'aktivita' : plan.length < 5 ? 'aktivity' : 'aktivít') +
-      '<span class="dock-ppl"> ' + t('pre') + ' <b>' + n + '</b> ' + t('ľudí') + '</span>';
-    if (totEl) totEl.innerHTML = '<em>' + t('Spolu') + '</em><i>' + eur(sum) + (pending ? ' +' : '') + '</i>';
-    // measured only after the text is in: the bar wraps to two rows on phones, and the
-    // floating buttons and the footer both reserve space from --dock-h
-    document.documentElement.style.setProperty('--dock-h',
-      Math.ceil(dock.getBoundingClientRect().height) + 'px');
+    // The nav has no other route to the booking form, so the cart is always present; an
+    // empty plan just drops the badge and the total and leaves the icon as a plain link.
+    cart.querySelector('.cart-n').textContent = plan.length || '';
+    cart.querySelector('.cart-t').textContent = plan.length ? eur(sum) + (pending ? ' +' : '') : '';
+    cart.setAttribute('aria-label', plan.length
+      ? t('Váš plán') + ': ' + plan.length + ' · ' + t('Spolu') + ' ' + eur(sum)
+      : t('Rezervácia'));
+    if (!plan.length) return;
   };
 
-  if (dock) {
-    addEventListener('resize', render);
+  if (cart) {
     // The index drives its own re-renders because it holds the plan in memory. Everywhere
     // else nothing else will ever call this, so draw once as soon as the page is up.
     render();

@@ -46,8 +46,8 @@
   --cream:#F3F2EA;        /* page */
   --cream-2:#E9E8DC;      /* deeper band */
   --paper:#FBFAF4;        /* cards, elevated */
-  --ink:#212B18;
-  --forest:#212B18;       /* primary buttons — deep green, not black */
+  --ink:#333D28;       /* dark green, not the old near-black #212B18 */
+  --forest:#404833;       /* primary buttons and dark rows — was #212B18, which read as black */
   --nav-h:82px;           /* header is fixed, so the body reserves its height */
   --note-h:50px;          /* where the hero background stops — the planner note row */
   --body:#414A38;
@@ -79,7 +79,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .lab{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
 :focus-visible{outline:2px solid var(--olive-dp);outline-offset:3px;border-radius:5px}
 /* ---------- nav ---------- */
-.nav{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;background:#fff;border-bottom:1px solid var(--line)}
 .nav .wrap{display:flex;align-items:center;gap:32px;height:82px}
 .nav img{height:56px;width:auto;display:block}
 /* display:contents keeps the desktop row untouched — the drawer only becomes a real box
@@ -92,6 +92,18 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .nav[data-open="1"] .nav-burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .nav[data-open="1"] .nav-burger span:nth-child(2){opacity:0}
 .nav[data-open="1"] .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+/* Cart in the header instead of a bar pinned across the bottom of every screen. Same
+   numbers, no permanent strip. Hidden outright while the plan is empty. */
+.cart{position:relative;display:inline-flex;align-items:center;gap:9px;height:44px;padding:0 13px;
+  border:1px solid var(--line-2);border-radius:5px;color:var(--ink);
+  font:500 13.5px Inter,sans-serif;white-space:nowrap;transition:border-color .15s}
+.cart[hidden]{display:none}
+.cart:hover{border-color:var(--olive-dp)}
+.cart svg{width:19px;height:19px;flex:none}
+.cart-n:empty,.cart-t:empty{display:none}
+.cart-n{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;
+  border-radius:5px;background:var(--forest);color:#fff;font:600 12px/1 Inter,sans-serif}
+.cart-t{font-style:normal;font-weight:600}
 .nav-links{display:flex;gap:26px;font-size:14.5px;font-weight:500;color:var(--ink)}
 .nav-links a:hover{color:var(--olive-dp)}
 .langs{display:flex;gap:2px;margin-left:auto}
@@ -113,7 +125,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
    sub-pixel drift that showed at the seam.
    so it lines up with the card's internal rule by construction */
 .hero::after{content:"";position:absolute;top:0;left:0;right:0;bottom:var(--note-h,48px);z-index:-5;
-  border-bottom:1px solid var(--line);
+  border-bottom:1px solid #fff;
   background:
     radial-gradient(128% 104% at 46% 34%,transparent 52%,rgba(74,84,56,.14) 100%),
     radial-gradient(48% 46% at 78% 40%,rgba(132,144,108,.30),transparent 68%),
@@ -141,34 +153,6 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
    animation stays purely on the compositor. */
 /* Background stops at the planner's note row so the card overhangs onto the page colour.
    --note-h is measured from the row itself, so a font change cannot desync it. */
-.hero-blobs{position:absolute;top:0;left:0;right:0;bottom:var(--note-h,48px);z-index:-3;overflow:hidden;pointer-events:none}
-.hero-blobs i{position:absolute;display:block;will-change:transform}
-.hero-blobs i:nth-child(1){right:-10%;top:-20%;width:700px;height:620px;
-  background:radial-gradient(closest-side circle,rgba(124,138,96,.52),rgba(124,138,96,0) 72%);
-  animation:blobA 17s ease-in-out infinite alternate}
-.hero-blobs i:nth-child(2){left:36%;top:6%;width:520px;height:470px;
-  background:radial-gradient(closest-side circle,rgba(156,172,138,.58),rgba(156,172,138,0) 70%);
-  animation:blobB 13s ease-in-out infinite alternate}
-.hero-blobs i:nth-child(3){left:-14%;bottom:-26%;width:640px;height:560px;
-  background:radial-gradient(closest-side circle,rgba(124,138,96,.42),rgba(124,138,96,0) 72%);
-  animation:blobC 21s ease-in-out infinite alternate}
-/* Travel is a PERCENTAGE OF THE BLOB'S OWN SIZE, so each one crosses most of the hero and the
-   sweep scales with the viewport instead of being a fixed 360px nudge in one corner.
-   -105% of 700px is ~735px: blob 1 alone sweeps from the right edge past the centre.
-   Three stops keep the path bent — with `alternate`, two stops would just slide up and back. */
-@keyframes blobA{
-  0%  {transform:translate3d(0,0,0) scale(1)}
-  50% {transform:translate3d(-52%,46%,0) scale(1.4)}
-  100%{transform:translate3d(-105%,6%,0) scale(1.15)}}
-@keyframes blobB{
-  0%  {transform:translate3d(0,0,0) scale(1.05)}
-  50% {transform:translate3d(-42%,58%,0) scale(1.32)}
-  100%{transform:translate3d(-88%,-32%,0) scale(.66)}}
-@keyframes blobC{
-  0%  {transform:translate3d(0,0,0) scale(.92)}
-  50% {transform:translate3d(66%,-42%,0) scale(1.26)}
-  100%{transform:translate3d(126%,-12%,0) scale(1.56)}}
-@media (prefers-reduced-motion:reduce){.hero-blobs i{animation:none}}
 /* hero copy and glyph share one grid row, so align-items does the centring — no offsets */
 .hero-top{display:grid;grid-template-columns:1fr auto;align-items:center;gap:48px}
 .hero-anim{width:min(32vw,368px);color:var(--olive-dk);pointer-events:none;order:2}
@@ -188,13 +172,11 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .wa-b{fill:#fff}
 .wa-h{fill:var(--forest)}
 .wa:hover .wa-h{fill:#2F3D22}
-.dock[data-open="1"] ~ .wa{bottom:calc(var(--dock-h,76px) + 18px)}
 
 .cc{position:fixed;left:22px;bottom:22px;z-index:78;width:min(360px,calc(100vw - 44px));
   padding:20px 22px 18px;background:var(--paper);border:1px solid var(--line-2);border-radius:5px;
   transition:bottom .3s cubic-bezier(.2,.7,.3,1)}
 .cc[hidden]{display:none}
-.dock[data-open="1"] ~ .cc{bottom:calc(var(--dock-h,76px) + 18px)}
 .cc-t{font:600 15.5px Fraunces,Lora,Georgia,serif;color:var(--ink);margin-bottom:6px}
 .cc-p{font-size:13.5px;line-height:1.55;color:var(--soft);margin-bottom:14px}
 .cc-p a{color:var(--olive-dp);text-decoration:underline}
@@ -210,13 +192,11 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .cc-open[hidden]{display:none}
 .cc-open:hover{border-color:var(--olive-dp);transform:scale(1.06)}
 .cc-open svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8}
-.dock[data-open="1"] ~ .cc-open{bottom:calc(var(--dock-h,76px) + 18px)}
 /* Phones and tablets — the same breakpoint that swaps the nav for a burger. The two
    floating buttons move up into the header row instead of hovering over the bottom of
    the screen, where they fought the summary bar for the same corner and sat right under
    the thumb. Slotted right-to-left before the 44px burger, which ends 22px from the edge.
-   Selected as siblings of the header so this outranks the .dock[data-open] lift above —
-   with top and an explicit height set, the bottom those rules apply is ignored anyway. */
+   Selected as siblings of the header so the rule is specific enough to win. */
 @media (max-width:920px){
   /* Sitting in a row with the burger, the three read as one control group, so they take
      the burger's box exactly: 44px, 5px radius, hairline border, paper fill, ink glyph.
@@ -225,8 +205,8 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   header.nav ~ .wa,
   header.nav ~ .cc-open{top:14px;bottom:auto;left:auto;width:44px;height:44px;border-radius:5px;
     background:transparent;border:1px solid var(--line-2);color:var(--ink);transform:none}
-  header.nav ~ .wa{right:76px}
-  header.nav ~ .cc-open{right:130px}
+  header.nav ~ .wa{right:130px}
+  header.nav ~ .cc-open{right:184px}
   header.nav ~ .wa:hover,
   header.nav ~ .cc-open:hover{transform:none;background:transparent;border-color:var(--olive-dp)}
   header.nav ~ .wa svg{width:23px;height:23px}
@@ -236,6 +216,15 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   header.nav ~ .wa:hover .wa-b{fill:var(--ink)}
   header.nav ~ .wa .wa-h,
   header.nav ~ .wa:hover .wa-h{fill:var(--paper)}
+  /* Icon only at this width, with the count as a corner badge — there is no room for the
+     total beside three other controls. Fixed into the same 44px slot rhythm so it lines up
+     with the burger, cookie and WhatsApp instead of sitting in the row next to the logo. */
+  .cart{position:fixed;top:14px;right:76px;width:44px;height:44px;padding:0;gap:0;
+    justify-content:center;background:transparent}
+  .cart-t{display:none}
+  .cart-n{position:absolute;top:-7px;right:-7px;min-width:18px;height:18px;padding:0 5px;
+    font-size:11px;border:2px solid #fff}
+  .cart svg{width:21px;height:21px}
 }
 @media (max-width:620px){
   .act-final{padding:40px 22px}
@@ -351,7 +340,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .seg[aria-pressed="true"]{background:var(--olive-dk);border-color:var(--olive-dk);color:var(--paper)}
 .pf-date input{height:34px;border:1px solid var(--line-2);border-radius:5px;padding:0 11px;font:500 14.5px Inter,sans-serif;color:var(--ink);background:var(--paper)}
 .pf-date input:focus{outline:2px solid var(--olive-dp);outline-offset:1px;border-color:var(--olive-dp)}
-.planner-note{position:relative;border-radius:0 0 5px 5px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px 20px;background:var(--forest);border-top:1px solid var(--line);color:#fff;font-size:13.5px}
+.planner-note{position:relative;border-radius:0 0 5px 5px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px 20px;background:var(--forest);color:#fff;font-size:13.5px}
 .planner-note b{color:#fff;font-weight:600}
 /* the date column is content-sized around the field's 200px min-width and both rows share
    the same 26px right padding, so a 200px button lines up with the field above it */
@@ -554,49 +543,8 @@ select{appearance:none;
 .book .btn-sage{width:auto;padding:13px 30px}
 .book .btn-sage:disabled{opacity:.55;cursor:default}
 .form-sent{margin-top:12px;font-size:14px;color:var(--sage)}
-/* ---------- dock ---------- */
-/* Summary bar: hairline top edge, the count as a real badge, "Spolu" labelling the total,
-   and Vyprázdniť as a ghost button rather than a raw underlined link. */
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:70;background:rgba(31,38,23,.97);
-  backdrop-filter:blur(12px);border-top:1px solid rgba(168,180,156,.30);color:var(--paper);
-  transform:translateY(110%);transition:transform .32s cubic-bezier(.2,.7,.3,1)}
-.dock[data-open="1"]{transform:none}
-.dock .wrap{display:flex;align-items:center;gap:18px;padding-top:16px;padding-bottom:16px}
-/* Plain inline flow, not flex with a gap. As a flex container every top-level text run
-   became its own flex item spaced by the gap, while text nested one level down (the
-   head-count span) kept ordinary word spacing — so the same sentence had 11px in some
-   joins and 4px in others. One line of running text spaces itself evenly. */
-.dock-sum{font-size:14px;color:#fff;min-width:0;line-height:26px}
-.dock-sum b{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 8px;line-height:1;
-  box-sizing:border-box;vertical-align:middle;margin:0 3px;
-  border-radius:5px;background:transparent;border:1px solid rgba(168,180,156,.55);color:#fff;
-  font:600 13px/1 Inter,sans-serif}
-.dock-tot{margin-left:auto;display:flex;align-items:baseline;gap:10px;white-space:nowrap}
-/* The label is real markup, not a ::before with content:"Spolu". CSS-generated text is not
-   a text node, so the translator walks straight past it and it stayed Slovak in /en/ and
-   /de/. Anything the visitor reads has to live in the DOM. */
-.dock-tot em{font:600 11px Inter,sans-serif;letter-spacing:.16em;font-style:normal;
-  text-transform:uppercase;color:#9AA68C}
-.dock-tot i{font-family:Fraunces,Lora,serif;font-weight:600;font-size:26px;font-style:normal}
-/* both dock buttons share one box: same height, padding, radius and type */
-.dock-clear,.dock .btn{min-height:42px;padding:0 18px;border-radius:5px;
-  display:inline-flex;align-items:center;justify-content:center;
-  font:600 13.5px Inter,sans-serif;white-space:nowrap}
-.dock-clear{border:1px solid rgba(168,180,156,.34);color:#C8CFBC;
-  transition:border-color .18s,color .18s,background .18s}
-.dock-clear:hover{color:var(--paper);border-color:var(--sage);background:rgba(168,180,156,.12)}
-@media (max-width:700px){
-  .dock .wrap{flex-wrap:wrap;gap:12px}
-  .dock-tot{margin-left:auto}
-  .dock-clear{order:3}
-}
 /* ---------- footer ---------- */
 footer.site{background:var(--cream-2);border-top:1px solid var(--line);padding:58px 0 40px;position:relative;z-index:2}
-/* The summary bar is fixed and covers the bottom of the page, so that height has to be
-   reserved. It belongs inside the footer: as padding on <body> it sat below the footer's
-   background and showed up as a bare strip between the footer and the bar. Not in a media
-   query — the bar covers the footer on desktop too, just with a shorter one-row height. */
-body.dock-on footer.site{padding-bottom:calc(var(--dock-h,76px) + 54px)}
 footer.site img{height:64px;width:auto;display:block}
 .fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px}
 .fgrid h4{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin-bottom:14px;font-family:Inter,sans-serif;font-weight:600}
@@ -645,7 +593,7 @@ footer.site img{height:64px;width:auto;display:block}
    lines up with the note's top border. On a phone the note is inset inside the card, so
    stopping early left the 22px gutters beside it bare down to the section boundary. */
 @media (max-width:620px){
-  .hero::after,.hero::before,.hero-blobs{bottom:0}
+  .hero::after,.hero::before{bottom:0}
   /* the sage ended flush with the card's bottom edge — 1px of it. This gives the field
      room below the planner so it reads as a band the card sits on, not a hard cut. */
   .hero{padding-bottom:28px}
@@ -668,17 +616,6 @@ footer.site img{height:64px;width:auto;display:block}
 }
 @media (max-width:560px){
   .grid,.occ,.fgrid{grid-template-columns:1fr}
-  .dock-clear{display:none}
-  /* two tidy rows instead of free wrapping: summary + total, then a full-width CTA */
-  .dock .wrap{display:grid;grid-template-columns:1fr auto;align-items:center;
-    gap:10px 12px;padding-top:12px;padding-bottom:12px}
-  /* "2 aktivity pre 20 ľudí" does not fit the first column at phone widths and broke
-     mid-phrase. The count and the total are what the bar is for; the head count is set
-     right above on the index, so it goes rather than the line wrapping. */
-  .dock-sum{grid-column:1;font-size:13.5px;white-space:nowrap}
-  .dock-sum .dock-ppl{display:none}
-  .dock-tot{grid-column:2;margin-left:0}
-  .dock .btn{grid-column:1 / -1;width:100%}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 
@@ -694,8 +631,8 @@ html{scrollbar-width:thin;scrollbar-color:var(--olive) var(--cream)}
 ::-webkit-scrollbar-thumb:hover{background:var(--olive-dp);background-clip:padding-box}
 ::-webkit-scrollbar-corner{background:var(--cream)}
 /* the dark panels get a scrollbar that belongs to them, not to the page */
-.book ::-webkit-scrollbar-track,.dock ::-webkit-scrollbar-track{background:transparent}
-.book ::-webkit-scrollbar-thumb,.dock ::-webkit-scrollbar-thumb{background:var(--sage);border-color:transparent}
+.book ::-webkit-scrollbar-track{background:transparent}
+.book ::-webkit-scrollbar-thumb{background:var(--sage);border-color:transparent}
 
 /* ---------- activity page ---------- */
 .act-hero{padding-top:52px}
@@ -745,6 +682,14 @@ html{scrollbar-width:thin;scrollbar-color:var(--olive) var(--cream)}
 .more-in{display:grid;gap:4px;padding:16px 18px 18px}
 .more-in b{font-family:Fraunces,Lora,Georgia,serif;font-size:18px;color:var(--ink)}
 .more-in em{font-style:normal;font-size:14px;color:var(--soft)}
+/* A span, not a button or a link: the whole card is already one <a>, and nesting an
+   interactive element inside it is invalid and breaks keyboard focus order. This only has
+   to look like the Detail button on the index cards — the card's own href does the work. */
+.more-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
+.more-go{padding:9px 14px;border:1px solid var(--line-2);border-radius:5px;
+  font:500 13.5px Inter,sans-serif;color:var(--body);white-space:nowrap;
+  transition:border-color .15s,color .15s}
+.more-card:hover .more-go{border-color:var(--olive-dp);color:var(--ink)}
 
 .sec-cta{padding-top:0}   /* the section above already contributes its bottom padding */
 .act-final{text-align:center;background:var(--olive-dk);color:var(--paper);border-radius:5px;padding:56px 40px}
@@ -813,3 +758,13 @@ html{scrollbar-width:thin;scrollbar-color:var(--olive) var(--cream)}
 .plan-addon{font-size:13px;color:#A2AC94;padding-left:14px}
 .plan-addon .plan-x{width:20px;height:20px;font-size:15px}
 .plan-addon b{color:#C8CFBC;font-weight:500}
+
+/* CTA panel on phones: it sat in 64px of white above and 64 below — measured equal, but
+   both are the full desktop section rhythm around a block that is already a solid panel,
+   so it read as a hole in the page. 36px each side keeps them equal and tightens it.
+   :has() picks the section before the panel, which is what actually draws the gap above
+   (.sec-cta itself has padding-top:0). */
+@media (max-width:620px){
+  .sec:has(+ .sec-cta){padding-bottom:36px}
+  .sec-cta{padding-bottom:36px}
+}
