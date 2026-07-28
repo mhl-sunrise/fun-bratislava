@@ -211,11 +211,23 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .cc-open:hover{border-color:var(--olive-dp);transform:scale(1.06)}
 .cc-open svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8}
 .dock[data-open="1"] ~ .cc-open{bottom:calc(var(--dock-h,76px) + 18px)}
+/* Phones and tablets — the same breakpoint that swaps the nav for a burger. The two
+   floating buttons move up into the header row instead of hovering over the bottom of
+   the screen, where they fought the summary bar for the same corner and sat right under
+   the thumb. Slotted right-to-left before the 44px burger, which ends 22px from the edge.
+   Selected as siblings of the header so this outranks the .dock[data-open] lift above —
+   with top and an explicit height set, the bottom those rules apply is ignored anyway. */
+@media (max-width:920px){
+  header.nav ~ .wa,
+  header.nav ~ .cc-open{top:16px;bottom:auto;left:auto;width:40px;height:40px}
+  header.nav ~ .wa{right:76px}
+  header.nav ~ .cc-open{right:124px}
+  .wa svg{width:23px;height:23px}
+  .cc-open svg{width:19px;height:19px}
+}
 @media (max-width:620px){
   .act-final{padding:40px 22px}
   .cc{left:12px;right:12px;bottom:12px;width:auto}
-  .wa{right:14px;bottom:14px;width:50px;height:50px}
-  .cc-open{left:14px;bottom:14px}
 }
 
 /* ---------- date picker ---------- */

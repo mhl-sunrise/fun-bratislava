@@ -85,7 +85,6 @@ en: {
   'Pre túto príležitosť nemáme priame odporúčanie — vypnite filter a pozrite si všetkých osem, alebo nám napíšte a poradíme.': 'We have no direct match for this occasion — switch the filter off to see all eight, or write to us and we will advise.',
 
   // --- occasions
-  'Komu to sadne': 'Who it suits',
   'Firmy': 'Companies',
   'Faktúra, program na mieru a jeden kontakt na všetko. Bežne kombinujeme dve aktivity za popoludnie.': 'An invoice, a tailored programme and one contact for everything. We usually combine two activities in an afternoon.',
   'Partia': 'Friends',
@@ -356,7 +355,6 @@ de: {
   'Pre túto príležitosť nemáme priame odporúčanie — vypnite filter a pozrite si všetkých osem, alebo nám napíšte a poradíme.': 'Für diesen Anlass haben wir keine direkte Empfehlung — schalten Sie den Filter aus, um alle acht zu sehen, oder schreiben Sie uns.',
 
   // --- occasions
-  'Komu to sadne': 'Für wen es passt',
   'Firmy': 'Firmen',
   'Faktúra, program na mieru a jeden kontakt na všetko. Bežne kombinujeme dve aktivity za popoludnie.': 'Rechnung, maßgeschneidertes Programm und ein Ansprechpartner für alles. Meist kombinieren wir zwei Aktivitäten an einem Nachmittag.',
   'Partia': 'Freundeskreis',
