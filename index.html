@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 <header class="nav">
@@ -562,8 +562,11 @@ addEventListener('resize', syncNoteH);
 addEventListener('load', syncNoteH);
 
 const eur = n => n.toLocaleString('sk-SK') + ' €';
-const rmBtn = (id, name) =>
-  `<button type="button" class="plan-x" data-id="${id}" aria-label="Odstrániť ${name} z plánu">&times;</button>`;
+// one button shape for both cases; data-addon marks a single add-on row
+const rmBtn = (id, name, addon) =>
+  '<button type="button" class="plan-x" data-id="' + id + '"' +
+  (addon ? ' data-addon="' + addon.replace(/"/g, '&quot;') + '"' : '') +
+  ' aria-label="Odstrániť ' + (addon || name) + ' z plánu">&times;</button>';
 const cards = [...document.querySelectorAll('.card')];
 const people = document.getElementById('people');
 // the plan lives in localStorage so activity pages can add to it and it survives a reload
@@ -625,7 +628,7 @@ function render() {
     addons.forEach(x => {
       sum += (+x.p || 0);
       if (!+x.p) pending++;
-      rows.push(`<li class="plan-addon"><span>${x.n}</span><b>${+x.p ? eur(+x.p) : 'dohodou'}</b></li>`);
+      rows.push(`<li class="plan-addon"><span>${x.n}</span><b>${+x.p ? eur(+x.p) : "dohodou"}</b>${rmBtn(c.dataset.id, name, x.n)}</li>`);
     });
   });
   const list = document.getElementById('planlist'), tot = document.getElementById('plantot');
@@ -669,11 +672,15 @@ document.querySelectorAll('.add').forEach(b => b.onclick = () => {
 });
 document.getElementById('dockclear').onclick = () => { picked.clear(); render(); };
 
-// remove a single activity straight from the plan summary
+// remove a whole activity, or just one of its add-ons
 document.getElementById('planlist').addEventListener('click', e => {
   const b = e.target.closest('.plan-x');
   if (!b) return;
-  picked.delete(b.dataset.id);
+  if (b.dataset.addon) {
+    picked.set(b.dataset.id, (picked.get(b.dataset.id) || []).filter(a => a.n !== b.dataset.addon));
+  } else {
+    picked.delete(b.dataset.id);
+  }
   render();
 });
 render();
@@ -708,7 +715,7 @@ render();
 })();
 </script>
 <script src="addons.js?v=1"></script>
-<script src="shared.js?v=5"></script>
+<script src="shared.js?v=6"></script>
 <!--
   IMAGES — drop 8 files into /img (logo.webp is already there):
     beer-bike.jpg  prosecco-bike.jpg  bubble-football.jpg  footdarts.jpg

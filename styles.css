@@ -677,4 +677,5 @@ html{scrollbar-width:thin;scrollbar-color:var(--olive) var(--cream)}
 .pick-acts .detail{min-height:44px;display:inline-flex;align-items:center}
 /* add-on lines sit under their activity in the plan summary */
 .plan-addon{font-size:13px;color:#A2AC94;padding-left:14px}
+.plan-addon .plan-x{width:20px;height:20px;font-size:15px}
 .plan-addon b{color:#C8CFBC;font-weight:500}
