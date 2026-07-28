@@ -270,7 +270,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .hero-meta [data-i=globe]::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='none' stroke='%235C6647' stroke-width='2'/><path d='M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18' fill='none' stroke='%235C6647' stroke-width='2'/></svg>")}
 .planner{margin-top:120px;border:1px solid var(--line);border-radius:5px;background:#fff}
 .planner-row{display:grid;grid-template-columns:auto 1fr auto}
-.pf{padding:19px 26px;border-right:1px solid var(--line);min-width:0}
+.pf{padding:19px 20px;border-right:1px solid var(--line);min-width:0}
 .pf:last-child{border-right:0}
 .pf > .lab{color:var(--soft);display:block;margin-bottom:12px}
 .stepper{display:flex;align-items:center;gap:4px}
@@ -279,7 +279,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .stepper input{width:54px;height:44px;text-align:center;border:0;font:600 14.5px Inter,sans-serif;color:var(--ink);background:transparent;-moz-appearance:textfield}
 .stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .segs{display:flex;flex-wrap:wrap;gap:6px}
-.seg{display:inline-flex;align-items:center;gap:9px;height:44px;padding:0 14px;border-radius:5px;border:1px solid var(--line-2);font:500 14.5px Inter,sans-serif;color:var(--body);white-space:nowrap;background:var(--paper);transition:all .15s}
+.seg{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 12px;border-radius:5px;border:1px solid var(--line-2);font:500 14.5px Inter,sans-serif;color:var(--body);white-space:nowrap;background:var(--paper);transition:all .15s}
 /* Icons keyed off the existing data-occ, so no extra markup and no second source of truth. */
 .seg::before{content:"";width:19px;height:19px;flex:none;background-repeat:no-repeat;
   background-position:center;background-size:contain;opacity:.9}
@@ -291,7 +291,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .seg[aria-pressed="true"]{background:var(--olive-dk);border-color:var(--olive-dk);color:var(--paper)}
 .pf-date input{height:34px;border:1px solid var(--line-2);border-radius:5px;padding:0 11px;font:500 14.5px Inter,sans-serif;color:var(--ink);background:var(--paper)}
 .pf-date input:focus{outline:2px solid var(--olive-dp);outline-offset:1px;border-color:var(--olive-dp)}
-.planner-note{position:relative;border-radius:0 0 5px 5px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px 26px;background:var(--forest);border-top:1px solid var(--line);color:#fff;font-size:13.5px}
+.planner-note{position:relative;border-radius:0 0 5px 5px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px 20px;background:var(--forest);border-top:1px solid var(--line);color:#fff;font-size:13.5px}
 .planner-note b{color:#fff;font-weight:600}
 /* the date column is content-sized around the field's 200px min-width and both rows share
    the same 26px right padding, so a 200px button lines up with the field above it */
