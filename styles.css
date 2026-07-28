@@ -717,12 +717,16 @@ html{scrollbar-width:thin;scrollbar-color:var(--olive) var(--cream)}
 .more-card .media{display:block;aspect-ratio:3/2;background:var(--cream-2);overflow:hidden}
 .more-card img{display:block;width:100%;height:100%;object-fit:cover}
 .more-in{display:grid;gap:4px;padding:16px 18px 18px}
-.more-in b{font-family:Fraunces,Lora,Georgia,serif;font-size:18px;color:var(--ink)}
+.more-in b{font-family:Fraunces,Lora,Georgia,serif;font-size:18px;line-height:1.25;color:var(--ink)}
 .more-in em{font-style:normal;font-size:14px;color:var(--soft)}
 /* A span, not a button or a link: the whole card is already one <a>, and nesting an
    interactive element inside it is invalid and breaks keyboard focus order. This only has
    to look like the Detail button on the index cards — the card's own href does the work. */
-.more-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
+/* Scoped to the cross-link cards only — .kicker is a global class also used on the index
+   cards and the activity hero, so its spacing is set here through .more-in rather than on
+   .kicker itself. The negative margin pulls the price row up under the tightened title. */
+.more-in .kicker{margin-bottom:7px}
+.more-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:-8px}
 .more-go{padding:9px 14px;border:1px solid var(--line-2);border-radius:5px;
   font:500 13.5px Inter,sans-serif;color:var(--body);white-space:nowrap;
   transition:border-color .15s,color .15s}
