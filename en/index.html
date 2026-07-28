@@ -12,7 +12,7 @@
 <link rel="icon" href="../logo.webp">
 <link rel="preload" as="font" type="font/woff2" href="../fonts/Fraunces-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="../fonts/Inter-latin.woff2" crossorigin>
-<link rel="stylesheet" href="../styles.css?v=16">
+<link rel="stylesheet" href="../styles.css?v=20">
 <script src="../i18n.js?v=7"></script>
 </head>
 <body>
@@ -564,15 +564,7 @@ syncNoteH();
 addEventListener('resize', syncNoteH);
 addEventListener('load', syncNoteH);
 
-// The summary bar wraps to two rows on phones, so its height depends on the text inside
-// it and has to be measured *after* that text is written. The floating WhatsApp and
-// cookie buttons are positioned off --dock-h, so measuring an empty bar drops them right
-// on top of it. Re-measured on resize because the row count changes at the breakpoint.
-const measureDock = () => {
-  const el = document.getElementById('dock');
-  if (el) document.documentElement.style.setProperty('--dock-h', Math.ceil(el.getBoundingClientRect().height) + 'px');
-};
-addEventListener('resize', measureDock);
+// (the summary bar measures itself — see FBDock in shared.js)
 
 const eur = n => n.toLocaleString(window.FB_LOCALE_TAG || 'sk-SK') + ' €';
 // one button shape for both cases; data-addon marks a single add-on row
@@ -587,6 +579,9 @@ const PLAN_KEY = "fb-plan";
 const loadPlan = () => { try { return JSON.parse(localStorage.getItem(PLAN_KEY)) || [] } catch { return [] } };
 // Map so each entry can carry its add-ons. Older saves held bare id strings — normalise them.
 const picked = new Map(loadPlan().map(x => typeof x === "string" ? [x, []] : [x.id, x.addons || []]));
+// the head count persists with the plan (key shared with FBDock), so the bar on an
+// activity page prices exactly what this page shows rather than falling back to a default
+try { const saved = +localStorage.getItem("fb-people"); if (saved >= 2 && saved <= 60) people.value = saved; } catch {}
 const savePlan = () => { try { localStorage.setItem(PLAN_KEY, JSON.stringify([...picked].map(([id, addons]) => ({ id, addons })))); } catch {} };
 let occ = '';
 const priceOf = c => {
@@ -654,16 +649,12 @@ function render() {
     list.innerHTML = '<li class="plan-empty">' + t('Zatiaľ ste nevybrali žiadnu aktivitu. Pridajte ju vyššie — alebo nám len napíšte a poradíme.') + '</li>';
     tot.hidden = true;
   }
-  const dock = document.getElementById('dock');
-  dock.dataset.open = picked.size ? '1' : '0';
-  document.body.classList.toggle('dock-on', picked.size > 0);
   savePlan();
-  document.getElementById('docksum').innerHTML =
-    '<b>' + picked.size + '</b> ' +
-    t(picked.size === 1 ? 'aktivita' : picked.size < 5 ? 'aktivity' : 'aktivít') +
-    ' ' + t('pre') + ' <b>' + n + '</b> ' + t('ľudí');
-  document.getElementById('docktot').innerHTML = '<i>' + eur(sum) + (pending ? ' +' : '') + '</i>';
-  measureDock();
+  // the head count has to be stored too, or the bar on an activity page cannot price a
+  // per-person activity. FBDock (shared.js) then draws the bar for every page alike.
+  // Guarded: shared.js loads after this script, so the first render() runs without it and
+  // FBDock draws itself once on load instead.
+  if (window.FBDock) { FBDock.savePeople(n); FBDock.render(); }
   document.getElementById('f-ppl').value = n;
   document.getElementById('f-plan').value = ids.join(', ');
   document.getElementById('f-occ').value = occ;
@@ -729,8 +720,8 @@ render();
   });
 })();
 </script>
-<script src="../addons.js?v=1"></script>
-<script src="../shared.js?v=8"></script>
+<script src="../addons.js?v=2"></script>
+<script src="../shared.js?v=10"></script>
 <!--
   IMAGES — drop 8 files into /img (logo.webp is already there):
     beer-bike.jpg  prosecco-bike.jpg  bubble-football.jpg  footdarts.jpg

@@ -517,7 +517,7 @@ select{appearance:none;
    box ourselves is the only way to get rid of it on a dark panel. */
 .consent input{appearance:none;-webkit-appearance:none;width:18px;height:18px;aspect-ratio:1;flex:none;
   box-sizing:border-box;padding:0;margin:2px 0 0;
-  border:1.5px solid rgba(251,250,244,.42);border-radius:5px;background:transparent;cursor:pointer;
+  border:1.5px solid rgba(251,250,244,.42);border-radius:0;background:transparent;cursor:pointer;
   transition:background-color .15s,border-color .15s}
 .consent input:hover{border-color:rgba(251,250,244,.7)}
 .consent input:checked{background-color:var(--sage);border-color:var(--sage);
@@ -593,7 +593,7 @@ footer.site img{height:64px;width:auto;display:block}
   .langs{display:flex;margin:14px 0 0}
 
   /* planner: 120px of air belongs on desktop, not on a phone */
-  .planner{margin-top:52px}
+  .planner{margin-top:28px}   /* stacked under the copy here, so it no longer needs the desktop column gap */
   .planner-row{grid-template-columns:1fr}
   .pf{border-right:0;border-bottom:0;padding:9px 20px}
   .pf:first-child{padding-top:18px}
@@ -628,7 +628,11 @@ footer.site img{height:64px;width:auto;display:block}
   /* two tidy rows instead of free wrapping: summary + total, then a full-width CTA */
   .dock .wrap{display:grid;grid-template-columns:1fr auto;align-items:center;
     gap:10px 12px;padding-top:12px;padding-bottom:12px}
-  .dock-sum{grid-column:1;font-size:13.5px}
+  /* "2 aktivity pre 20 ľudí" does not fit the first column at phone widths and broke
+     mid-phrase. The count and the total are what the bar is for; the head count is set
+     right above on the index, so it goes rather than the line wrapping. */
+  .dock-sum{grid-column:1;font-size:13.5px;white-space:nowrap}
+  .dock-sum .dock-ppl{display:none}
   .dock-tot{grid-column:2;margin-left:0}
   .dock .btn{grid-column:1 / -1;width:100%}
 }
@@ -744,8 +748,11 @@ html{scrollbar-width:thin;scrollbar-color:var(--olive) var(--cream)}
 .pick-row{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:5px;
   font-size:14.5px;color:var(--ink);cursor:pointer;transition:background .15s}
 .pick-row:hover{background:var(--cream)}
+/* Square, not the site's usual 5px: on an 18px box that radius is nearly a third of the
+   side and reads as a rounded blob rather than a checkbox. Same override on .consent. */
 .pick-row input{appearance:none;-webkit-appearance:none;width:18px;height:18px;flex:none;
-  border:1.5px solid var(--line-2);border-radius:5px;background:transparent;cursor:pointer;
+  box-sizing:border-box;padding:0;          /* without these the global input padding made it 28x24 */
+  border:1.5px solid var(--line-2);border-radius:0;background:transparent;cursor:pointer;
   transition:background-color .15s,border-color .15s}
 .pick-row input:checked{background-color:var(--forest);border-color:var(--forest);
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3.4 8.4l3.1 3.1 6.1-6.7' fill='none' stroke='%23fff' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/></svg>");

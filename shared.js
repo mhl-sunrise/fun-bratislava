@@ -250,11 +250,22 @@ window.FBPicker = (() => {
   return { open };
 })();
 
-// activity pages: the hero button adds to the plan, then hands over to the index
+// activity pages: the hero button adds to the plan and stays put. It used to jump back to
+// the index, which made browsing a second activity a round trip; now the summary bar shows
+// the plan on this page, so there is nothing to go back for.
 (() => {
   const KEY = 'fb-plan';
   const trigger = document.querySelector('[data-add]');
   if (!trigger) return;
+  const label = () => {
+    let inPlan = false;
+    try {
+      inPlan = (JSON.parse(localStorage.getItem(KEY)) || [])
+        .some(x => (typeof x === 'string' ? x : x.id) === trigger.dataset.add);
+    } catch {}
+    trigger.textContent = t(inPlan ? 'V pláne' : 'Pridať do plánu');
+  };
+  label();
   trigger.addEventListener('click', () => {
     const id = trigger.dataset.add;
     FBPicker.open(id, trigger.dataset.name || 'aktivitu', addons => {
@@ -264,7 +275,79 @@ window.FBPicker = (() => {
         plan.push({ id, addons });
         localStorage.setItem(KEY, JSON.stringify(plan));
       } catch {}
-      location.href = 'index.html#aktivity';
+      label();
+      window.FBDock && FBDock.render();
     });
   });
+})();
+
+// ---- summary bar: the plan stays visible on every page ----------------------
+// Rendered from localStorage rather than from the page, so an activity page shows the
+// same bar as the index without a second copy of the pricing rules. Prices come from
+// FB_PRICES, which scratchpad/genprices.js mirrors off the index cards — the two cannot
+// drift. Absent a #dock element (should not happen) every entry point is a no-op.
+window.FBDock = (() => {
+  const PLAN_KEY = 'fb-plan', PPL_KEY = 'fb-people';
+  const dock = document.getElementById('dock');
+
+  const readPlan = () => {
+    try {
+      return (JSON.parse(localStorage.getItem(PLAN_KEY)) || [])
+        .map(x => typeof x === 'string' ? { id: x, addons: [] } : { id: x.id, addons: x.addons || [] });
+    } catch { return []; }
+  };
+  const readPeople = () => {
+    let n = 12;
+    try { n = +localStorage.getItem(PPL_KEY) || 12; } catch {}
+    return Math.min(60, Math.max(2, n));
+  };
+  const savePeople = n => { try { localStorage.setItem(PPL_KEY, n); } catch {} };
+
+  // same arithmetic as the index cards: a capped activity is priced per unit (per bike),
+  // an uncapped one per person, and anything without a price only flags the estimate
+  const totalOf = (plan, n) => {
+    let sum = 0, pending = 0;
+    plan.forEach(({ id, addons }) => {
+      const m = (window.FB_PRICES || {})[id];
+      if (m && m.price) sum += m.price * (m.cap ? Math.ceil(n / m.cap) : n);
+      else pending++;
+      (addons || []).forEach(a => { sum += +a.p || 0; if (!+a.p) pending++; });
+    });
+    return { sum, pending };
+  };
+
+  const eur = v => v.toLocaleString(window.FB_LOCALE_TAG || 'sk-SK') + ' €';
+
+  const render = () => {
+    if (!dock) return;
+    const plan = readPlan(), n = readPeople(), { sum, pending } = totalOf(plan, n);
+    dock.dataset.open = plan.length ? '1' : '0';
+    document.body.classList.toggle('dock-on', plan.length > 0);
+    const sumEl = dock.querySelector('#docksum'), totEl = dock.querySelector('#docktot');
+    // the head count is wrapped so the phone layout can drop it — at 390px the full
+    // sentence needs more room than the bar's first column has and breaks mid-phrase
+    if (sumEl) sumEl.innerHTML = '<b>' + plan.length + '</b> ' +
+      t(plan.length === 1 ? 'aktivita' : plan.length < 5 ? 'aktivity' : 'aktivít') +
+      '<span class="dock-ppl"> ' + t('pre') + ' <b>' + n + '</b> ' + t('ľudí') + '</span>';
+    if (totEl) totEl.innerHTML = '<i>' + eur(sum) + (pending ? ' +' : '') + '</i>';
+    // measured only after the text is in: the bar wraps to two rows on phones, and the
+    // floating buttons and the footer both reserve space from --dock-h
+    document.documentElement.style.setProperty('--dock-h',
+      Math.ceil(dock.getBoundingClientRect().height) + 'px');
+  };
+
+  if (dock) {
+    addEventListener('resize', render);
+    // The index drives its own re-renders because it holds the plan in memory. Everywhere
+    // else nothing else will ever call this, so draw once as soon as the page is up.
+    render();
+    if (!document.getElementById('planlist')) {
+      const clear = document.getElementById('dockclear');
+      if (clear) clear.addEventListener('click', () => {
+        try { localStorage.removeItem(PLAN_KEY); } catch {}
+        render();
+      });
+    }
+  }
+  return { render, readPeople, savePeople };
 })();
