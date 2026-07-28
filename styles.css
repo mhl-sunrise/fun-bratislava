@@ -537,13 +537,20 @@ select{appearance:none;
   transform:translateY(110%);transition:transform .32s cubic-bezier(.2,.7,.3,1)}
 .dock[data-open="1"]{transform:none}
 .dock .wrap{display:flex;align-items:center;gap:18px;padding-top:16px;padding-bottom:16px}
-.dock-sum{display:flex;align-items:center;gap:11px;font-size:14px;color:#fff;min-width:0}
+/* Plain inline flow, not flex with a gap. As a flex container every top-level text run
+   became its own flex item spaced by the gap, while text nested one level down (the
+   head-count span) kept ordinary word spacing — so the same sentence had 11px in some
+   joins and 4px in others. One line of running text spaces itself evenly. */
+.dock-sum{font-size:14px;color:#fff;min-width:0;line-height:26px}
 .dock-sum b{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 8px;line-height:1;
-  box-sizing:border-box;
+  box-sizing:border-box;vertical-align:middle;margin:0 3px;
   border-radius:5px;background:transparent;border:1px solid rgba(168,180,156,.55);color:#fff;
   font:600 13px/1 Inter,sans-serif}
 .dock-tot{margin-left:auto;display:flex;align-items:baseline;gap:10px;white-space:nowrap}
-.dock-tot::before{content:"Spolu";font:600 11px Inter,sans-serif;letter-spacing:.16em;
+/* The label is real markup, not a ::before with content:"Spolu". CSS-generated text is not
+   a text node, so the translator walks straight past it and it stayed Slovak in /en/ and
+   /de/. Anything the visitor reads has to live in the DOM. */
+.dock-tot em{font:600 11px Inter,sans-serif;letter-spacing:.16em;font-style:normal;
   text-transform:uppercase;color:#9AA68C}
 .dock-tot i{font-family:Fraunces,Lora,serif;font-weight:600;font-size:26px;font-style:normal}
 /* both dock buttons share one box: same height, padding, radius and type */

@@ -329,7 +329,7 @@ window.FBDock = (() => {
     if (sumEl) sumEl.innerHTML = '<b>' + plan.length + '</b> ' +
       t(plan.length === 1 ? 'aktivita' : plan.length < 5 ? 'aktivity' : 'aktivít') +
       '<span class="dock-ppl"> ' + t('pre') + ' <b>' + n + '</b> ' + t('ľudí') + '</span>';
-    if (totEl) totEl.innerHTML = '<i>' + eur(sum) + (pending ? ' +' : '') + '</i>';
+    if (totEl) totEl.innerHTML = '<em>' + t('Spolu') + '</em><i>' + eur(sum) + (pending ? ' +' : '') + '</i>';
     // measured only after the text is in: the bar wraps to two rows on phones, and the
     // floating buttons and the footer both reserve space from --dock-h
     document.documentElement.style.setProperty('--dock-h',
