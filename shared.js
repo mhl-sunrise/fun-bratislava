@@ -50,10 +50,10 @@
 // DOM and keeps carrying the value, so form submit and validation are untouched; if this
 // script never runs, the native field is simply left visible.
 (() => {
-  const DOW = ['Po', 'Ut', 'St', 'Št', 'Pi', 'So', 'Ne'];
+  const DOW = { sk: ['Po','Ut','St','Št','Pi','So','Ne'], en: ['Mo','Tu','We','Th','Fr','Sa','Su'], de: ['Mo','Di','Mi','Do','Fr','Sa','So'] }[window.FB_LANG] || ['Po','Ut','St','Št','Pi','So','Ne'];
   const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   const parse = s => { const [y, m, d] = (s || '').split('-').map(Number); return y ? new Date(y, m - 1, d) : null; };
-  const long = d => d.toLocaleDateString('sk-SK', { day: 'numeric', month: 'long', year: 'numeric' });
+  const long = d => d.toLocaleDateString(window.FB_LOCALE_TAG || 'sk-SK', { day: 'numeric', month: 'long', year: 'numeric' });
   const today = new Date(); today.setHours(0, 0, 0, 0);
 
   document.querySelectorAll('input[type="date"]').forEach(input => {
@@ -62,7 +62,7 @@
     field.type = 'button'; field.className = 'dp-field';
     field.setAttribute('aria-haspopup', 'dialog'); field.setAttribute('aria-expanded', 'false');
     const lbl = input.getAttribute('aria-label') ||
-      document.querySelector(`label[for="${input.id}"]`)?.textContent.trim() || 'Dátum';
+      document.querySelector(`label[for="${input.id}"]`)?.textContent.trim() || t('Dátum');
     field.setAttribute('aria-label', lbl);
     const pop = document.createElement('div');
     pop.className = 'dp-pop'; pop.hidden = true; pop.setAttribute('role', 'dialog');
@@ -97,20 +97,20 @@
       }
       pop.innerHTML =
         `<div class="dp-head">
-           <button type="button" class="dp-nav" data-go="-1" ${canBack ? '' : 'disabled'} aria-label="Predchádzajúci mesiac">‹</button>
-           <span class="dp-title">${view.toLocaleDateString('sk-SK', { month: 'long', year: 'numeric' })}</span>
-           <button type="button" class="dp-nav" data-go="1" aria-label="Nasledujúci mesiac">›</button>
+           <button type="button" class="dp-nav" data-go="-1" ${canBack ? '' : 'disabled'} aria-label="${t("Predchádzajúci mesiac")}">‹</button>
+           <span class="dp-title">${view.toLocaleDateString(window.FB_LOCALE_TAG || 'sk-SK', { month: 'long', year: 'numeric' })}</span>
+           <button type="button" class="dp-nav" data-go="1" aria-label="${t("Nasledujúci mesiac")}">›</button>
          </div>
          <div class="dp-grid">${DOW.map(d => `<span class="dp-dow">${d}</span>`).join('')}${cells}</div>
          <div class="dp-foot">
-           <button type="button" data-act="clear">Zmazať</button>
-           <button type="button" data-act="today">Dnes</button>
+           <button type="button" data-act="clear">${t("Zmazať")}</button>
+           <button type="button" data-act="today">${t("Dnes")}</button>
          </div>`;
     };
 
     const show = () => {
       const sel = parse(input.value);
-      field.textContent = sel ? long(sel) : 'Vyberte dátum';
+      field.textContent = sel ? long(sel) : t('Vyberte dátum');
       field.dataset.empty = sel ? '0' : '1';
     };
 
