@@ -86,7 +86,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
    at the mobile breakpoint, so the links exist once in the markup, not twice. */
 .nav-drawer{display:contents}
 .nav-burger{display:none;width:44px;height:44px;border-radius:5px;border:1px solid var(--line-2);
-  background:var(--paper);place-content:center;justify-items:center;gap:5px;margin-left:auto}
+  background:transparent;place-content:center;justify-items:center;gap:5px;margin-left:auto}
 .nav-burger span{display:block;width:19px;height:2px;background:var(--ink);border-radius:2px;
   transition:transform .22s,opacity .18s}
 .nav[data-open="1"] .nav-burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
@@ -224,11 +224,11 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
      way on desktop, where the two floats are far apart and nothing needs to match. */
   header.nav ~ .wa,
   header.nav ~ .cc-open{top:14px;bottom:auto;left:auto;width:44px;height:44px;border-radius:5px;
-    background:var(--paper);border:1px solid var(--line-2);color:var(--ink);transform:none}
+    background:transparent;border:1px solid var(--line-2);color:var(--ink);transform:none}
   header.nav ~ .wa{right:76px}
   header.nav ~ .cc-open{right:130px}
   header.nav ~ .wa:hover,
-  header.nav ~ .cc-open:hover{transform:none;background:var(--paper);border-color:var(--olive-dp)}
+  header.nav ~ .cc-open:hover{transform:none;background:transparent;border-color:var(--olive-dp)}
   header.nav ~ .wa svg{width:23px;height:23px}
   header.nav ~ .cc-open svg{width:20px;height:20px}
   /* the glyph is a knockout: dark bubble, paper-coloured handset punched out of it */
@@ -390,9 +390,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .card-in h3{font-size:20px;font-weight:600}
 .card-in h3 a:hover{color:var(--olive-dp)}
 .card-in p{font-size:14px;color:var(--soft);line-height:1.55}
-.facts{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:4px}
-.facts span{font-size:11px;padding:4px 9px;border-radius:5px;background:var(--cream);border:1px solid var(--line);color:var(--soft)}
-.money{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.money{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
 .money .u{font-size:12.5px;color:var(--soft)}
 .money .t{font-family:Fraunces,Lora,serif;font-weight:600;font-size:24px;color:var(--ink);line-height:1.1;text-align:right}
 .money .t small{display:block;font-family:Inter,sans-serif;font-size:10.5px;font-weight:400;color:var(--soft);margin-top:4px}
