@@ -452,7 +452,9 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--olive-dp);outlin
 ::placeholder{color:#94A085}
 textarea{min-height:88px;resize:vertical}
 option{background:#fff;color:var(--ink)}
-select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--sage) 50%),linear-gradient(135deg,var(--sage) 50%,transparent 50%);background-position:calc(100% - 17px) 19px,calc(100% - 11px) 19px;background-size:6px 6px;background-repeat:no-repeat}
+select{appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 9.5l6 6 6-6' fill='none' stroke='%23A8B49C' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat:no-repeat;background-position:right 13px center;background-size:17px;padding-right:40px}
 .consent{display:flex;gap:11px;align-items:flex-start;font-size:12.5px;color:#BFC7B4;line-height:1.5;
   margin:6px 0 14px}
 /* appearance:none — the ring was Chrome's own control chrome, not a CSS outline. Drawing the

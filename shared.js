@@ -224,10 +224,10 @@ window.FBPicker = (() => {
   const open = (id, name, done) => {
     const addons = (window.FB_ADDONS || {})[id] || [];
     resolve = done;
-    title.textContent = `Pridať ${name} do plánu`;
+    title.textContent = t('Pridať {x} do plánu', { x: name });
     list.innerHTML = addons.map(a =>
-      `<label class="pick-row"><input type="checkbox" data-n="${a.n}" data-p="${a.p}">` +
-      `<span>${a.n}</span><em>${a.p ? a.p + ' €' : 'dohodou'}</em></label>`).join('');
+      '<label class="pick-row"><input type="checkbox" data-n="' + a.n + '" data-p="' + a.p + '">' +
+      '<span>' + t(a.n) + '</span><em>' + (a.p ? a.p + ' €' : t('dohodou')) + '</em></label>').join('');
     dlg.querySelector('.pick-sub').hidden = addons.length === 0;
     dlg.hidden = false;
     document.body.style.overflow = 'hidden';
