@@ -12,16 +12,6 @@
   addEventListener('resize', () => { if (innerWidth > 920) set(false); });
 })();
 
-document.getElementById('dockclear').onclick = () => { picked.clear(); render(); };
-
-// remove a single activity straight from the plan summary
-document.getElementById('planlist').addEventListener('click', e => {
-  const b = e.target.closest('.plan-x');
-  if (!b) return;
-  picked.delete(b.dataset.id);
-  render();
-});
-render();
 
 
 

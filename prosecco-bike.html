@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 
@@ -47,8 +47,7 @@
           <span><b>Cena</b>270 € / jazda</span>
         </div>
         <div class="act-cta">
-          <a class="btn" href="index.html#rezervacia">Overiť termín</a>
-          <a class="detail" href="index.html#aktivity">Pridať do plánu</a>
+          <button class="btn" type="button" data-add="prosecco-bike">Pridať do plánu</button>
         </div>
       </div>
       <figure class="act-photo">
@@ -73,10 +72,10 @@
       <div>
         <div class="head"><h2>Čo sa dá pridať</h2></div>
         <ul class="ticks ticks-plus">
-            <li>Fľaša prosecca navyše · 16 €</li>
-            <li>Slané chuťovky · 12 €</li>
-            <li>Praclíky · 10 €</li>
-            <li>Čiapky pre partiu · 20 €</li>
+            <li>Fľaša prosecca navyše <span class="addon-price">16 €</span></li>
+            <li>Slané chuťovky <span class="addon-price">12 €</span></li>
+            <li>Praclíky <span class="addon-price">10 €</span></li>
+            <li>Čiapky pre partiu <span class="addon-price">20 €</span></li>
         </ul>
       </div>
     </div>
@@ -118,6 +117,23 @@
 </section>
 
 </main>
+
+<div class="pick" id="pick" hidden>
+  <div class="pick-box" role="dialog" aria-modal="true" aria-labelledby="picktitle">
+    <h3 id="picktitle">Pridať do plánu</h3>
+    <p class="pick-sub">Chcete k tomu niečo doplniť? Doplnky viete zmeniť aj neskôr.</p>
+    <div class="pick-list">
+        <label class="pick-row"><input type="checkbox" data-n="Fľaša prosecca navyše" data-p="16"><span>Fľaša prosecca navyše</span><em>16 €</em></label>
+        <label class="pick-row"><input type="checkbox" data-n="Slané chuťovky" data-p="12"><span>Slané chuťovky</span><em>12 €</em></label>
+        <label class="pick-row"><input type="checkbox" data-n="Praclíky" data-p="10"><span>Praclíky</span><em>10 €</em></label>
+        <label class="pick-row"><input type="checkbox" data-n="Čiapky pre partiu" data-p="20"><span>Čiapky pre partiu</span><em>20 €</em></label>
+    </div>
+    <div class="pick-acts">
+      <button class="btn" type="button" data-pick="ok" data-id="prosecco-bike" data-name="Prosecco Bike">Pridať do plánu</button>
+      <button class="detail" type="button" data-pick="cancel">Zrušiť</button>
+    </div>
+  </div>
+</div>
 
 <footer class="site">
   <div class="wrap">
@@ -173,6 +189,6 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 3.4 3.4 0 0 1-4.2-4.2A3.4 3.4 0 0 1 12 3Z" stroke-linejoin="round"/><circle cx="9.5" cy="10" r="1"/><circle cx="14" cy="14.5" r="1"/><circle cx="9" cy="15.5" r="1"/></svg>
 </button>
 
-<script src="shared.js?v=2"></script>
+<script src="shared.js?v=4"></script>
 </body>
 </html>

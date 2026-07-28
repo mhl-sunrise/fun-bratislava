@@ -647,3 +647,31 @@ html{scrollbar-width:thin;scrollbar-color:var(--olive) var(--cream)}
   .act-facts span{padding:0 14px}
   .act-cta .btn,.act-cta .detail{flex:1;justify-content:center;text-align:center}
 }
+
+/* ---------- add-on picker ---------- */
+.addon-price{margin-left:auto;padding-left:14px;color:var(--soft);font-size:14px;white-space:nowrap}
+.ticks-plus li{align-items:center}
+.pick{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:22px;
+  background:rgba(27,36,21,.45);backdrop-filter:blur(3px)}
+.pick[hidden]{display:none}
+.pick-box{width:min(430px,100%);max-height:88vh;overflow:auto;padding:26px;border-radius:5px;
+  background:#fff;border:1px solid var(--line-2)}
+.pick-box h3{font-size:21px;margin-bottom:6px}
+.pick-sub{font-size:14px;color:var(--soft);margin-bottom:18px}
+.pick-list{display:grid;gap:2px;margin-bottom:20px}
+.pick-row{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:5px;
+  font-size:14.5px;color:var(--ink);cursor:pointer;transition:background .15s}
+.pick-row:hover{background:var(--cream)}
+.pick-row input{appearance:none;-webkit-appearance:none;width:18px;height:18px;flex:none;
+  border:1.5px solid var(--line-2);border-radius:5px;background:transparent;cursor:pointer;
+  transition:background-color .15s,border-color .15s}
+.pick-row input:checked{background-color:var(--forest);border-color:var(--forest);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3.4 8.4l3.1 3.1 6.1-6.7' fill='none' stroke='%23fff' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-size:12px;background-position:center;background-repeat:no-repeat}
+.pick-row em{margin-left:auto;font-style:normal;color:var(--soft);font-size:14px;white-space:nowrap}
+.pick-acts{display:flex;gap:10px}
+.pick-acts .btn{flex:1;justify-content:center;min-height:44px}
+.pick-acts .detail{min-height:44px;display:inline-flex;align-items:center}
+/* add-on lines sit under their activity in the plan summary */
+.plan-addon{font-size:13px;color:#A2AC94;padding-left:14px}
+.plan-addon b{color:#C8CFBC;font-weight:500}

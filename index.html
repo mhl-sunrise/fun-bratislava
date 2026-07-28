@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 <header class="nav">
@@ -557,7 +557,9 @@ const people = document.getElementById('people');
 // the plan lives in localStorage so activity pages can add to it and it survives a reload
 const PLAN_KEY = "fb-plan";
 const loadPlan = () => { try { return JSON.parse(localStorage.getItem(PLAN_KEY)) || [] } catch { return [] } };
-const picked = new Set(loadPlan());
+// Map so each entry can carry its add-ons. Older saves held bare id strings — normalise them.
+const picked = new Map(loadPlan().map(x => typeof x === "string" ? [x, []] : [x.id, x.addons || []]));
+const savePlan = () => { try { localStorage.setItem(PLAN_KEY, JSON.stringify([...picked].map(([id, addons]) => ({ id, addons })))); } catch {} };
 let occ = '';
 const priceOf = c => {
   const p = +c.dataset.price;
@@ -601,9 +603,18 @@ function render() {
     c.querySelector('.add').textContent = on ? 'V pláne' : 'Pridať do plánu';
     if (!on) return;
     const name = c.querySelector('h3').textContent.trim(), p = priceOf(c);
-    ids.push(name);
+    const addons = picked.get(c.dataset.id) || [];
+    // add-ons carry their own price, so a "dohodou" one (p = 0) only flags the estimate
+    const addSum = addons.reduce((a, x) => a + (+x.p || 0), 0);
+    const addPending = addons.some(x => !+x.p);
+    ids.push(addons.length ? `${name} (+ ${addons.map(x => x.n).join(', ')})` : name);
     if (p) { sum += p.total; rows.push(`<li><span>${name}</span><b>${eur(p.total)}</b>${rmBtn(c.dataset.id, name)}</li>`); }
     else { pending++; rows.push(`<li><span>${name}</span><b>na vyžiadanie</b>${rmBtn(c.dataset.id, name)}</li>`); }
+    addons.forEach(x => {
+      sum += (+x.p || 0);
+      if (!+x.p) pending++;
+      rows.push(`<li class="plan-addon"><span>${x.n}</span><b>${+x.p ? eur(+x.p) : 'dohodou'}</b></li>`);
+    });
   });
   const list = document.getElementById('planlist'), tot = document.getElementById('plantot');
   if (rows.length) {
@@ -617,7 +628,7 @@ function render() {
   const dock = document.getElementById('dock');
   dock.dataset.open = picked.size ? '1' : '0';
   document.body.classList.toggle('dock-on', picked.size > 0);
-  try { localStorage.setItem(PLAN_KEY, JSON.stringify([...picked])); } catch {}
+  savePlan();
   // reserve exactly the bar's height — it wraps to two rows on phones
   document.documentElement.style.setProperty('--dock-h', Math.ceil(dock.getBoundingClientRect().height) + 'px');
   document.getElementById('docksum').innerHTML =
@@ -640,9 +651,20 @@ document.querySelectorAll('.seg').forEach(b => b.onclick = () => {
 });
 document.querySelectorAll('.add').forEach(b => b.onclick = () => {
   const id = b.closest('.card').dataset.id;
-  picked.has(id) ? picked.delete(id) : picked.add(id);
+  picked.has(id) ? picked.delete(id) : picked.set(id, []);
   render();
 });
+document.getElementById('dockclear').onclick = () => { picked.clear(); render(); };
+
+// remove a single activity straight from the plan summary
+document.getElementById('planlist').addEventListener('click', e => {
+  const b = e.target.closest('.plan-x');
+  if (!b) return;
+  picked.delete(b.dataset.id);
+  render();
+});
+render();
+
 // ---------- booking form ----------
 // ponytail: action="#" with method="post" made submit a real POST to the same URL, which is
 // why a reload raised "Confirm Form Resubmission". Intercepted here so nothing navigates.
@@ -672,7 +694,7 @@ document.querySelectorAll('.add').forEach(b => b.onclick = () => {
   });
 })();
 </script>
-<script src="shared.js?v=2"></script>
+<script src="shared.js?v=4"></script>
 <!--
   IMAGES — drop 8 files into /img (logo.webp is already there):
     beer-bike.jpg  prosecco-bike.jpg  bubble-football.jpg  footdarts.jpg
