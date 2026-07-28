@@ -568,6 +568,16 @@ syncNoteH();
 addEventListener('resize', syncNoteH);
 addEventListener('load', syncNoteH);
 
+// The summary bar wraps to two rows on phones, so its height depends on the text inside
+// it and has to be measured *after* that text is written. The floating WhatsApp and
+// cookie buttons are positioned off --dock-h, so measuring an empty bar drops them right
+// on top of it. Re-measured on resize because the row count changes at the breakpoint.
+const measureDock = () => {
+  const el = document.getElementById('dock');
+  if (el) document.documentElement.style.setProperty('--dock-h', Math.ceil(el.getBoundingClientRect().height) + 'px');
+};
+addEventListener('resize', measureDock);
+
 const eur = n => n.toLocaleString(window.FB_LOCALE_TAG || 'sk-SK') + ' €';
 // one button shape for both cases; data-addon marks a single add-on row
 const rmBtn = (id, name, addon) =>
@@ -652,13 +662,12 @@ function render() {
   dock.dataset.open = picked.size ? '1' : '0';
   document.body.classList.toggle('dock-on', picked.size > 0);
   savePlan();
-  // reserve exactly the bar's height — it wraps to two rows on phones
-  document.documentElement.style.setProperty('--dock-h', Math.ceil(dock.getBoundingClientRect().height) + 'px');
   document.getElementById('docksum').innerHTML =
     '<b>' + picked.size + '</b> ' +
     t(picked.size === 1 ? 'aktivita' : picked.size < 5 ? 'aktivity' : 'aktivít') +
     ' ' + t('pre') + ' <b>' + n + '</b> ' + t('ľudí');
   document.getElementById('docktot').innerHTML = '<i>' + eur(sum) + (pending ? ' +' : '') + '</i>';
+  measureDock();
   document.getElementById('f-ppl').value = n;
   document.getElementById('f-plan').value = ids.join(', ');
   document.getElementById('f-occ').value = occ;
