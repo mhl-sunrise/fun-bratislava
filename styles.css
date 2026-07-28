@@ -695,6 +695,16 @@ html{scrollbar-width:thin;scrollbar-color:var(--olive) var(--cream)}
   .act-facts span{padding:0 14px}
   .act-cta .btn,.act-cta .detail{flex:1;justify-content:center;text-align:center}
 }
+/* Measured: the widest of the 24 activity pages needs a 261px container for three
+   columns, i.e. a 305px viewport. Below 360px the headroom is too thin to trust — a
+   larger system font size eats it — so stack and run the dividers horizontally, which
+   is the one arrangement that cannot strand a border. */
+@media (max-width:359px){
+  .act-facts{display:grid;grid-template-columns:1fr}
+  .act-facts span{padding:11px 0}
+  .act-facts span:first-child{padding-top:0}
+  .act-facts span + span{border-left:0;border-top:1px solid var(--line-2)}
+}
 
 /* ---------- add-on picker ---------- */
 .addon-price{margin-left:auto;padding-left:14px;color:var(--soft);font-size:14px;white-space:nowrap}
