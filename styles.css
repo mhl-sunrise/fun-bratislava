@@ -285,9 +285,17 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 /* No default-hidden rule: the stylesheet only describes the transition. The hidden
    state is applied inline by JS and removed by JS, so CSS alone can never leave
    content invisible — this blanked the page twice when the observer stayed silent. */
-.reveal{transition:opacity 1.6s cubic-bezier(.16,.84,.28,1),transform 1.6s cubic-bezier(.16,.84,.28,1);
-  transition-delay:calc(var(--i,0) * 90ms)}
-@media (prefers-reduced-motion:reduce){.reveal{transition:none}}
+/* An animation, not a transition. .card and .occ article each declare a transition of their
+   own for hover; they sit later in this file at equal specificity, and a shorthand replaces
+   a shorthand — so the reveal was silently running at the card's 0.18s ease, which is what
+   made it read as a flash rather than a 1.5s move. Animations are a separate cascade origin
+   and cannot be clobbered that way, and hover keeps its own fast transition.
+   fill-mode is backwards only: it holds the from-frame through the stagger delay and then
+   hands back to the normal styles, so it never freezes transform and block hover after. */
+@keyframes fb-reveal{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.reveal.in{animation:fb-reveal 1.5s cubic-bezier(.25,.55,.3,1) backwards;
+  animation-delay:calc(var(--i,0) * 130ms)}
+@media (prefers-reduced-motion:reduce){.reveal.in{animation:none}}
 .hl-ring circle{fill:none;stroke:var(--olive);opacity:.5}
 .hl-shadow{fill:var(--olive-dk)}
 @media (max-width:1080px){.hero-anim{display:none}.hero-top{display:block}}

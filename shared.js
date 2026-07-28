@@ -161,9 +161,23 @@
   // The hidden state is inline, never in the stylesheet: if this script dies before it runs,
   // nothing was hidden; if it dies after, showAll() clears it. CSS alone can never strand
   // content at opacity 0, which is what blanked the page twice under IntersectionObserver.
-  const hide = e => { e.style.opacity = '0'; e.style.transform = 'translateY(16px)'; };
-  const show = e => { e.style.opacity = ''; e.style.transform = ''; e.classList.add('in'); };
-  const showAll = () => items.forEach(show);
+  const hide = e => { e.style.opacity = '0'; e.style.transform = 'translateY(26px)'; };
+  const reveal = e => { e.style.opacity = ''; e.style.transform = ''; e.classList.add('in'); };
+
+  // Cards carry loading="lazy" images, whose download starts at roughly the same scroll
+  // position that triggers this — so the card used to fade in and the picture drop into it
+  // half way through. Wait for the image, with a timeout so a slow or broken one can never
+  // hold the content back.
+  const show = e => {
+    const img = e.querySelector('img');
+    if (!img || img.complete) return reveal(e);
+    let done = false;
+    const go = () => { if (!done) { done = true; reveal(e); } };
+    img.addEventListener('load', go, { once: true });
+    img.addEventListener('error', go, { once: true });
+    setTimeout(go, 700);
+  };
+  const showAll = () => items.forEach(reveal);
 
   try {
     document.querySelectorAll(grids).forEach(g => {
