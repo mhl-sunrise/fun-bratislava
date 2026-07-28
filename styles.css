@@ -218,12 +218,24 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
    Selected as siblings of the header so this outranks the .dock[data-open] lift above —
    with top and an explicit height set, the bottom those rules apply is ignored anyway. */
 @media (max-width:920px){
+  /* Sitting in a row with the burger, the three read as one control group, so they take
+     the burger's box exactly: 44px, 5px radius, hairline border, paper fill, ink glyph.
+     The green WhatsApp fill and the circles are a bottom-corner treatment and stay that
+     way on desktop, where the two floats are far apart and nothing needs to match. */
   header.nav ~ .wa,
-  header.nav ~ .cc-open{top:16px;bottom:auto;left:auto;width:40px;height:40px}
+  header.nav ~ .cc-open{top:14px;bottom:auto;left:auto;width:44px;height:44px;border-radius:5px;
+    background:var(--paper);border:1px solid var(--line-2);color:var(--ink);transform:none}
   header.nav ~ .wa{right:76px}
-  header.nav ~ .cc-open{right:124px}
-  .wa svg{width:23px;height:23px}
-  .cc-open svg{width:19px;height:19px}
+  header.nav ~ .cc-open{right:130px}
+  header.nav ~ .wa:hover,
+  header.nav ~ .cc-open:hover{transform:none;background:var(--paper);border-color:var(--olive-dp)}
+  header.nav ~ .wa svg{width:23px;height:23px}
+  header.nav ~ .cc-open svg{width:20px;height:20px}
+  /* the glyph is a knockout: dark bubble, paper-coloured handset punched out of it */
+  header.nav ~ .wa .wa-b,
+  header.nav ~ .wa:hover .wa-b{fill:var(--ink)}
+  header.nav ~ .wa .wa-h,
+  header.nav ~ .wa:hover .wa-h{fill:var(--paper)}
 }
 @media (max-width:620px){
   .act-final{padding:40px 22px}
