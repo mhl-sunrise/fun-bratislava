@@ -28,7 +28,8 @@ en: {
   'Osem aktivít pre partie od 2 do 30 ľudí. Nastavte veľkosť skupiny a príležitosť — ceny sa prepočítajú a odporučíme, čo sadne.': 'Eight activities for groups of 2 to 30. Set your group size and occasion — prices update instantly and we suggest what fits.',
   'Bez platby vopred': 'No prepayment',
   'Potvrdenie do 24 hodín': 'Confirmation within 24 hours',
-  'Komunikácia v SK / EN / DE': 'Communication in SK / EN / DE',
+  // the language list holds non-breaking spaces so it wraps as one unit onto its own line
+  'Hovoríme SK / EN / DE': 'We speak SK / EN / DE',
 
   // --- planner
   'Koľko vás bude': 'How many of you',
@@ -299,7 +300,7 @@ de: {
   'Osem aktivít pre partie od 2 do 30 ľudí. Nastavte veľkosť skupiny a príležitosť — ceny sa prepočítajú a odporučíme, čo sadne.': 'Acht Aktivitäten für Gruppen von 2 bis 30 Personen. Gruppengröße und Anlass einstellen — die Preise passen sich sofort an und wir empfehlen, was passt.',
   'Bez platby vopred': 'Keine Vorauszahlung',
   'Potvrdenie do 24 hodín': 'Bestätigung binnen 24 Stunden',
-  'Komunikácia v SK / EN / DE': 'Kommunikation in SK / EN / DE',
+  'Hovoríme SK / EN / DE': 'Wir sprechen SK / EN / DE',
 
   // --- planner
   'Koľko vás bude': 'Wie viele sind Sie',
