@@ -515,7 +515,7 @@ footer.site img{height:64px;width:auto;display:block}
   .nav .wrap{height:72px}
   .nav img{height:48px}
   .nav-burger{display:grid}
-  .nav .btn{margin-left:12px}
+  .nav-drawer .btn{display:flex;width:100%;margin-top:14px;min-height:46px}
 
   /* drawer: one panel under the sticky bar, animated open/closed */
   .nav-drawer{display:block;position:absolute;left:0;right:0;top:100%;
@@ -536,6 +536,7 @@ footer.site img{height:64px;width:auto;display:block}
 
   .revs{grid-template-columns:1fr}
   .book{grid-template-columns:1fr;padding:28px 22px;gap:30px}
+  .book .btn-sage{width:100%;padding:14px 22px}
   form{grid-template-columns:1fr}
   .fgrid{grid-template-columns:1fr 1fr}
   body.dock-on{padding-bottom:calc(var(--dock-h,76px) + 14px)}  /* only while the bar is up */
@@ -569,10 +570,10 @@ footer.site img{height:64px;width:auto;display:block}
       <a href="#ako">Ako to funguje</a><a href="#recenzie">Recenzie</a>
     </div>
     <div class="langs"><a href="#" aria-current="true">SK</a><a href="#">EN</a><a href="#">DE</a></div>
+    <a class="btn btn-sm" href="#rezervacia">Rezervácia</a>
     </div>
     <button class="nav-burger" id="navburger" type="button" aria-label="Menu"
             aria-expanded="false" aria-controls="navmenu"><span></span><span></span><span></span></button>
-    <a class="btn btn-sm" href="#rezervacia">Rezervácia</a>
   </div>
 </header>
 <main>
@@ -1086,6 +1087,16 @@ footer.site img{height:64px;width:auto;display:block}
 // SMIL ignores prefers-reduced-motion — freeze it on the first frame instead.
 if (matchMedia('(prefers-reduced-motion:reduce)').matches)
   document.querySelector('.hero-anim')?.pauseAnimations();
+
+// The hero background ends at this row, and the row is taller on mobile where it stacks.
+// Fractional height, not offsetHeight — rounding to whole pixels was what made the rule drift.
+const syncNoteH = () => {
+  const el = document.querySelector('.planner-note');
+  if (el) document.documentElement.style.setProperty('--note-h', el.getBoundingClientRect().height + 'px');
+};
+syncNoteH();
+addEventListener('resize', syncNoteH);
+addEventListener('load', syncNoteH);
 
 const eur = n => n.toLocaleString('sk-SK') + ' €';
 const rmBtn = (id, name) =>
