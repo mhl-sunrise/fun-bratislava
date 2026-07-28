@@ -383,9 +383,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .card-in h3{font-size:20px;font-weight:600}
 .card-in h3 a:hover{color:var(--olive-dp)}
 .card-in p{font-size:14px;color:var(--soft);line-height:1.55}
-.facts{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:4px}
-.facts span{font-size:11px;padding:4px 9px;border-radius:5px;background:#fff;border:1px solid var(--line);color:var(--soft)}
-.money{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.money{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
 .money .u{font-size:12.5px;color:var(--soft)}
 .money .t{font-family:Fraunces,Lora,serif;font-weight:600;font-size:24px;color:var(--ink);line-height:1.1;text-align:right}
 .money .t small{display:block;font-family:Inter,sans-serif;font-size:10.5px;font-weight:400;color:var(--soft);margin-top:4px}
@@ -605,6 +603,9 @@ footer.site img{height:64px;width:auto;display:block}
     linear-gradient(to bottom,transparent 58%,#fff 97%),
     radial-gradient(115% 62% at 100% 0%,rgba(132,144,108,.50),transparent 64%),
     linear-gradient(200deg,#DCDFCB 0%,#EDEEE0 42%,#F8F7EF 100%)}
+  /* Only the section straight after the hero: the 28px sage strip already separates the
+     planner from it, so a further 64px on top read as a hole. 28 + 28 matches the strip. */
+  .hero + .sec{padding-top:28px}
   /* the dot matrix has to fade on the same line, or it would cut where the colour no longer does */
   .hero::before{-webkit-mask-image:linear-gradient(90deg,transparent 30%,#000 56%),
                      linear-gradient(to bottom,#000 52%,transparent 88%);
