@@ -47,7 +47,7 @@
           <span><b>Cena</b>41 € / osoba</span>
         </div>
         <div class="act-cta">
-          <button class="btn" type="button" data-add="footdarts">Pridať do plánu</button>
+          <button class="btn" type="button" data-add="footdarts" data-name="Footdarts">Pridať do plánu</button>
         </div>
       </div>
       <figure class="act-photo">
@@ -118,14 +118,11 @@
 
 <div class="pick" id="pick" hidden>
   <div class="pick-box" role="dialog" aria-modal="true" aria-labelledby="picktitle">
-    <h3 id="picktitle">Pridať do plánu</h3>
+    <h3 class="pick-title" id="picktitle">Pridať do plánu</h3>
     <p class="pick-sub">Chcete k tomu niečo doplniť? Doplnky viete zmeniť aj neskôr.</p>
-    <div class="pick-list">
-        <label class="pick-row"><input type="checkbox" data-n="Kombinácia s bubble footballom" data-p="0"><span>Kombinácia s bubble footballom</span><em>dohodou</em></label>
-        <label class="pick-row"><input type="checkbox" data-n="Fotograf" data-p="60"><span>Fotograf</span><em>60 €</em></label>
-    </div>
+    <div class="pick-list"></div>
     <div class="pick-acts">
-      <button class="btn" type="button" data-pick="ok" data-id="footdarts" data-name="Footdarts">Pridať do plánu</button>
+      <button class="btn" type="button" data-pick="ok">Pridať do plánu</button>
       <button class="detail" type="button" data-pick="cancel">Zrušiť</button>
     </div>
   </div>
@@ -185,6 +182,7 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 3.4 3.4 0 0 1-4.2-4.2A3.4 3.4 0 0 1 12 3Z" stroke-linejoin="round"/><circle cx="9.5" cy="10" r="1"/><circle cx="14" cy="14.5" r="1"/><circle cx="9" cy="15.5" r="1"/></svg>
 </button>
 
-<script src="shared.js?v=4"></script>
+<script src="addons.js?v=1"></script>
+<script src="shared.js?v=5"></script>
 </body>
 </html>

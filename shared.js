@@ -208,37 +208,63 @@
   });
 })();
 
-// ---------- add to plan, with add-ons ----------
-// ponytail: writes into the same localStorage key the planner reads on load. Each entry is
-// {id, addons:[{n,p}]} and carries its own labels and prices, so the planner never has to
-// know anything about this page's data.
-(() => {
-  const KEY = 'fb-plan';
+// ---------- add-on picker ----------
+// ponytail: one implementation for both pages. The dialog shell is empty markup; the rows
+// come from FB_ADDONS, so index cards and activity pages cannot drift apart.
+window.FBPicker = (() => {
   const dlg = document.getElementById('pick');
-  const trigger = document.querySelector('[data-add]');
-  if (!dlg || !trigger) return;
+  if (!dlg) return { open: (_id, _name, done) => done([]) };
+  const list = dlg.querySelector('.pick-list');
+  const title = dlg.querySelector('.pick-title');
+  const okBtn = dlg.querySelector('[data-pick="ok"]');
+  let resolve = null;
 
-  const open = () => { dlg.hidden = false; document.body.style.overflow = 'hidden'; };
-  const close = () => { dlg.hidden = true; document.body.style.overflow = ''; };
+  const close = () => { dlg.hidden = true; document.body.style.overflow = ''; resolve = null; };
 
-  trigger.addEventListener('click', open);
+  const open = (id, name, done) => {
+    const addons = (window.FB_ADDONS || {})[id] || [];
+    resolve = done;
+    title.textContent = `Pridať ${name} do plánu`;
+    list.innerHTML = addons.map(a =>
+      `<label class="pick-row"><input type="checkbox" data-n="${a.n}" data-p="${a.p}">` +
+      `<span>${a.n}</span><em>${a.p ? a.p + ' €' : 'dohodou'}</em></label>`).join('');
+    dlg.querySelector('.pick-sub').hidden = addons.length === 0;
+    dlg.hidden = false;
+    document.body.style.overflow = 'hidden';
+    okBtn.focus();
+  };
 
   dlg.addEventListener('click', e => {
-    if (e.target === dlg) return close();                 // click on the backdrop
+    if (e.target === dlg) return close();                 // backdrop
     const act = e.target.closest('[data-pick]');
     if (!act) return;
     if (act.dataset.pick === 'cancel') return close();
-
-    const addons = [...dlg.querySelectorAll('.pick-row input:checked')]
+    const chosen = [...dlg.querySelectorAll('.pick-row input:checked')]
       .map(i => ({ n: i.dataset.n, p: +i.dataset.p || 0 }));
-    try {
-      const plan = (JSON.parse(localStorage.getItem(KEY)) || [])
-        .filter(x => (typeof x === 'string' ? x : x.id) !== act.dataset.id);
-      plan.push({ id: act.dataset.id, addons });
-      localStorage.setItem(KEY, JSON.stringify(plan));
-    } catch {}
-    location.href = 'index.html#aktivity';
+    const done = resolve;
+    close();
+    if (done) done(chosen);
   });
-
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !dlg.hidden) close(); });
+
+  return { open };
+})();
+
+// activity pages: the hero button adds to the plan, then hands over to the index
+(() => {
+  const KEY = 'fb-plan';
+  const trigger = document.querySelector('[data-add]');
+  if (!trigger) return;
+  trigger.addEventListener('click', () => {
+    const id = trigger.dataset.add;
+    FBPicker.open(id, trigger.dataset.name || 'aktivitu', addons => {
+      try {
+        const plan = (JSON.parse(localStorage.getItem(KEY)) || [])
+          .filter(x => (typeof x === 'string' ? x : x.id) !== id);
+        plan.push({ id, addons });
+        localStorage.setItem(KEY, JSON.stringify(plan));
+      } catch {}
+      location.href = 'index.html#aktivity';
+    });
+  });
 })();

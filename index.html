@@ -511,6 +511,18 @@
   </div>
 </div>
 
+
+<div class="pick" id="pick" hidden>
+  <div class="pick-box" role="dialog" aria-modal="true" aria-labelledby="picktitle">
+    <h3 class="pick-title" id="picktitle">Pridať do plánu</h3>
+    <p class="pick-sub">Chcete k tomu niečo doplniť? Doplnky viete zmeniť aj neskôr.</p>
+    <div class="pick-list"></div>
+    <div class="pick-acts">
+      <button class="btn" type="button" data-pick="ok">Pridať do plánu</button>
+      <button class="detail" type="button" data-pick="cancel">Zrušiť</button>
+    </div>
+  </div>
+</div>
 <a class="wa" href="https://wa.me/421911782282" target="_blank" rel="noopener"
    aria-label="Napíšte nám na WhatsApp">
   <svg viewBox="0 0 32 32" aria-hidden="true">
@@ -650,9 +662,10 @@ document.querySelectorAll('.seg').forEach(b => b.onclick = () => {
   render();
 });
 document.querySelectorAll('.add').forEach(b => b.onclick = () => {
-  const id = b.closest('.card').dataset.id;
-  picked.has(id) ? picked.delete(id) : picked.set(id, []);
-  render();
+  const card = b.closest('.card'), id = card.dataset.id;
+  if (picked.has(id)) { picked.delete(id); return render(); }
+  const name = card.querySelector('h3').textContent.trim();
+  FBPicker.open(id, name, addons => { picked.set(id, addons); render(); });
 });
 document.getElementById('dockclear').onclick = () => { picked.clear(); render(); };
 
@@ -694,7 +707,8 @@ render();
   });
 })();
 </script>
-<script src="shared.js?v=4"></script>
+<script src="addons.js?v=1"></script>
+<script src="shared.js?v=5"></script>
 <!--
   IMAGES — drop 8 files into /img (logo.webp is already there):
     beer-bike.jpg  prosecco-bike.jpg  bubble-football.jpg  footdarts.jpg
