@@ -594,6 +594,22 @@ footer.site img{height:64px;width:auto;display:block}
    stopping early left the 22px gutters beside it bare down to the section boundary. */
 @media (max-width:620px){
   .hero::after,.hero::before{bottom:0}
+  /* The desktop stack is five gradients tuned for a wide box; on a narrow tall one they
+     stretch vertically and the direction reads as top-to-bottom instead. Two layers here:
+     a radial anchored in the top-right corner, and a 200deg base whose dark end therefore
+     starts top-right and falls away to the bottom-left. */
+  /* The topmost layer fades the whole field into the page white over the last third, so the
+     hero ends on a gradient rather than the hard #F8F7EF-to-#fff step that was visible at
+     the section boundary. The 1px white hairline below is then redundant but harmless. */
+  .hero::after{background:
+    linear-gradient(to bottom,transparent 58%,#fff 97%),
+    radial-gradient(115% 62% at 100% 0%,rgba(132,144,108,.50),transparent 64%),
+    linear-gradient(200deg,#DCDFCB 0%,#EDEEE0 42%,#F8F7EF 100%)}
+  /* the dot matrix has to fade on the same line, or it would cut where the colour no longer does */
+  .hero::before{-webkit-mask-image:linear-gradient(90deg,transparent 30%,#000 56%),
+                     linear-gradient(to bottom,#000 52%,transparent 88%);
+                        mask-image:linear-gradient(90deg,transparent 30%,#000 56%),
+                     linear-gradient(to bottom,#000 52%,transparent 88%)}
   /* the sage ended flush with the card's bottom edge — 1px of it. This gives the field
      room below the planner so it reads as a band the card sits on, not a hard cut. */
   .hero{padding-bottom:28px}

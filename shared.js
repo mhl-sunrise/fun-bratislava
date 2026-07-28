@@ -183,19 +183,23 @@
       if (!pending.length) removeEventListener('scroll', onScroll);
     };
 
-    let queued = false;
+    // Throttled on a timestamp, not requestAnimationFrame. rAF does not fire when the page
+    // is not compositing (background tab, an inactive preview pane), and the whole point of
+    // this path is that it has no state in which it silently stops revealing.
+    let last = 0;
     const onScroll = () => {
-      if (queued) return;
-      queued = true;
-      requestAnimationFrame(() => { queued = false; check(); });
+      const now = Date.now();
+      if (now - last < 80) return;
+      last = now;
+      check();
     };
 
     addEventListener('scroll', onScroll, { passive: true });
     addEventListener('resize', onScroll, { passive: true });
     addEventListener('load', check);
-    // one frame hidden before the first check, so what is already on screen transitions in
+    // a beat hidden before the first check, so what is already on screen transitions in
     // rather than appearing finished. load and the 400ms pass are the backstops.
-    requestAnimationFrame(() => requestAnimationFrame(check));
+    setTimeout(check, 50);
     setTimeout(check, 400);
   } catch (err) {
     showAll();
