@@ -315,7 +315,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
 .hero-meta span{display:inline-flex;align-items:center;gap:11px;white-space:nowrap;
   padding:8px 18px 8px 8px;border-radius:5px;background:#fff;border:1px solid var(--line-2);
-  font:600 13.5px Inter,sans-serif;color:var(--ink);
+  font:400 13.5px Inter,sans-serif;color:var(--ink);
   transition:border-color .2s,transform .2s}
 .hero-meta span:hover{border-color:var(--olive);transform:translateY(-1px)}
 .hero-meta span::before{content:"";width:28px;height:28px;flex:none;border-radius:5px;
@@ -511,6 +511,27 @@ option{background:#fff;color:var(--ink)}
 select{appearance:none;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 9.5l6 6 6-6' fill='none' stroke='%23A8B49C' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
   background-repeat:no-repeat;background-position:right 13px center;background-size:17px;padding-right:40px}
+/* The option list of a native <select> is an OS widget — CSS cannot reach it, which is why
+   it dropped in as a white panel with a blue system highlight. appearance:base-select hands
+   the picker over to CSS while keeping the real control, so keyboard, type-ahead and screen
+   readers all still work. Wrapped in @supports because Chrome and Edge have it and Safari
+   and Firefox do not: without it they simply keep the OS dropdown they draw today. */
+@supports (appearance:base-select){
+  select,::picker(select){appearance:base-select}
+  select{padding-right:40px;background-image:none}   /* ::picker-icon draws the chevron now */
+  select::picker-icon{content:"";width:17px;height:17px;transition:transform .18s;
+    background:currentColor;opacity:.75;
+    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 9.5l6 6 6-6' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+            mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 9.5l6 6 6-6' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat}
+  select:open::picker-icon{transform:rotate(180deg)}
+  ::picker(select){border:1px solid var(--line-2);border-radius:5px;background:var(--paper);
+    padding:5px;margin-top:6px;box-shadow:none}
+  option{display:flex;align-items:center;padding:9px 12px;border-radius:5px;
+    font:400 14.5px Inter,sans-serif;color:var(--ink);background:transparent}
+  option:hover,option:focus{background:var(--cream);outline:none}
+  option:checked{background:var(--cream-2);font-weight:500}
+  option::checkmark{display:none}          /* the label alone carries the selection */
+}
 .consent{display:flex;gap:11px;align-items:flex-start;font-size:12.5px;color:#BFC7B4;line-height:1.5;
   margin:6px 0 14px}
 /* appearance:none — the ring was Chrome's own control chrome, not a CSS outline. Drawing the
@@ -615,9 +636,21 @@ footer.site img{height:64px;width:auto;display:block}
   form{grid-template-columns:1fr}
   .fgrid{grid-template-columns:1fr 1fr}
 }
+/* On phones the sage field runs the full height of the hero instead of stopping at the
+   note row. On desktop that stop is deliberate — its bottom edge is the hairline that
+   lines up with the note's top border. On a phone the note is inset inside the card, so
+   stopping early left the 22px gutters beside it bare down to the section boundary. */
+@media (max-width:620px){
+  .hero::after,.hero::before,.hero-blobs{bottom:0}
+  /* the sage ended flush with the card's bottom edge — 1px of it. This gives the field
+     room below the planner so it reads as a band the card sits on, not a hard cut. */
+  .hero{padding-bottom:28px}
+}
 @media (max-width:560px){
-  /* the note row squeezed two labels side by side; stack them instead */
-  .planner-note{flex-direction:column;align-items:center;text-align:center;gap:10px}
+  /* the note row squeezed two labels side by side; stack them instead. 18px top and bottom
+     rather than the row layout's 12 — stacked, the 44px button sat almost on the edges. */
+  .planner-note{flex-direction:column;align-items:center;text-align:center;gap:10px;
+    padding:18px 20px}
   /* two even columns beats flex-wrap, which left ragged rows of different widths */
   /* stepper fills the row: minus, a value that stretches, plus, then the unit */
   .stepper{width:100%;gap:8px}
@@ -662,6 +695,10 @@ html{scrollbar-width:thin;scrollbar-color:var(--olive) var(--cream)}
 
 /* ---------- activity page ---------- */
 .act-hero{padding-top:52px}
+/* On phones the 52px above the back link read as dead space under the fixed header.
+   26px matches .back's own margin-bottom, so the link sits evenly between the header
+   and the photo instead of being pushed down. */
+@media (max-width:620px){ .act-hero{padding-top:26px} }
 .back{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;color:var(--soft);margin-bottom:26px}
 .back::before{content:"";width:15px;height:15px;background:currentColor;
   -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M15 5l-7 7 7 7' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
